@@ -150,6 +150,15 @@ namespace Microsoft.WindowsAzure.Management.Compute
         }
         
         /// <summary>
+        /// The Service Management API includes operations for managing the
+        /// virtual machine templates in your subscription.
+        /// </summary>
+        IVirtualMachineVMImageOperations VirtualMachineVMImages
+        {
+            get; 
+        }
+        
+        /// <summary>
         /// The Get Operation Status operation returns the status of
         /// thespecified operation. After calling an asynchronous operation,
         /// you can call Get Operation Status to determine whether the

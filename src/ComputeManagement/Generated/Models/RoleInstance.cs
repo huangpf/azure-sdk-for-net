@@ -32,6 +32,17 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
     /// </summary>
     public partial class RoleInstance
     {
+        private GuestAgentStatus _guestAgentStatus;
+        
+        /// <summary>
+        /// Guest Agent Status.
+        /// </summary>
+        public GuestAgentStatus GuestAgentStatus
+        {
+            get { return this._guestAgentStatus; }
+            set { this._guestAgentStatus = value; }
+        }
+        
         private string _hostName;
         
         /// <summary>
@@ -176,6 +187,17 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._remoteAccessCertificateThumbprint = value; }
         }
         
+        private IList<ResourceExtensionStatus> _resourceExtensionStatusList;
+        
+        /// <summary>
+        /// Resource Extension Status List.
+        /// </summary>
+        public IList<ResourceExtensionStatus> ResourceExtensionStatusList
+        {
+            get { return this._resourceExtensionStatusList; }
+            set { this._resourceExtensionStatusList = value; }
+        }
+        
         private string _roleName;
         
         /// <summary>
@@ -193,6 +215,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
         public RoleInstance()
         {
             this._instanceEndpoints = new List<InstanceEndpoint>();
+            this._resourceExtensionStatusList = new List<ResourceExtensionStatus>();
         }
     }
 }

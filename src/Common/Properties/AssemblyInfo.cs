@@ -20,7 +20,7 @@ using System.Resources;
 [assembly: AssemblyDescription("Provides infrastructure for common error handling, tracing, configuration, and HTTP/REST-based pipeline manipulation. The package also exposes the CloudContext type, which enables centralized discovery of available Windows Azure libraries.")]
 
 [assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.20225")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]

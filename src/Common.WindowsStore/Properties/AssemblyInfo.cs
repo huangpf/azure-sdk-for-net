@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Windows Azure Common Library (Windows Store App)")]
 [assembly: AssemblyDescription("Provides Windows Store App-specific extensions to the common Windows Azure library.")]
 [assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.20225")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]

@@ -22,77 +22,64 @@
 using System;
 using System.Linq;
 using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.WebSitesExtensions;
 
-namespace Microsoft.WindowsAzure.WebSitesExtensions
+namespace Microsoft.WindowsAzure.Management.Compute.Models
 {
     /// <summary>
-    /// TBD.
+    /// The Virtual Machine Template Capture Role operation response.
     /// </summary>
-    public partial interface IWebSiteExtensionsClient : IDisposable
+    public partial class VirtualMachineVMImageCaptureParameters : OperationResponse
     {
+        private string _operationType;
+        
         /// <summary>
-        /// The URI used as the base for all kudu requests.
+        /// Required. Must be set to CaptureRoleOperation.
         /// </summary>
-        Uri BaseUri
+        public string OperationType
         {
-            get; 
+            get { return this._operationType; }
+            set { this._operationType = value; }
+        }
+        
+        private string _oSState;
+        
+        /// <summary>
+        /// Required. The OS state: Generalized | Specialized.
+        /// </summary>
+        public string OSState
+        {
+            get { return this._oSState; }
+            set { this._oSState = value; }
+        }
+        
+        private string _vMImageLabel;
+        
+        /// <summary>
+        /// Required. The VM Template Label.
+        /// </summary>
+        public string VMImageLabel
+        {
+            get { return this._vMImageLabel; }
+            set { this._vMImageLabel = value; }
+        }
+        
+        private string _vMImageName;
+        
+        /// <summary>
+        /// Required. The VM Template Name.
+        /// </summary>
+        public string VMImageName
+        {
+            get { return this._vMImageName; }
+            set { this._vMImageName = value; }
         }
         
         /// <summary>
-        /// TBD.
+        /// Initializes a new instance of the
+        /// VirtualMachineVMImageCaptureParameters class.
         /// </summary>
-        BasicAuthenticationCloudCredentials Credentials
+        public VirtualMachineVMImageCaptureParameters()
         {
-            get; 
-        }
-        
-        /// <summary>
-        /// The site name.
-        /// </summary>
-        string SiteName
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the repositories.
-        /// </summary>
-        IDeploymentOperations Deployment
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the diagnostics settings.
-        /// </summary>
-        IDiagnosticOperations Diagnostics
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the repository.
-        /// </summary>
-        IRepositoryOperations Repository
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the settings.
-        /// </summary>
-        ISettingsOperations Settings
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the jobs.
-        /// </summary>
-        IWebJobOperations WebJobs
-        {
-            get; 
         }
     }
 }

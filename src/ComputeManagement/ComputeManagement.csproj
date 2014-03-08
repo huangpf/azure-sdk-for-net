@@ -31,9 +31,11 @@
     <Compile Include="Generated\IVirtualMachineExtensionOperations.cs" />
     <Compile Include="Generated\IVirtualMachineImageOperations.cs" />
     <Compile Include="Generated\IVirtualMachineOperations.cs" />
+    <Compile Include="Generated\IVirtualMachineVMImageOperations.cs" />
     <Compile Include="Generated\Models\AccessControlListRule.cs" />
     <Compile Include="Generated\Models\CertificateFormat.cs" />
     <Compile Include="Generated\Models\CertificateThumbprintAlgorithms.cs" />
+    <Compile Include="Generated\Models\ComputeOperationStatus.cs" />
     <Compile Include="Generated\Models\ComputeOperationStatusResponse.cs" />
     <Compile Include="Generated\Models\ConfigurationSet.cs" />
     <Compile Include="Generated\Models\ConfigurationSetTypes.cs" />
@@ -59,6 +61,8 @@
     <Compile Include="Generated\Models\DomainJoinSettings.cs" />
     <Compile Include="Generated\Models\EndpointAcl.cs" />
     <Compile Include="Generated\Models\ExtensionConfiguration.cs" />
+    <Compile Include="Generated\Models\FormattedMessage.cs" />
+    <Compile Include="Generated\Models\GuestAgentStatus.cs" />
     <Compile Include="Generated\Models\HostedServiceAddExtensionParameters.cs" />
     <Compile Include="Generated\Models\HostedServiceCheckNameAvailabilityResponse.cs" />
     <Compile Include="Generated\Models\HostedServiceCreateParameters.cs" />
@@ -87,6 +91,7 @@
     <Compile Include="Generated\Models\PostShutdownAction.cs" />
     <Compile Include="Generated\Models\ResourceExtensionParameterValue.cs" />
     <Compile Include="Generated\Models\ResourceExtensionReference.cs" />
+    <Compile Include="Generated\Models\ResourceExtensionStatus.cs" />
     <Compile Include="Generated\Models\Role.cs" />
     <Compile Include="Generated\Models\RoleInstance.cs" />
     <Compile Include="Generated\Models\RoleInstancePowerState.cs" />
@@ -135,6 +140,8 @@
     <Compile Include="Generated\Models\VirtualMachineStartRolesParameters.cs" />
     <Compile Include="Generated\Models\VirtualMachineUpdateLoadBalancedSetParameters.cs" />
     <Compile Include="Generated\Models\VirtualMachineUpdateParameters.cs" />
+    <Compile Include="Generated\Models\VirtualMachineVMImageCaptureParameters.cs" />
+    <Compile Include="Generated\Models\VirtualMachineVMImageListResponse.cs" />
     <Compile Include="Generated\Models\VirtualMachineWindowsRemoteManagementListenerType.cs" />
     <Compile Include="Generated\Models\WindowsRemoteManagementListener.cs" />
     <Compile Include="Generated\Models\WindowsRemoteManagementSettings.cs" />
@@ -150,11 +157,15 @@
     <Compile Include="Generated\VirtualMachineImageOperationsExtensions.cs" />
     <Compile Include="Generated\VirtualMachineOperations.cs" />
     <Compile Include="Generated\VirtualMachineOperationsExtensions.cs" />
+    <Compile Include="Generated\VirtualMachineVMImageOperations.cs" />
+    <Compile Include="Generated\VirtualMachineVMImageOperationsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Microsoft.WindowsAzure.Management.Compute.nuget.proj" />
+    <None Include="Microsoft.WindowsAzure.Management.Compute.nuget.proj">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Microsoft.WindowsAzure.Management.Compute.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -168,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="hydra.xml" />
+    <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" Condition=" '$(WindowsAzureCurrentConfiguration)' == 'portable' " />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition=" '$(WindowsAzureCurrentConfiguration)' != 'portable' " />
@@ -194,5 +206,56 @@
   </Target>
   <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
     <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5168.17818-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5169.20093-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5169.20093-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5169.29873-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5169.31474-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5169.31881-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5169.32284-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5169.33308-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5170.29041-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5170.31324-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5170.32875-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5170.33007-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5171.24856-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5172.25609-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5172.28860-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5176.31583-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5177.19746-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
+  </Target>
+  <Target Name="CopyMicrosoftWindowsAzureManagementComputeSpecification" BeforeTargets="GenerateCodeFromSpecs">
+    <Copy SourceFiles="..\..\packages\Microsoft.WindowsAzure.Management.Compute.Specification.1.0.5177.32183-prerelease\tools\Microsoft.WindowsAzure.Management.Compute.Specification.dll" DestinationFolder="." />
   </Target>
 </Project>

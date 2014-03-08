@@ -21,7 +21,7 @@ using System.Resources;
 [assembly: AssemblyDescription("Tests for the Windows Azure Common Library ETW Logger.")]
 
 [assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.20225")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]

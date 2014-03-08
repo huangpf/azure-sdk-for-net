@@ -28,11 +28,10 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.WebSitesExtensions;
 using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
-namespace Microsoft.WindowsAzure
+namespace Microsoft.WindowsAzure.WebSitesExtensions
 {
     /// <summary>
-    /// The websites extensions client manages the web sites deployments, web
-    /// jobs and other extensions.
+    /// Operations for managing the jobs.
     /// </summary>
     public static partial class WebJobOperationsExtensions
     {

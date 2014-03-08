@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites
     /// http://msdn.microsoft.com/en-us/library/windowsazure/dn166981.aspx for
     /// more information)
     /// </summary>
-    public partial class WebSiteManagementClient : ServiceClient<WebSiteManagementClient>, Microsoft.WindowsAzure.Management.WebSites.IWebSiteManagementClient
+    public partial class WebSiteManagementClient : ServiceClient<WebSiteManagementClient>, IWebSiteManagementClient
     {
         private Uri _baseUri;
         
@@ -206,7 +206,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites
         /// operation itself.  If the long-running operation failed, the
         /// response body includes error information regarding the failure.
         /// </returns>
-        public async System.Threading.Tasks.Task<Microsoft.WindowsAzure.Management.WebSites.Models.WebSiteOperationStatusResponse> GetOperationStatusAsync(string webSpaceName, string siteName, string operationId, CancellationToken cancellationToken)
+        public async Task<WebSiteOperationStatusResponse> GetOperationStatusAsync(string webSpaceName, string siteName, string operationId, CancellationToken cancellationToken)
         {
             // Validate
             if (webSpaceName == null)
@@ -523,7 +523,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async System.Threading.Tasks.Task<OperationResponse> RegisterSubscriptionAsync(CancellationToken cancellationToken)
+        public async Task<OperationResponse> RegisterSubscriptionAsync(CancellationToken cancellationToken)
         {
             // Validate
             
@@ -538,9 +538,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites
             }
             
             // Construct URL
-            string url = new Uri(this.BaseUri, "/").ToString() + this.Credentials.SubscriptionId + "/services?";
+            string url = new Uri(this.BaseUri, "/").ToString() + this.Credentials.SubscriptionId + "/services?&action=register";
             url = url + "service=website";
-            url = url + "&action=register";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -625,7 +624,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async System.Threading.Tasks.Task<OperationResponse> UnregisterSubscriptionAsync(CancellationToken cancellationToken)
+        public async Task<OperationResponse> UnregisterSubscriptionAsync(CancellationToken cancellationToken)
         {
             // Validate
             
@@ -640,9 +639,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites
             }
             
             // Construct URL
-            string url = new Uri(this.BaseUri, "/").ToString() + this.Credentials.SubscriptionId + "/services?";
+            string url = new Uri(this.BaseUri, "/").ToString() + this.Credentials.SubscriptionId + "/services?&action=unregister";
             url = url + "service=website";
-            url = url + "&action=unregister";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;

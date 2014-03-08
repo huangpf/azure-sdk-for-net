@@ -22,12 +22,40 @@
 using System;
 using System.Linq;
 
-namespace Microsoft.WindowsAzure.WebSitesExtensions
+namespace Microsoft.WindowsAzure.Management.Compute.Models
 {
     /// <summary>
-    /// Operations for managing the diagnostics settings.
+    /// Formatted Message.
     /// </summary>
-    public static partial class DiagnosticOperationsExtensions
+    public partial class FormattedMessage
     {
+        private string _language;
+        
+        /// <summary>
+        /// Language.
+        /// </summary>
+        public string Language
+        {
+            get { return this._language; }
+            set { this._language = value; }
+        }
+        
+        private string _message;
+        
+        /// <summary>
+        /// Message.
+        /// </summary>
+        public string Message
+        {
+            get { return this._message; }
+            set { this._message = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the FormattedMessage class.
+        /// </summary>
+        public FormattedMessage()
+        {
+        }
     }
 }

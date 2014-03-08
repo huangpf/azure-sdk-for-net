@@ -21,78 +21,75 @@
 
 using System;
 using System.Linq;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.WebSitesExtensions;
+using Microsoft.WindowsAzure.Management.Compute.Models;
 
-namespace Microsoft.WindowsAzure.WebSitesExtensions
+namespace Microsoft.WindowsAzure.Management.Compute.Models
 {
     /// <summary>
-    /// TBD.
+    /// Optional. Resource Extension Status.
     /// </summary>
-    public partial interface IWebSiteExtensionsClient : IDisposable
+    public partial class ResourceExtensionStatus
     {
+        private string _code;
+        
         /// <summary>
-        /// The URI used as the base for all kudu requests.
+        /// Code.
         /// </summary>
-        Uri BaseUri
+        public string Code
         {
-            get; 
+            get { return this._code; }
+            set { this._code = value; }
+        }
+        
+        private FormattedMessage _formattedMessage;
+        
+        /// <summary>
+        /// Formatted Message.
+        /// </summary>
+        public FormattedMessage FormattedMessage
+        {
+            get { return this._formattedMessage; }
+            set { this._formattedMessage = value; }
+        }
+        
+        private string _handlerName;
+        
+        /// <summary>
+        /// Handler Name.
+        /// </summary>
+        public string HandlerName
+        {
+            get { return this._handlerName; }
+            set { this._handlerName = value; }
+        }
+        
+        private string _status;
+        
+        /// <summary>
+        /// Status.
+        /// </summary>
+        public string Status
+        {
+            get { return this._status; }
+            set { this._status = value; }
+        }
+        
+        private string _version;
+        
+        /// <summary>
+        /// Version.
+        /// </summary>
+        public string Version
+        {
+            get { return this._version; }
+            set { this._version = value; }
         }
         
         /// <summary>
-        /// TBD.
+        /// Initializes a new instance of the ResourceExtensionStatus class.
         /// </summary>
-        BasicAuthenticationCloudCredentials Credentials
+        public ResourceExtensionStatus()
         {
-            get; 
-        }
-        
-        /// <summary>
-        /// The site name.
-        /// </summary>
-        string SiteName
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the repositories.
-        /// </summary>
-        IDeploymentOperations Deployment
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the diagnostics settings.
-        /// </summary>
-        IDiagnosticOperations Diagnostics
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the repository.
-        /// </summary>
-        IRepositoryOperations Repository
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the settings.
-        /// </summary>
-        ISettingsOperations Settings
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing the jobs.
-        /// </summary>
-        IWebJobOperations WebJobs
-        {
-            get; 
         }
     }
 }

@@ -22,12 +22,26 @@
 using System;
 using System.Linq;
 
-namespace Microsoft.WindowsAzure.WebSitesExtensions
+namespace Microsoft.WindowsAzure.Management.Compute.Models
 {
     /// <summary>
-    /// Operations for managing the diagnostics settings.
+    /// The status of the asynchronous request.
     /// </summary>
-    public static partial class DiagnosticOperationsExtensions
+    public enum ComputeOperationStatus
     {
+        /// <summary>
+        /// The asynchronous request is in progress.
+        /// </summary>
+        InProgress = 0,
+        
+        /// <summary>
+        /// The asynchronous request succeeded.
+        /// </summary>
+        Succeeded = 1,
+        
+        /// <summary>
+        /// The asynchronous request failed.
+        /// </summary>
+        Failed = 2,
     }
 }

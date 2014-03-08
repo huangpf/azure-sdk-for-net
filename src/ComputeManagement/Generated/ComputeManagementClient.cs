@@ -175,6 +175,17 @@ namespace Microsoft.WindowsAzure.Management.Compute
             get { return this._virtualMachines; }
         }
         
+        private IVirtualMachineVMImageOperations _virtualMachineVMImages;
+        
+        /// <summary>
+        /// The Service Management API includes operations for managing the
+        /// virtual machine templates in your subscription.
+        /// </summary>
+        public virtual IVirtualMachineVMImageOperations VirtualMachineVMImages
+        {
+            get { return this._virtualMachineVMImages; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the ComputeManagementClient class.
         /// </summary>
@@ -189,6 +200,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             this._virtualMachineExtensions = new VirtualMachineExtensionOperations(this);
             this._virtualMachineImages = new VirtualMachineImageOperations(this);
             this._virtualMachines = new VirtualMachineOperations(this);
+            this._virtualMachineVMImages = new VirtualMachineVMImageOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
         
@@ -306,7 +318,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -359,7 +371,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         XElement statusElement = operationElement.Element(XName.Get("Status", "http://schemas.microsoft.com/windowsazure"));
                         if (statusElement != null)
                         {
-                            OperationStatus statusInstance = (OperationStatus)Enum.Parse(typeof(OperationStatus), statusElement.Value, false);
+                            ComputeOperationStatus statusInstance = (ComputeOperationStatus)Enum.Parse(typeof(ComputeOperationStatus), statusElement.Value, false);
                             result.Status = statusInstance;
                         }
                         
@@ -461,58 +473,6 @@ namespace Microsoft.WindowsAzure.Management.Compute
             if (value == CertificateFormat.Cer)
             {
                 return "cer";
-            }
-            throw new ArgumentOutOfRangeException("value");
-        }
-        
-        /// <summary>
-        /// Parse enum values for type HostingResources.
-        /// </summary>
-        /// <param name='value'>
-        /// The value to parse.
-        /// </param>
-        /// <returns>
-        /// The enum value.
-        /// </returns>
-        internal static HostingResources ParseHostingResources(string value)
-        {
-            if (value == "WebRole")
-            {
-                return HostingResources.WebRole;
-            }
-            if (value == "WorkerRole")
-            {
-                return HostingResources.WorkerRole;
-            }
-            if (value == "WebRole|WorkerRole")
-            {
-                return HostingResources.WebOrWorkerRole;
-            }
-            throw new ArgumentOutOfRangeException("value");
-        }
-        
-        /// <summary>
-        /// Convert an enum of type HostingResources to a string.
-        /// </summary>
-        /// <param name='value'>
-        /// The value to convert to a string.
-        /// </param>
-        /// <returns>
-        /// The enum value as a string.
-        /// </returns>
-        internal static string HostingResourcesToString(HostingResources value)
-        {
-            if (value == HostingResources.WebRole)
-            {
-                return "WebRole";
-            }
-            if (value == HostingResources.WorkerRole)
-            {
-                return "WorkerRole";
-            }
-            if (value == HostingResources.WebOrWorkerRole)
-            {
-                return "WebRole|WorkerRole";
             }
             throw new ArgumentOutOfRangeException("value");
         }

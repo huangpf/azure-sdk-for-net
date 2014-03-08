@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -210,6 +210,41 @@ namespace Microsoft.WindowsAzure.Management.Compute
                             {
                                 string sampleConfigInstance = TypeConversion.FromBase64String(sampleConfigElement.Value);
                                 resourceExtensionInstance.SampleConfig = sampleConfigInstance;
+                            }
+                            
+                            XElement replicationCompletedElement = resourceExtensionsElement.Element(XName.Get("ReplicationCompleted", "http://schemas.microsoft.com/windowsazure"));
+                            if (replicationCompletedElement != null)
+                            {
+                                bool replicationCompletedInstance = bool.Parse(replicationCompletedElement.Value);
+                                resourceExtensionInstance.ReplicationCompleted = replicationCompletedInstance;
+                            }
+                            
+                            XElement eulaElement = resourceExtensionsElement.Element(XName.Get("Eula", "http://schemas.microsoft.com/windowsazure"));
+                            if (eulaElement != null)
+                            {
+                                Uri eulaInstance = TypeConversion.TryParseUri(eulaElement.Value);
+                                resourceExtensionInstance.Eula = eulaInstance;
+                            }
+                            
+                            XElement privacyUriElement = resourceExtensionsElement.Element(XName.Get("PrivacyUri", "http://schemas.microsoft.com/windowsazure"));
+                            if (privacyUriElement != null)
+                            {
+                                Uri privacyUriInstance = TypeConversion.TryParseUri(privacyUriElement.Value);
+                                resourceExtensionInstance.PrivacyUri = privacyUriInstance;
+                            }
+                            
+                            XElement homepageUriElement = resourceExtensionsElement.Element(XName.Get("HomepageUri", "http://schemas.microsoft.com/windowsazure"));
+                            if (homepageUriElement != null)
+                            {
+                                Uri homepageUriInstance = TypeConversion.TryParseUri(homepageUriElement.Value);
+                                resourceExtensionInstance.HomepageUri = homepageUriInstance;
+                            }
+                            
+                            XElement isJsonExtensionElement = resourceExtensionsElement.Element(XName.Get("IsJsonExtension", "http://schemas.microsoft.com/windowsazure"));
+                            if (isJsonExtensionElement != null)
+                            {
+                                bool isJsonExtensionInstance = bool.Parse(isJsonExtensionElement.Value);
+                                resourceExtensionInstance.IsJsonExtension = isJsonExtensionInstance;
                             }
                         }
                     }
@@ -301,7 +336,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -403,6 +438,41 @@ namespace Microsoft.WindowsAzure.Management.Compute
                             {
                                 string sampleConfigInstance = TypeConversion.FromBase64String(sampleConfigElement.Value);
                                 resourceExtensionInstance.SampleConfig = sampleConfigInstance;
+                            }
+                            
+                            XElement replicationCompletedElement = resourceExtensionsElement.Element(XName.Get("ReplicationCompleted", "http://schemas.microsoft.com/windowsazure"));
+                            if (replicationCompletedElement != null)
+                            {
+                                bool replicationCompletedInstance = bool.Parse(replicationCompletedElement.Value);
+                                resourceExtensionInstance.ReplicationCompleted = replicationCompletedInstance;
+                            }
+                            
+                            XElement eulaElement = resourceExtensionsElement.Element(XName.Get("Eula", "http://schemas.microsoft.com/windowsazure"));
+                            if (eulaElement != null)
+                            {
+                                Uri eulaInstance = TypeConversion.TryParseUri(eulaElement.Value);
+                                resourceExtensionInstance.Eula = eulaInstance;
+                            }
+                            
+                            XElement privacyUriElement = resourceExtensionsElement.Element(XName.Get("PrivacyUri", "http://schemas.microsoft.com/windowsazure"));
+                            if (privacyUriElement != null)
+                            {
+                                Uri privacyUriInstance = TypeConversion.TryParseUri(privacyUriElement.Value);
+                                resourceExtensionInstance.PrivacyUri = privacyUriInstance;
+                            }
+                            
+                            XElement homepageUriElement = resourceExtensionsElement.Element(XName.Get("HomepageUri", "http://schemas.microsoft.com/windowsazure"));
+                            if (homepageUriElement != null)
+                            {
+                                Uri homepageUriInstance = TypeConversion.TryParseUri(homepageUriElement.Value);
+                                resourceExtensionInstance.HomepageUri = homepageUriInstance;
+                            }
+                            
+                            XElement isJsonExtensionElement = resourceExtensionsElement.Element(XName.Get("IsJsonExtension", "http://schemas.microsoft.com/windowsazure"));
+                            if (isJsonExtensionElement != null)
+                            {
+                                bool isJsonExtensionInstance = bool.Parse(isJsonExtensionElement.Value);
+                                resourceExtensionInstance.IsJsonExtension = isJsonExtensionInstance;
                             }
                         }
                     }

@@ -20,7 +20,7 @@ using System.Resources;
 [assembly: AssemblyDescription("Provides management functionality for Windows Azure Storage Service.")]
 
 [assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.20225")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]

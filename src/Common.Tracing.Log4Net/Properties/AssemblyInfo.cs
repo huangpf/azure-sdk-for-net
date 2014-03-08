@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Exposes Windows Azure Libraries events via Log4Net.")]
 
 [assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.20225")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]

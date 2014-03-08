@@ -27,7 +27,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
 
-namespace Microsoft.WindowsAzure
+namespace Microsoft.WindowsAzure.Management.WebSites
 {
     /// <summary>
     /// The Windows Azure Web Sites management API provides a RESTful set of

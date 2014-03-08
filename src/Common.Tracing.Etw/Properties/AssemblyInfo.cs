@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Exposes Windows Azure Libraries events via ETW (Event Tracing for Windows). ETW events can be captured by subscribing to Microsoft-WindowsAzure event source.")]
 
 [assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.20225")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]

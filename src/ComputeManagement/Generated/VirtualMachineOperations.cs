@@ -241,7 +241,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -890,7 +890,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1392,6 +1392,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     persistentVMRoleElement.Add(resourceExtensionReferencesSequenceElement);
                 }
                 
+                if (parameters.VMImageName != null)
+                {
+                    XElement vMImageNameElement = new XElement(XName.Get("VMImageName", "http://schemas.microsoft.com/windowsazure"));
+                    vMImageNameElement.Value = parameters.VMImageName;
+                    persistentVMRoleElement.Add(vMImageNameElement);
+                }
+                
                 if (parameters.DataVirtualHardDisks != null)
                 {
                     XElement dataVirtualHardDisksSequenceElement = new XElement(XName.Get("DataVirtualHardDisks", "http://schemas.microsoft.com/windowsazure"));
@@ -1428,15 +1435,25 @@ namespace Microsoft.WindowsAzure.Management.Compute
                             dataVirtualHardDiskElement.Add(lunElement);
                         }
                         
-                        XElement logicalDiskSizeInGBElement = new XElement(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
-                        logicalDiskSizeInGBElement.Value = dataVirtualHardDisksItem.LogicalDiskSizeInGB.ToString();
-                        dataVirtualHardDiskElement.Add(logicalDiskSizeInGBElement);
+                        if (dataVirtualHardDisksItem.LogicalDiskSizeInGB != null)
+                        {
+                            XElement logicalDiskSizeInGBElement = new XElement(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
+                            logicalDiskSizeInGBElement.Value = dataVirtualHardDisksItem.LogicalDiskSizeInGB.ToString();
+                            dataVirtualHardDiskElement.Add(logicalDiskSizeInGBElement);
+                        }
                         
                         if (dataVirtualHardDisksItem.MediaLink != null)
                         {
                             XElement mediaLinkElement = new XElement(XName.Get("MediaLink", "http://schemas.microsoft.com/windowsazure"));
                             mediaLinkElement.Value = dataVirtualHardDisksItem.MediaLink.ToString();
                             dataVirtualHardDiskElement.Add(mediaLinkElement);
+                        }
+                        
+                        if (dataVirtualHardDisksItem.SourceMediaLink != null)
+                        {
+                            XElement sourceMediaLinkElement = new XElement(XName.Get("SourceMediaLink", "http://schemas.microsoft.com/windowsazure"));
+                            sourceMediaLinkElement.Value = dataVirtualHardDisksItem.SourceMediaLink.ToString();
+                            dataVirtualHardDiskElement.Add(sourceMediaLinkElement);
                         }
                     }
                     persistentVMRoleElement.Add(dataVirtualHardDisksSequenceElement);
@@ -1739,7 +1756,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -2265,6 +2282,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         roleElement.Add(resourceExtensionReferencesSequenceElement);
                     }
                     
+                    if (roleListItem.VMImageName != null)
+                    {
+                        XElement vMImageNameElement = new XElement(XName.Get("VMImageName", "http://schemas.microsoft.com/windowsazure"));
+                        vMImageNameElement.Value = roleListItem.VMImageName;
+                        roleElement.Add(vMImageNameElement);
+                    }
+                    
                     if (roleListItem.AvailabilitySetName != null)
                     {
                         XElement availabilitySetNameElement = new XElement(XName.Get("AvailabilitySetName", "http://schemas.microsoft.com/windowsazure"));
@@ -2308,15 +2332,25 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 dataVirtualHardDiskElement.Add(lunElement);
                             }
                             
-                            XElement logicalDiskSizeInGBElement = new XElement(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
-                            logicalDiskSizeInGBElement.Value = dataVirtualHardDisksItem.LogicalDiskSizeInGB.ToString();
-                            dataVirtualHardDiskElement.Add(logicalDiskSizeInGBElement);
+                            if (dataVirtualHardDisksItem.LogicalDiskSizeInGB != null)
+                            {
+                                XElement logicalDiskSizeInGBElement = new XElement(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
+                                logicalDiskSizeInGBElement.Value = dataVirtualHardDisksItem.LogicalDiskSizeInGB.ToString();
+                                dataVirtualHardDiskElement.Add(logicalDiskSizeInGBElement);
+                            }
                             
                             if (dataVirtualHardDisksItem.MediaLink != null)
                             {
                                 XElement mediaLinkElement = new XElement(XName.Get("MediaLink", "http://schemas.microsoft.com/windowsazure"));
                                 mediaLinkElement.Value = dataVirtualHardDisksItem.MediaLink.ToString();
                                 dataVirtualHardDiskElement.Add(mediaLinkElement);
+                            }
+                            
+                            if (dataVirtualHardDisksItem.SourceMediaLink != null)
+                            {
+                                XElement sourceMediaLinkElement = new XElement(XName.Get("SourceMediaLink", "http://schemas.microsoft.com/windowsazure"));
+                                sourceMediaLinkElement.Value = dataVirtualHardDisksItem.SourceMediaLink.ToString();
+                                dataVirtualHardDiskElement.Add(sourceMediaLinkElement);
                             }
                         }
                         roleElement.Add(dataVirtualHardDisksSequenceElement);
@@ -2579,7 +2613,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -2706,7 +2740,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -2846,7 +2880,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -2991,7 +3025,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3151,7 +3185,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3281,7 +3315,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3540,7 +3574,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4078,15 +4112,25 @@ namespace Microsoft.WindowsAzure.Management.Compute
                             dataVirtualHardDiskElement.Add(lunElement);
                         }
                         
-                        XElement logicalDiskSizeInGBElement = new XElement(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
-                        logicalDiskSizeInGBElement.Value = dataVirtualHardDisksItem.LogicalDiskSizeInGB.ToString();
-                        dataVirtualHardDiskElement.Add(logicalDiskSizeInGBElement);
+                        if (dataVirtualHardDisksItem.LogicalDiskSizeInGB != null)
+                        {
+                            XElement logicalDiskSizeInGBElement = new XElement(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
+                            logicalDiskSizeInGBElement.Value = dataVirtualHardDisksItem.LogicalDiskSizeInGB.ToString();
+                            dataVirtualHardDiskElement.Add(logicalDiskSizeInGBElement);
+                        }
                         
                         if (dataVirtualHardDisksItem.MediaLink != null)
                         {
                             XElement mediaLinkElement = new XElement(XName.Get("MediaLink", "http://schemas.microsoft.com/windowsazure"));
                             mediaLinkElement.Value = dataVirtualHardDisksItem.MediaLink.ToString();
                             dataVirtualHardDiskElement.Add(mediaLinkElement);
+                        }
+                        
+                        if (dataVirtualHardDisksItem.SourceMediaLink != null)
+                        {
+                            XElement sourceMediaLinkElement = new XElement(XName.Get("SourceMediaLink", "http://schemas.microsoft.com/windowsazure"));
+                            sourceMediaLinkElement.Value = dataVirtualHardDisksItem.SourceMediaLink.ToString();
+                            dataVirtualHardDiskElement.Add(sourceMediaLinkElement);
                         }
                     }
                     persistentVMRoleElement.Add(dataVirtualHardDisksSequenceElement);
@@ -4287,7 +4331,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4561,7 +4605,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -4575,7 +4619,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -4676,7 +4720,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -4690,7 +4734,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -4783,7 +4827,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -4797,7 +4841,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -4892,7 +4936,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -4906,7 +4950,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -5003,7 +5047,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -5552,7 +5596,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 }
                                 
                                 XElement logicalDiskSizeInGBElement = dataVirtualHardDisksElement.Element(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
-                                if (logicalDiskSizeInGBElement != null)
+                                if (logicalDiskSizeInGBElement != null && string.IsNullOrEmpty(logicalDiskSizeInGBElement.Value) == false)
                                 {
                                     int logicalDiskSizeInGBInstance = int.Parse(logicalDiskSizeInGBElement.Value, CultureInfo.InvariantCulture);
                                     dataVirtualHardDiskInstance.LogicalDiskSizeInGB = logicalDiskSizeInGBInstance;
@@ -5563,6 +5607,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 {
                                     Uri mediaLinkInstance = TypeConversion.TryParseUri(mediaLinkElement.Value);
                                     dataVirtualHardDiskInstance.MediaLink = mediaLinkInstance;
+                                }
+                                
+                                XElement sourceMediaLinkElement = dataVirtualHardDisksElement.Element(XName.Get("SourceMediaLink", "http://schemas.microsoft.com/windowsazure"));
+                                if (sourceMediaLinkElement != null)
+                                {
+                                    Uri sourceMediaLinkInstance = TypeConversion.TryParseUri(sourceMediaLinkElement.Value);
+                                    dataVirtualHardDiskInstance.SourceMediaLink = sourceMediaLinkInstance;
                                 }
                             }
                         }
@@ -5614,6 +5665,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 string osInstance = osElement.Value;
                                 oSVirtualHardDiskInstance.OperatingSystem = osInstance;
                             }
+                        }
+                        
+                        XElement sourceVMTemplateNameElement = persistentVMRoleElement.Element(XName.Get("SourceVMTemplateName", "http://schemas.microsoft.com/windowsazure"));
+                        if (sourceVMTemplateNameElement != null)
+                        {
+                            string sourceVMTemplateNameInstance = sourceVMTemplateNameElement.Value;
+                            result.SourceVMTemplateName = sourceVMTemplateNameInstance;
                         }
                     }
                     
@@ -5709,7 +5767,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                httpRequest.Headers.Add("x-ms-version", "2014-04-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -5833,7 +5891,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -5847,7 +5905,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -5941,7 +5999,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -5955,7 +6013,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -6044,7 +6102,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6058,7 +6116,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -6147,7 +6205,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6161,7 +6219,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -6249,7 +6307,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6263,7 +6321,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -6357,7 +6415,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6371,7 +6429,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {
@@ -6462,7 +6520,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
-                while ((result.Status != OperationStatus.InProgress) == false)
+                while ((result.Status != ComputeOperationStatus.InProgress) == false)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6476,7 +6534,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != OperationStatus.Succeeded)
+                if (result.Status != ComputeOperationStatus.Succeeded)
                 {
                     if (result.Error != null)
                     {

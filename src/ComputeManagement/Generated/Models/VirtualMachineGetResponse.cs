@@ -142,6 +142,17 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._roleType = value; }
         }
         
+        private string _sourceVMTemplateName;
+        
+        /// <summary>
+        /// The name of the virtual machine template used to create role.
+        /// </summary>
+        public string SourceVMTemplateName
+        {
+            get { return this._sourceVMTemplateName; }
+            set { this._sourceVMTemplateName = value; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the VirtualMachineGetResponse class.
         /// </summary>

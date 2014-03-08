@@ -26,11 +26,10 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.WebSitesExtensions;
 using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
-namespace Microsoft.WindowsAzure
+namespace Microsoft.WindowsAzure.WebSitesExtensions
 {
     /// <summary>
-    /// The websites extensions client manages the web sites deployments, web
-    /// jobs and other extensions.
+    /// Operations for managing the repositories.
     /// </summary>
     public static partial class DeploymentOperationsExtensions
     {
