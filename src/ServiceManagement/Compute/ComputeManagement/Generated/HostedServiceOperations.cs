@@ -256,7 +256,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -456,7 +456,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -599,7 +599,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -730,7 +730,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -899,7 +899,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1101,7 +1101,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1423,7 +1423,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1687,7 +1687,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -2609,6 +2609,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                                 string loadBalancerDistributionInstance = loadBalancerDistributionElement.Value;
                                                                 inputEndpointInstance.LoadBalancerDistribution = loadBalancerDistributionInstance;
                                                             }
+                                                            
+                                                            XElement virtualIPNameElement = inputEndpointsElement.Element(XName.Get("VirtualIPName", "http://schemas.microsoft.com/windowsazure"));
+                                                            if (virtualIPNameElement != null)
+                                                            {
+                                                                string virtualIPNameInstance = virtualIPNameElement.Value;
+                                                                inputEndpointInstance.VirtualIPName = virtualIPNameInstance;
+                                                            }
                                                         }
                                                     }
                                                     
@@ -2697,14 +2704,35 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                                     }
                                                                 }
                                                             }
+                                                            
+                                                            XElement networkSecurityGroupElement = networkInterfacesElement2.Element(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                                            if (networkSecurityGroupElement != null)
+                                                            {
+                                                                string networkSecurityGroupInstance = networkSecurityGroupElement.Value;
+                                                                networkInterfaceInstance2.NetworkSecurityGroup = networkSecurityGroupInstance;
+                                                            }
+                                                            
+                                                            XElement iPForwardingElement = networkInterfacesElement2.Element(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                                            if (iPForwardingElement != null)
+                                                            {
+                                                                string iPForwardingInstance = iPForwardingElement.Value;
+                                                                networkInterfaceInstance2.IPForwarding = iPForwardingInstance;
+                                                            }
                                                         }
                                                     }
                                                     
-                                                    XElement networkSecurityGroupElement = configurationSetsElement.Element(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
-                                                    if (networkSecurityGroupElement != null)
+                                                    XElement networkSecurityGroupElement2 = configurationSetsElement.Element(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                                    if (networkSecurityGroupElement2 != null)
                                                     {
-                                                        string networkSecurityGroupInstance = networkSecurityGroupElement.Value;
-                                                        configurationSetInstance.NetworkSecurityGroup = networkSecurityGroupInstance;
+                                                        string networkSecurityGroupInstance2 = networkSecurityGroupElement2.Value;
+                                                        configurationSetInstance.NetworkSecurityGroup = networkSecurityGroupInstance2;
+                                                    }
+                                                    
+                                                    XElement iPForwardingElement2 = configurationSetsElement.Element(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                                    if (iPForwardingElement2 != null)
+                                                    {
+                                                        string iPForwardingInstance2 = iPForwardingElement2.Value;
+                                                        configurationSetInstance.IPForwarding = iPForwardingInstance2;
                                                     }
                                                     
                                                     XElement computerNameElement = configurationSetsElement.Element(XName.Get("ComputerName", "http://schemas.microsoft.com/windowsazure"));
@@ -3276,6 +3304,20 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                     }
                                                 }
                                             }
+                                            
+                                            XElement debugSettingsElement = roleListElement.Element(XName.Get("DebugSettings", "http://schemas.microsoft.com/windowsazure"));
+                                            if (debugSettingsElement != null)
+                                            {
+                                                DebugSettings debugSettingsInstance = new DebugSettings();
+                                                roleInstance.DebugSettings = debugSettingsInstance;
+                                                
+                                                XElement storageAccountContainerElement = debugSettingsElement.Element(XName.Get("StorageAccountContainer", "http://schemas.microsoft.com/windowsazure"));
+                                                if (storageAccountContainerElement != null)
+                                                {
+                                                    string storageAccountContainerInstance = storageAccountContainerElement.Value;
+                                                    debugSettingsInstance.StorageAccountContainer = storageAccountContainerInstance;
+                                                }
+                                            }
                                         }
                                     }
                                     
@@ -3375,6 +3417,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                 virtualIPInstance.Address = addressInstance3;
                                             }
                                             
+                                            XElement isDnsProgrammedElement = virtualIPsElement.Element(XName.Get("IsDnsProgrammed", "http://schemas.microsoft.com/windowsazure"));
+                                            if (isDnsProgrammedElement != null && !string.IsNullOrEmpty(isDnsProgrammedElement.Value))
+                                            {
+                                                bool isDnsProgrammedInstance = bool.Parse(isDnsProgrammedElement.Value);
+                                                virtualIPInstance.IsDnsProgrammed = isDnsProgrammedInstance;
+                                            }
+                                            
                                             XElement nameElement12 = virtualIPsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                                             if (nameElement12 != null)
                                             {
@@ -3382,11 +3431,11 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                 virtualIPInstance.Name = nameInstance12;
                                             }
                                             
-                                            XElement isDnsProgrammedElement = virtualIPsElement.Element(XName.Get("IsDnsProgrammed", "http://schemas.microsoft.com/windowsazure"));
-                                            if (isDnsProgrammedElement != null && !string.IsNullOrEmpty(isDnsProgrammedElement.Value))
+                                            XElement reservedIPNameElement = virtualIPsElement.Element(XName.Get("ReservedIPName", "http://schemas.microsoft.com/windowsazure"));
+                                            if (reservedIPNameElement != null)
                                             {
-                                                bool isDnsProgrammedInstance = bool.Parse(isDnsProgrammedElement.Value);
-                                                virtualIPInstance.IsDnsProgrammed = isDnsProgrammedInstance;
+                                                string reservedIPNameInstance = reservedIPNameElement.Value;
+                                                virtualIPInstance.ReservedIPName = reservedIPNameInstance;
                                             }
                                         }
                                     }
@@ -3645,7 +3694,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3826,7 +3875,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4080,7 +4129,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4525,7 +4574,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4734,7 +4783,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -5192,7 +5241,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2015-07-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();

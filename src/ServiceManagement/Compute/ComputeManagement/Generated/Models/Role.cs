@@ -67,6 +67,17 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._dataVirtualHardDisks = value; }
         }
         
+        private DebugSettings _debugSettings;
+        
+        /// <summary>
+        /// Optional. The debug settings for a VM deployment.
+        /// </summary>
+        public DebugSettings DebugSettings
+        {
+            get { return this._debugSettings; }
+            set { this._debugSettings = value; }
+        }
+        
         private string _defaultWinRmCertificateThumbprint;
         
         /// <summary>
