@@ -1350,6 +1350,10 @@ namespace Microsoft.WindowsAzure.Management.Compute.Testing
                                             }
                                         },
                                     },
+                                    DebugSettings = new DebugSettings
+                                    {
+                                        StorageAccountContainer = serviceName + "3"
+                                    }
                                 },
                             },
                         });
