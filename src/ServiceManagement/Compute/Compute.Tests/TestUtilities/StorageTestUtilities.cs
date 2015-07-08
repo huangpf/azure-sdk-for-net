@@ -74,5 +74,30 @@ namespace Microsoft.WindowsAzure.Testing
 
             return blobUri;
         }
+
+        public static void CreateContainer(string storageAccount, string container)
+        {
+            if (HttpMockServer.Mode != HttpRecorderMode.Playback)
+            {
+                using (StorageManagementClient client = TestBase.GetServiceClient<StorageManagementClient>())
+                {
+                    var service = client.StorageAccounts.Get(storageAccount);
+                    var keys = client.StorageAccounts.GetKeys(storageAccount);
+                    var account = new CloudStorageAccount(
+                        new Storage.Auth.StorageCredentials(storageAccount, keys.PrimaryKey),
+                        service.StorageAccount.Properties.Endpoints.First(e => e.ToString().ToLower().Contains(".blob.")),
+                        service.StorageAccount.Properties.Endpoints.First(e => e.ToString().ToLower().Contains(".queue.")),
+                        service.StorageAccount.Properties.Endpoints.First(e => e.ToString().ToLower().Contains(".table.")),
+                        service.StorageAccount.Properties.Endpoints.FirstOrDefault(e => e.ToString().ToLower().Contains(".file.")));
+                    var blobClient = account.CreateCloudBlobClient();
+                    var containerClient = blobClient.GetContainerReference(container);
+                    containerClient.CreateIfNotExists();
+                    containerClient.SetPermissions(new BlobContainerPermissions
+                    {
+                        PublicAccess = BlobContainerPublicAccessType.Container
+                    });
+                }
+            }
+        }
     }
 }

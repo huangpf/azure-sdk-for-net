@@ -75,6 +75,9 @@ namespace Microsoft.WindowsAzure.Management.Compute.Testing
                             AccountType = StorageAccountTypes.StandardGRS
                         });
 
+                    // Create Container for Debug Settings
+                    StorageTestUtilities.CreateContainer(storageAccountName, serviceName);
+
                     compute.HostedServices.Create(
                         new HostedServiceCreateParameters
                         {
@@ -1352,7 +1355,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Testing
                                     },
                                     DebugSettings = new DebugSettings
                                     {
-                                        StorageAccountContainer = serviceName + "3"
+                                        StorageAccountContainer = serviceName
                                     }
                                 },
                             },
