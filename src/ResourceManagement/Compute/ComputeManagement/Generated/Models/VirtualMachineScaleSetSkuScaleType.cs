@@ -21,31 +21,23 @@
 
 using System;
 using System.Linq;
-using Microsoft.Azure.Management.Compute.Models;
 
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// The scaling type specifying how virtual machine scale set instances
+    /// will be scaled for a sku.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public static partial class VirtualMachineScaleSetSkuScaleType
     {
-        private string _computerName;
+        /// <summary>
+        /// Platform's automatic scaling policy.
+        /// </summary>
+        public const string Automatic = "Automatic";
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// No scaling policy.
         /// </summary>
-        public string ComputerName
-        {
-            get { return this._computerName; }
-            set { this._computerName = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the OSProfile class.
-        /// </summary>
-        public OSProfile()
-        {
-        }
+        public const string None = "None";
     }
 }

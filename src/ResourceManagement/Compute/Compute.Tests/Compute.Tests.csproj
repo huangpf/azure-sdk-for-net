@@ -8,27 +8,9 @@
   <Import Project="..\..\..\..\tools\Library.Settings.targets" />
   <Import Project="$(LibraryToolsFolder)\Test.Dependencies.target" />
   <ItemGroup>
-    <Compile Include="Helpers\ApiConstants.cs" />
-    <Compile Include="Helpers\ComputeManagementTestUtilities.cs" />
-    <Compile Include="Helpers\Helpers.cs" />
-    <Compile Include="Helpers\RecordedDelegatingHandler.cs" />
-    <Compile Include="Helpers\VaultCertComparer.cs" />
-    <Compile Include="ScenarioTests\AvailabilitySetTests.cs" />
-    <Compile Include="ScenarioTests\VMMarketplaceTest.cs" />
-    <Compile Include="ScenarioTests\VMNetworkInterfaceTests.cs" />
-    <Compile Include="ScenarioTests\ListVMTests.cs" />
-    <Compile Include="ScenarioTests\UsageTests.cs" />
-    <Compile Include="ScenarioTests\VMCertificateTests.cs" />
-    <Compile Include="ScenarioTests\ExtImgTests.cs" />
-    <Compile Include="ScenarioTests\VMImageTests.cs" />
-    <Compile Include="ScenarioTests\VMOperationalTests.cs" />
-    <Compile Include="ScenarioTests\ExtensionTests.cs" />
-    <Compile Include="ScenarioTests\VMDataDiskTests.cs" />
-    <Compile Include="ScenarioTests\VMScenarioTests.cs" />
-    <Compile Include="ScenarioTests\VMDiskSizeTests.cs" />
-    <Compile Include="ScenarioTests\VMSizesTests.cs" />
-    <Compile Include="ScenarioTests\VMTestBase.cs" />
-    <Compile Include="ScenarioTests\OSProfileTests.cs" />
+    <Compile Include="Helpers\*.cs" />
+    <Compile Include="ScenarioTests\*.cs" />
+    <Compile Include="VMScaleSetTests\*.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\WinRMCertificate.json">
@@ -101,6 +83,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SessionRecords\Compute.Tests.VMOperationalTests\TestVMOperations.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\Compute.Tests.VMScaleSetOperationalTests\TestVMScaleSetOperations.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\Compute.Tests.VMScaleSetScenarioTests\TestVMScaleSetScenarioOperations.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\Compute.Tests.VMScaleSetUpdateTests\TestVMScaleSetScalingOperations.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\Compute.Tests.VMScaleSetUpdateTests\TestVMScaleSetUpdateOperations.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\Compute.Tests.VMScaleSetVMOperationalTests\TestVMScaleSetVMOperations.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SessionRecords\Compute.Tests.VMScenarioTests\TestVMScenarioOperations.json">

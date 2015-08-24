@@ -26,25 +26,47 @@ using Microsoft.Azure.Management.Compute.Models;
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// Describes an available virtual machine scale set sku.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class VirtualMachineScaleSetSku
     {
-        private string _computerName;
+        private VirtualMachineScaleSetSkuCapacity _capacity;
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Optional. Gets available scaling information.
         /// </summary>
-        public string ComputerName
+        public VirtualMachineScaleSetSkuCapacity Capacity
         {
-            get { return this._computerName; }
-            set { this._computerName = value; }
+            get { return this._capacity; }
+            set { this._capacity = value; }
+        }
+        
+        private string _resourceType;
+        
+        /// <summary>
+        /// Optional. Gets the type of resource the sku applies to.
+        /// </summary>
+        public string ResourceType
+        {
+            get { return this._resourceType; }
+            set { this._resourceType = value; }
+        }
+        
+        private Sku _sku;
+        
+        /// <summary>
+        /// Optional. Gets the Sku.
+        /// </summary>
+        public Sku Sku
+        {
+            get { return this._sku; }
+            set { this._sku = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the OSProfile class.
+        /// Initializes a new instance of the VirtualMachineScaleSetSku class.
         /// </summary>
-        public OSProfile()
+        public VirtualMachineScaleSetSku()
         {
         }
     }

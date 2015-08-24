@@ -21,31 +21,22 @@
 
 using System;
 using System.Linq;
-using Microsoft.Azure.Management.Compute.Models;
 
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// The upgrade mode specifying how the upgrade will be rolled out.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public static partial class UpgradeMode
     {
-        private string _computerName;
+        /// <summary>
+        /// Platform's automatic upgrade policy.
+        /// </summary>
+        public const string Automatic = "Automatic";
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Upgrade policy specified by groups of instances.
         /// </summary>
-        public string ComputerName
-        {
-            get { return this._computerName; }
-            set { this._computerName = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the OSProfile class.
-        /// </summary>
-        public OSProfile()
-        {
-        }
+        public const string Manual = "Manual";
     }
 }

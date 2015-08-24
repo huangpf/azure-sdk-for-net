@@ -26,25 +26,15 @@ using Microsoft.Azure.Management.Compute.Models;
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// Describes a load balancer address pool reference.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool : ApiEntityReference
     {
-        private string _computerName;
-        
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Initializes a new instance of the
+        /// VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool class.
         /// </summary>
-        public string ComputerName
-        {
-            get { return this._computerName; }
-            set { this._computerName = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the OSProfile class.
-        /// </summary>
-        public OSProfile()
+        public VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool()
         {
         }
     }

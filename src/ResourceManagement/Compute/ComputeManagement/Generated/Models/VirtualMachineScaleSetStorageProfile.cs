@@ -26,25 +26,37 @@ using Microsoft.Azure.Management.Compute.Models;
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// Describes a virtual machine scale set storage profile.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class VirtualMachineScaleSetStorageProfile
     {
-        private string _computerName;
+        private ImageReference _imageReference;
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Optional. Gets or sets the image reference.
         /// </summary>
-        public string ComputerName
+        public ImageReference ImageReference
         {
-            get { return this._computerName; }
-            set { this._computerName = value; }
+            get { return this._imageReference; }
+            set { this._imageReference = value; }
+        }
+        
+        private VirtualMachineScaleSetOSDisk _oSDisk;
+        
+        /// <summary>
+        /// Optional. Gets or sets the OS disk.
+        /// </summary>
+        public VirtualMachineScaleSetOSDisk OSDisk
+        {
+            get { return this._oSDisk; }
+            set { this._oSDisk = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the OSProfile class.
+        /// Initializes a new instance of the
+        /// VirtualMachineScaleSetStorageProfile class.
         /// </summary>
-        public OSProfile()
+        public VirtualMachineScaleSetStorageProfile()
         {
         }
     }

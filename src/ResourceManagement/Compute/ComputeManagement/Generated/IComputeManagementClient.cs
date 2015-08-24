@@ -128,6 +128,24 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// Operations for managing the virtual machine scale sets in compute
+        /// management.
+        /// </summary>
+        IVirtualMachineScaleSetOperations VirtualMachineScaleSets
+        {
+            get; 
+        }
+        
+        /// <summary>
+        /// Operations for managing the virtual machine scale set virtual
+        /// machines in compute management.
+        /// </summary>
+        IVirtualMachineScaleSetVMOperations VirtualMachineScaleSetVMs
+        {
+            get; 
+        }
+        
+        /// <summary>
         /// Operations for listing virtual machine sizes available in a region.
         /// </summary>
         IVirtualMachineSizeOperations VirtualMachineSizes

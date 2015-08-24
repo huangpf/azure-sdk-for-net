@@ -156,6 +156,28 @@ namespace Microsoft.Azure.Management.Compute
             get { return this._virtualMachines; }
         }
         
+        private IVirtualMachineScaleSetOperations _virtualMachineScaleSets;
+        
+        /// <summary>
+        /// Operations for managing the virtual machine scale sets in compute
+        /// management.
+        /// </summary>
+        public virtual IVirtualMachineScaleSetOperations VirtualMachineScaleSets
+        {
+            get { return this._virtualMachineScaleSets; }
+        }
+        
+        private IVirtualMachineScaleSetVMOperations _virtualMachineScaleSetVMs;
+        
+        /// <summary>
+        /// Operations for managing the virtual machine scale set virtual
+        /// machines in compute management.
+        /// </summary>
+        public virtual IVirtualMachineScaleSetVMOperations VirtualMachineScaleSetVMs
+        {
+            get { return this._virtualMachineScaleSetVMs; }
+        }
+        
         private IVirtualMachineSizeOperations _virtualMachineSizes;
         
         /// <summary>
@@ -178,6 +200,8 @@ namespace Microsoft.Azure.Management.Compute
             this._virtualMachineExtensions = new VirtualMachineExtensionOperations(this);
             this._virtualMachineImages = new VirtualMachineImageOperations(this);
             this._virtualMachines = new VirtualMachineOperations(this);
+            this._virtualMachineScaleSets = new VirtualMachineScaleSetOperations(this);
+            this._virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMOperations(this);
             this._virtualMachineSizes = new VirtualMachineSizeOperations(this);
             this._apiVersion = "2015-06-15";
             this._longRunningOperationInitialTimeout = -1;
@@ -250,6 +274,8 @@ namespace Microsoft.Azure.Management.Compute
             this._virtualMachineExtensions = new VirtualMachineExtensionOperations(this);
             this._virtualMachineImages = new VirtualMachineImageOperations(this);
             this._virtualMachines = new VirtualMachineOperations(this);
+            this._virtualMachineScaleSets = new VirtualMachineScaleSetOperations(this);
+            this._virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMOperations(this);
             this._virtualMachineSizes = new VirtualMachineSizeOperations(this);
             this._apiVersion = "2015-06-15";
             this._longRunningOperationInitialTimeout = -1;

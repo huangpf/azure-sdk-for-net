@@ -716,51 +716,48 @@ namespace Microsoft.Azure.Management.Compute
                     
                     if (parameters.OSProfile.Secrets != null)
                     {
-                        if (parameters.OSProfile.Secrets is ILazyCollection == false || ((ILazyCollection)parameters.OSProfile.Secrets).IsInitialized)
+                        JArray secretsArray = new JArray();
+                        foreach (VaultSecretGroup secretsItem in parameters.OSProfile.Secrets)
                         {
-                            JArray secretsArray = new JArray();
-                            foreach (VaultSecretGroup secretsItem in parameters.OSProfile.Secrets)
+                            JObject vaultSecretGroupValue = new JObject();
+                            secretsArray.Add(vaultSecretGroupValue);
+                            
+                            if (secretsItem.SourceVault != null)
                             {
-                                JObject vaultSecretGroupValue = new JObject();
-                                secretsArray.Add(vaultSecretGroupValue);
+                                JObject sourceVaultValue = new JObject();
+                                vaultSecretGroupValue["sourceVault"] = sourceVaultValue;
                                 
-                                if (secretsItem.SourceVault != null)
+                                if (secretsItem.SourceVault.ReferenceUri != null)
                                 {
-                                    JObject sourceVaultValue = new JObject();
-                                    vaultSecretGroupValue["sourceVault"] = sourceVaultValue;
-                                    
-                                    if (secretsItem.SourceVault.ReferenceUri != null)
-                                    {
-                                        sourceVaultValue["id"] = secretsItem.SourceVault.ReferenceUri;
-                                    }
-                                }
-                                
-                                if (secretsItem.VaultCertificates != null)
-                                {
-                                    if (secretsItem.VaultCertificates is ILazyCollection == false || ((ILazyCollection)secretsItem.VaultCertificates).IsInitialized)
-                                    {
-                                        JArray vaultCertificatesArray = new JArray();
-                                        foreach (VaultCertificate vaultCertificatesItem in secretsItem.VaultCertificates)
-                                        {
-                                            JObject vaultCertificateValue = new JObject();
-                                            vaultCertificatesArray.Add(vaultCertificateValue);
-                                            
-                                            if (vaultCertificatesItem.CertificateUrl != null)
-                                            {
-                                                vaultCertificateValue["certificateUrl"] = vaultCertificatesItem.CertificateUrl;
-                                            }
-                                            
-                                            if (vaultCertificatesItem.CertificateStore != null)
-                                            {
-                                                vaultCertificateValue["certificateStore"] = vaultCertificatesItem.CertificateStore;
-                                            }
-                                        }
-                                        vaultSecretGroupValue["vaultCertificates"] = vaultCertificatesArray;
-                                    }
+                                    sourceVaultValue["id"] = secretsItem.SourceVault.ReferenceUri;
                                 }
                             }
-                            osProfileValue["secrets"] = secretsArray;
+                            
+                            if (secretsItem.VaultCertificates != null)
+                            {
+                                if (secretsItem.VaultCertificates is ILazyCollection == false || ((ILazyCollection)secretsItem.VaultCertificates).IsInitialized)
+                                {
+                                    JArray vaultCertificatesArray = new JArray();
+                                    foreach (VaultCertificate vaultCertificatesItem in secretsItem.VaultCertificates)
+                                    {
+                                        JObject vaultCertificateValue = new JObject();
+                                        vaultCertificatesArray.Add(vaultCertificateValue);
+                                        
+                                        if (vaultCertificatesItem.CertificateUrl != null)
+                                        {
+                                            vaultCertificateValue["certificateUrl"] = vaultCertificatesItem.CertificateUrl;
+                                        }
+                                        
+                                        if (vaultCertificatesItem.CertificateStore != null)
+                                        {
+                                            vaultCertificateValue["certificateStore"] = vaultCertificatesItem.CertificateStore;
+                                        }
+                                    }
+                                    vaultSecretGroupValue["vaultCertificates"] = vaultCertificatesArray;
+                                }
+                            }
                         }
+                        osProfileValue["secrets"] = secretsArray;
                     }
                 }
                 
@@ -2858,11 +2855,11 @@ namespace Microsoft.Azure.Management.Compute
                     {
                         result.Status = OperationStatus.Failed;
                     }
-                    if (statusCode == HttpStatusCode.OK)
+                    if (statusCode == HttpStatusCode.NoContent)
                     {
                         result.Status = OperationStatus.Succeeded;
                     }
-                    if (statusCode == HttpStatusCode.NoContent)
+                    if (statusCode == HttpStatusCode.OK)
                     {
                         result.Status = OperationStatus.Succeeded;
                     }

@@ -21,30 +21,33 @@
 
 using System;
 using System.Linq;
+using Microsoft.Azure;
 using Microsoft.Azure.Management.Compute.Models;
 
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// The get VirtualMachineScaleSetVM instance view operation response.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class VirtualMachineScaleSetVMGetInstanceViewResponse : AzureOperationResponse
     {
-        private string _computerName;
+        private VirtualMachineScaleSetVMInstanceView _virtualMachineScaleSetVMInstanceView;
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Optional. Gets the details of the virtual machine scale set virtual
+        /// machine instance view.
         /// </summary>
-        public string ComputerName
+        public VirtualMachineScaleSetVMInstanceView VirtualMachineScaleSetVMInstanceView
         {
-            get { return this._computerName; }
-            set { this._computerName = value; }
+            get { return this._virtualMachineScaleSetVMInstanceView; }
+            set { this._virtualMachineScaleSetVMInstanceView = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the OSProfile class.
+        /// Initializes a new instance of the
+        /// VirtualMachineScaleSetVMGetInstanceViewResponse class.
         /// </summary>
-        public OSProfile()
+        public VirtualMachineScaleSetVMGetInstanceViewResponse()
         {
         }
     }

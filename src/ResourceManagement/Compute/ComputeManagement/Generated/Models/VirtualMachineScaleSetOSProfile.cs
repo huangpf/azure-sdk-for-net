@@ -26,25 +26,26 @@ using Microsoft.Azure.Management.Compute.Models;
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// Describes a virtual machine scale set OS profile.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class VirtualMachineScaleSetOSProfile : OSProfileBase
     {
-        private string _computerName;
+        private string _computerNamePrefix;
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Optional. Gets or sets the computer name prefix.
         /// </summary>
-        public string ComputerName
+        public string ComputerNamePrefix
         {
-            get { return this._computerName; }
-            set { this._computerName = value; }
+            get { return this._computerNamePrefix; }
+            set { this._computerNamePrefix = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the OSProfile class.
+        /// Initializes a new instance of the VirtualMachineScaleSetOSProfile
+        /// class.
         /// </summary>
-        public OSProfile()
+        public VirtualMachineScaleSetOSProfile()
         {
         }
     }

@@ -26,25 +26,15 @@ using Microsoft.Azure.Management.Compute.Models;
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// The instance view of a virtual machine scale set VM.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class VirtualMachineScaleSetVMInstanceView : VirtualMachineInstanceView
     {
-        private string _computerName;
-        
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Initializes a new instance of the
+        /// VirtualMachineScaleSetVMInstanceView class.
         /// </summary>
-        public string ComputerName
-        {
-            get { return this._computerName; }
-            set { this._computerName = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the OSProfile class.
-        /// </summary>
-        public OSProfile()
+        public VirtualMachineScaleSetVMInstanceView()
         {
         }
     }

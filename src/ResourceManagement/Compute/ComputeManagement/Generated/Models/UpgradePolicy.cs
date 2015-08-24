@@ -21,30 +21,29 @@
 
 using System;
 using System.Linq;
-using Microsoft.Azure.Management.Compute.Models;
 
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// Describes an upgrade policy.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class UpgradePolicy
     {
-        private string _computerName;
+        private string _upgradeMode;
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Optional. Gets or sets the upgrade mode.
         /// </summary>
-        public string ComputerName
+        public string UpgradeMode
         {
-            get { return this._computerName; }
-            set { this._computerName = value; }
+            get { return this._upgradeMode; }
+            set { this._upgradeMode = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the OSProfile class.
+        /// Initializes a new instance of the UpgradePolicy class.
         /// </summary>
-        public OSProfile()
+        public UpgradePolicy()
         {
         }
     }

@@ -20,32 +20,36 @@
 // code is regenerated.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Hyak.Common;
 using Microsoft.Azure.Management.Compute.Models;
 
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// Describes a virtual machine scale set network profile.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class VirtualMachineScaleSetNetworkProfile
     {
-        private string _computerName;
+        private IList<VirtualMachineScaleSetNetworkConfiguration> _networkConfigurations;
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Optional. Gets or sets the list of network configurations.
         /// </summary>
-        public string ComputerName
+        public IList<VirtualMachineScaleSetNetworkConfiguration> NetworkConfigurations
         {
-            get { return this._computerName; }
-            set { this._computerName = value; }
+            get { return this._networkConfigurations; }
+            set { this._networkConfigurations = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the OSProfile class.
+        /// Initializes a new instance of the
+        /// VirtualMachineScaleSetNetworkProfile class.
         /// </summary>
-        public OSProfile()
+        public VirtualMachineScaleSetNetworkProfile()
         {
+            this.NetworkConfigurations = new LazyList<VirtualMachineScaleSetNetworkConfiguration>();
         }
     }
 }

@@ -21,30 +21,51 @@
 
 using System;
 using System.Linq;
-using Microsoft.Azure.Management.Compute.Models;
 
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an OS profile.
+    /// Describes a virtual machine scale set sku.
     /// </summary>
-    public partial class OSProfile : OSProfileBase
+    public partial class Sku
     {
-        private string _computerName;
+        private uint? _capacity;
         
         /// <summary>
-        /// Optional. Gets or sets the computer name.
+        /// Optional. Gets or sets the sku capacity.
         /// </summary>
-        public string ComputerName
+        public uint? Capacity
         {
-            get { return this._computerName; }
-            set { this._computerName = value; }
+            get { return this._capacity; }
+            set { this._capacity = value; }
+        }
+        
+        private string _name;
+        
+        /// <summary>
+        /// Optional. Gets or sets the sku name.
+        /// </summary>
+        public string Name
+        {
+            get { return this._name; }
+            set { this._name = value; }
+        }
+        
+        private string _tier;
+        
+        /// <summary>
+        /// Optional. Gets or sets the sku tier.
+        /// </summary>
+        public string Tier
+        {
+            get { return this._tier; }
+            set { this._tier = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the OSProfile class.
+        /// Initializes a new instance of the Sku class.
         /// </summary>
-        public OSProfile()
+        public Sku()
         {
         }
     }
