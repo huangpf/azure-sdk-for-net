@@ -46,12 +46,6 @@ namespace Compute.Tests
             return TestBase.GetServiceClient<ComputeManagementClient>(factory).WithHandler(handler);
         }
 
-        public static ComputeManagementClient GetComputeManagementClientWithSpn(RecordedDelegatingHandler handler = null)
-        {
-            return GetComputeManagementClient(new ServicePrincipalNameFactory(),
-                handler ?? new RecordedDelegatingHandler { StatusCodeToReturn = HttpStatusCode.OK });
-        }
-
         public static ResourceManagementClient GetResourceManagementClient(RecordedDelegatingHandler handler)
         {
             return GetResourceManagementClient(new CSMTestEnvironmentFactory(), handler);
