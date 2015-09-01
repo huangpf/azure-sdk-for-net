@@ -43,6 +43,18 @@ namespace Microsoft.Azure.Management.Compute.Models
             set { this._extensions = value; }
         }
         
+        private VirtualMachineScaleSetNetworkProfile _networkProfile;
+        
+        /// <summary>
+        /// Optional. Gets or sets the virtual machine scale set network
+        /// profile.
+        /// </summary>
+        public VirtualMachineScaleSetNetworkProfile NetworkProfile
+        {
+            get { return this._networkProfile; }
+            set { this._networkProfile = value; }
+        }
+        
         private VirtualMachineScaleSetOSProfile _oSProfile;
         
         /// <summary>

@@ -51,6 +51,10 @@ namespace Compute.Tests
                     Capacity = 2,
                     Name = VirtualMachineSizeTypes.StandardA0,
                 },
+                UpgradePolicy = new UpgradePolicy()
+                {
+                    Mode = UpgradeMode.Automatic
+                },
                 VirtualMachineProfile = new VirtualMachineScaleSetVMProfile()
                 {
                     StorageProfile = new VirtualMachineScaleSetStorageProfile()
@@ -71,29 +75,29 @@ namespace Compute.Tests
                         AdminPassword = "BaR@123" + rgName,
                         CustomData = Convert.ToBase64String(Encoding.UTF8.GetBytes("Custom data"))
                     },
-                    Extensions = new List<VirtualMachineExtension>(),
-                },
-                NetworkProfile = new VirtualMachineScaleSetNetworkProfile()
-                {
-                    NetworkConfigurations = new List<VirtualMachineScaleSetNetworkConfiguration>()
+                    NetworkProfile = new VirtualMachineScaleSetNetworkProfile()
                     {
-                        new VirtualMachineScaleSetNetworkConfiguration()
+                        NetworkInterfaceConfigurations = new List<VirtualMachineScaleSetNetworkConfiguration>()
                         {
-                            Name = TestUtilities.GenerateName("vmsstestnetconfig"),
-                            IPConfigurations = new List<VirtualMachineScaleSetIPConfiguration>
+                            new VirtualMachineScaleSetNetworkConfiguration()
                             {
-                                new VirtualMachineScaleSetIPConfiguration()
+                                Name = TestUtilities.GenerateName("vmsstestnetconfig"),
+                                IPConfigurations = new List<VirtualMachineScaleSetIPConfiguration>
                                 {
-                                    Name = TestUtilities.GenerateName("vmsstestnetconfig"),
-                                    Subnet = new ApiEntityReference()
+                                    new VirtualMachineScaleSetIPConfiguration()
                                     {
-                                        ReferenceUri = subnetId
+                                        Name = TestUtilities.GenerateName("vmsstestnetconfig"),
+                                        Subnet = new ApiEntityReference()
+                                        {
+                                            ReferenceUri = subnetId
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                },
+                    },
+                    Extensions = new List<VirtualMachineExtension>(),
+                }
             };
         }
 

@@ -31,17 +31,6 @@ namespace Microsoft.Azure.Management.Compute.Models
     /// </summary>
     public partial class VirtualMachineScaleSet : ResourceBaseExtended
     {
-        private VirtualMachineScaleSetNetworkProfile _networkProfile;
-        
-        /// <summary>
-        /// Optional. Gets or sets the network profile.
-        /// </summary>
-        public VirtualMachineScaleSetNetworkProfile NetworkProfile
-        {
-            get { return this._networkProfile; }
-            set { this._networkProfile = value; }
-        }
-        
         private string _provisioningState;
         
         /// <summary>

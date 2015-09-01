@@ -20,31 +20,35 @@
 // code is regenerated.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Hyak.Common;
 
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// Describes an upgrade policy - automatic or manual.
+    /// Specifies the list of virtual machine scale set instance IDs.
     /// </summary>
-    public partial class UpgradePolicy
+    public partial class VirtualMachineScaleSetVMInstanceIDs
     {
-        private string _mode;
+        private IList<string> _instanceIDs;
         
         /// <summary>
-        /// Optional. Gets or sets the upgrade mode.
+        /// Optional. Gets or sets the virtual machine scale set instance ids.
         /// </summary>
-        public string Mode
+        public IList<string> InstanceIDs
         {
-            get { return this._mode; }
-            set { this._mode = value; }
+            get { return this._instanceIDs; }
+            set { this._instanceIDs = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the UpgradePolicy class.
+        /// Initializes a new instance of the
+        /// VirtualMachineScaleSetVMInstanceIDs class.
         /// </summary>
-        public UpgradePolicy()
+        public VirtualMachineScaleSetVMInstanceIDs()
         {
+            this.InstanceIDs = new LazyList<string>();
         }
     }
 }

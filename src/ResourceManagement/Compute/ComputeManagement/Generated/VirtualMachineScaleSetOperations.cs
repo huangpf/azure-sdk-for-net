@@ -97,37 +97,6 @@ namespace Microsoft.Azure.Management.Compute
             {
                 throw new ArgumentNullException("parameters.Location");
             }
-            if (parameters.NetworkProfile != null)
-            {
-                if (parameters.NetworkProfile.NetworkConfigurations != null)
-                {
-                    foreach (VirtualMachineScaleSetNetworkConfiguration networkConfigurationsParameterItem in parameters.NetworkProfile.NetworkConfigurations)
-                    {
-                        if (networkConfigurationsParameterItem.IPConfigurations == null)
-                        {
-                            throw new ArgumentNullException("parameters.NetworkProfile.NetworkConfigurations.IPConfigurations");
-                        }
-                        if (networkConfigurationsParameterItem.IPConfigurations != null)
-                        {
-                            foreach (VirtualMachineScaleSetIPConfiguration iPConfigurationsParameterItem in networkConfigurationsParameterItem.IPConfigurations)
-                            {
-                                if (iPConfigurationsParameterItem.Name == null)
-                                {
-                                    throw new ArgumentNullException("parameters.NetworkProfile.NetworkConfigurations.IPConfigurations.Name");
-                                }
-                                if (iPConfigurationsParameterItem.Subnet == null)
-                                {
-                                    throw new ArgumentNullException("parameters.NetworkProfile.NetworkConfigurations.IPConfigurations.Subnet");
-                                }
-                            }
-                        }
-                        if (networkConfigurationsParameterItem.Name == null)
-                        {
-                            throw new ArgumentNullException("parameters.NetworkProfile.NetworkConfigurations.Name");
-                        }
-                    }
-                }
-            }
             if (parameters.VirtualMachineProfile != null)
             {
                 if (parameters.VirtualMachineProfile.Extensions != null)
@@ -137,6 +106,37 @@ namespace Microsoft.Azure.Management.Compute
                         if (extensionsParameterItem.Location == null)
                         {
                             throw new ArgumentNullException("parameters.VirtualMachineProfile.Extensions.Location");
+                        }
+                    }
+                }
+                if (parameters.VirtualMachineProfile.NetworkProfile != null)
+                {
+                    if (parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations != null)
+                    {
+                        foreach (VirtualMachineScaleSetNetworkConfiguration networkInterfaceConfigurationsParameterItem in parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations)
+                        {
+                            if (networkInterfaceConfigurationsParameterItem.IPConfigurations == null)
+                            {
+                                throw new ArgumentNullException("parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IPConfigurations");
+                            }
+                            if (networkInterfaceConfigurationsParameterItem.IPConfigurations != null)
+                            {
+                                foreach (VirtualMachineScaleSetIPConfiguration iPConfigurationsParameterItem in networkInterfaceConfigurationsParameterItem.IPConfigurations)
+                                {
+                                    if (iPConfigurationsParameterItem.Name == null)
+                                    {
+                                        throw new ArgumentNullException("parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IPConfigurations.Name");
+                                    }
+                                    if (iPConfigurationsParameterItem.Subnet == null)
+                                    {
+                                        throw new ArgumentNullException("parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IPConfigurations.Subnet");
+                                    }
+                                }
+                            }
+                            if (networkInterfaceConfigurationsParameterItem.Name == null)
+                            {
+                                throw new ArgumentNullException("parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.Name");
+                            }
                         }
                     }
                 }
@@ -253,9 +253,9 @@ namespace Microsoft.Azure.Management.Compute
                     JObject upgradePolicyValue = new JObject();
                     propertiesValue["upgradePolicy"] = upgradePolicyValue;
                     
-                    if (parameters.UpgradePolicy.UpgradeMode != null)
+                    if (parameters.UpgradePolicy.Mode != null)
                     {
-                        upgradePolicyValue["upgradeMode"] = parameters.UpgradePolicy.UpgradeMode;
+                        upgradePolicyValue["mode"] = parameters.UpgradePolicy.Mode;
                     }
                 }
                 
@@ -538,6 +538,82 @@ namespace Microsoft.Azure.Management.Compute
                         }
                     }
                     
+                    if (parameters.VirtualMachineProfile.NetworkProfile != null)
+                    {
+                        JObject networkProfileValue = new JObject();
+                        virtualMachineProfileValue["networkProfile"] = networkProfileValue;
+                        
+                        if (parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations != null)
+                        {
+                            if (parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations is ILazyCollection == false || ((ILazyCollection)parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations).IsInitialized)
+                            {
+                                JArray networkInterfaceConfigurationsArray = new JArray();
+                                foreach (VirtualMachineScaleSetNetworkConfiguration networkInterfaceConfigurationsItem in parameters.VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations)
+                                {
+                                    JObject virtualMachineScaleSetNetworkConfigurationJsonValue = new JObject();
+                                    networkInterfaceConfigurationsArray.Add(virtualMachineScaleSetNetworkConfigurationJsonValue);
+                                    
+                                    virtualMachineScaleSetNetworkConfigurationJsonValue["name"] = networkInterfaceConfigurationsItem.Name;
+                                    
+                                    JObject propertiesValue2 = new JObject();
+                                    virtualMachineScaleSetNetworkConfigurationJsonValue["properties"] = propertiesValue2;
+                                    
+                                    if (networkInterfaceConfigurationsItem.Primary != null)
+                                    {
+                                        propertiesValue2["primary"] = networkInterfaceConfigurationsItem.Primary.Value;
+                                    }
+                                    
+                                    if (networkInterfaceConfigurationsItem.IPConfigurations != null)
+                                    {
+                                        if (networkInterfaceConfigurationsItem.IPConfigurations is ILazyCollection == false || ((ILazyCollection)networkInterfaceConfigurationsItem.IPConfigurations).IsInitialized)
+                                        {
+                                            JArray ipConfigurationsArray = new JArray();
+                                            foreach (VirtualMachineScaleSetIPConfiguration ipConfigurationsItem in networkInterfaceConfigurationsItem.IPConfigurations)
+                                            {
+                                                JObject virtualMachineScaleSetIPConfigurationJsonValue = new JObject();
+                                                ipConfigurationsArray.Add(virtualMachineScaleSetIPConfigurationJsonValue);
+                                                
+                                                virtualMachineScaleSetIPConfigurationJsonValue["name"] = ipConfigurationsItem.Name;
+                                                
+                                                JObject propertiesValue3 = new JObject();
+                                                virtualMachineScaleSetIPConfigurationJsonValue["properties"] = propertiesValue3;
+                                                
+                                                JObject subnetValue = new JObject();
+                                                propertiesValue3["subnet"] = subnetValue;
+                                                
+                                                if (ipConfigurationsItem.Subnet.ReferenceUri != null)
+                                                {
+                                                    subnetValue["id"] = ipConfigurationsItem.Subnet.ReferenceUri;
+                                                }
+                                                
+                                                if (ipConfigurationsItem.LoadBalancerBackendAddressPools != null)
+                                                {
+                                                    if (ipConfigurationsItem.LoadBalancerBackendAddressPools is ILazyCollection == false || ((ILazyCollection)ipConfigurationsItem.LoadBalancerBackendAddressPools).IsInitialized)
+                                                    {
+                                                        JArray loadBalancerBackendAddressPoolsArray = new JArray();
+                                                        foreach (VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool loadBalancerBackendAddressPoolsItem in ipConfigurationsItem.LoadBalancerBackendAddressPools)
+                                                        {
+                                                            JObject virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonValue = new JObject();
+                                                            loadBalancerBackendAddressPoolsArray.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonValue);
+                                                            
+                                                            if (loadBalancerBackendAddressPoolsItem.ReferenceUri != null)
+                                                            {
+                                                                virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonValue["id"] = loadBalancerBackendAddressPoolsItem.ReferenceUri;
+                                                            }
+                                                        }
+                                                        propertiesValue3["loadBalancerBackendAddressPools"] = loadBalancerBackendAddressPoolsArray;
+                                                    }
+                                                }
+                                            }
+                                            propertiesValue2["ipConfigurations"] = ipConfigurationsArray;
+                                        }
+                                    }
+                                }
+                                networkProfileValue["networkInterfaceConfigurations"] = networkInterfaceConfigurationsArray;
+                            }
+                        }
+                    }
+                    
                     if (parameters.VirtualMachineProfile.Extensions != null)
                     {
                         JArray extensionsArray = new JArray();
@@ -546,45 +622,45 @@ namespace Microsoft.Azure.Management.Compute
                             JObject virtualMachineExtensionJsonValue = new JObject();
                             extensionsArray.Add(virtualMachineExtensionJsonValue);
                             
-                            JObject propertiesValue2 = new JObject();
-                            virtualMachineExtensionJsonValue["properties"] = propertiesValue2;
+                            JObject propertiesValue4 = new JObject();
+                            virtualMachineExtensionJsonValue["properties"] = propertiesValue4;
                             
                             if (extensionsItem.Publisher != null)
                             {
-                                propertiesValue2["publisher"] = extensionsItem.Publisher;
+                                propertiesValue4["publisher"] = extensionsItem.Publisher;
                             }
                             
                             if (extensionsItem.ExtensionType != null)
                             {
-                                propertiesValue2["type"] = extensionsItem.ExtensionType;
+                                propertiesValue4["type"] = extensionsItem.ExtensionType;
                             }
                             
                             if (extensionsItem.TypeHandlerVersion != null)
                             {
-                                propertiesValue2["typeHandlerVersion"] = extensionsItem.TypeHandlerVersion;
+                                propertiesValue4["typeHandlerVersion"] = extensionsItem.TypeHandlerVersion;
                             }
                             
-                            propertiesValue2["autoUpgradeMinorVersion"] = extensionsItem.AutoUpgradeMinorVersion;
+                            propertiesValue4["autoUpgradeMinorVersion"] = extensionsItem.AutoUpgradeMinorVersion;
                             
                             if (extensionsItem.Settings != null)
                             {
-                                propertiesValue2["settings"] = JObject.Parse(extensionsItem.Settings);
+                                propertiesValue4["settings"] = JObject.Parse(extensionsItem.Settings);
                             }
                             
                             if (extensionsItem.ProtectedSettings != null)
                             {
-                                propertiesValue2["protectedSettings"] = JObject.Parse(extensionsItem.ProtectedSettings);
+                                propertiesValue4["protectedSettings"] = JObject.Parse(extensionsItem.ProtectedSettings);
                             }
                             
                             if (extensionsItem.ProvisioningState != null)
                             {
-                                propertiesValue2["provisioningState"] = extensionsItem.ProvisioningState;
+                                propertiesValue4["provisioningState"] = extensionsItem.ProvisioningState;
                             }
                             
                             if (extensionsItem.InstanceView != null)
                             {
                                 JObject instanceViewValue = new JObject();
-                                propertiesValue2["instanceView"] = instanceViewValue;
+                                propertiesValue4["instanceView"] = instanceViewValue;
                                 
                                 if (extensionsItem.InstanceView.Name != null)
                                 {
@@ -710,82 +786,6 @@ namespace Microsoft.Azure.Management.Compute
                     }
                 }
                 
-                if (parameters.NetworkProfile != null)
-                {
-                    JObject networkProfileValue = new JObject();
-                    propertiesValue["networkProfile"] = networkProfileValue;
-                    
-                    if (parameters.NetworkProfile.NetworkConfigurations != null)
-                    {
-                        if (parameters.NetworkProfile.NetworkConfigurations is ILazyCollection == false || ((ILazyCollection)parameters.NetworkProfile.NetworkConfigurations).IsInitialized)
-                        {
-                            JArray networkConfigurationsArray = new JArray();
-                            foreach (VirtualMachineScaleSetNetworkConfiguration networkConfigurationsItem in parameters.NetworkProfile.NetworkConfigurations)
-                            {
-                                JObject virtualMachineScaleSetNetworkConfigurationJsonValue = new JObject();
-                                networkConfigurationsArray.Add(virtualMachineScaleSetNetworkConfigurationJsonValue);
-                                
-                                virtualMachineScaleSetNetworkConfigurationJsonValue["name"] = networkConfigurationsItem.Name;
-                                
-                                JObject propertiesValue3 = new JObject();
-                                virtualMachineScaleSetNetworkConfigurationJsonValue["properties"] = propertiesValue3;
-                                
-                                if (networkConfigurationsItem.Primary != null)
-                                {
-                                    propertiesValue3["primary"] = networkConfigurationsItem.Primary.Value;
-                                }
-                                
-                                if (networkConfigurationsItem.IPConfigurations != null)
-                                {
-                                    if (networkConfigurationsItem.IPConfigurations is ILazyCollection == false || ((ILazyCollection)networkConfigurationsItem.IPConfigurations).IsInitialized)
-                                    {
-                                        JArray ipConfigurationsArray = new JArray();
-                                        foreach (VirtualMachineScaleSetIPConfiguration ipConfigurationsItem in networkConfigurationsItem.IPConfigurations)
-                                        {
-                                            JObject virtualMachineScaleSetIPConfigurationJsonValue = new JObject();
-                                            ipConfigurationsArray.Add(virtualMachineScaleSetIPConfigurationJsonValue);
-                                            
-                                            virtualMachineScaleSetIPConfigurationJsonValue["name"] = ipConfigurationsItem.Name;
-                                            
-                                            JObject propertiesValue4 = new JObject();
-                                            virtualMachineScaleSetIPConfigurationJsonValue["properties"] = propertiesValue4;
-                                            
-                                            JObject subnetValue = new JObject();
-                                            propertiesValue4["subnet"] = subnetValue;
-                                            
-                                            if (ipConfigurationsItem.Subnet.ReferenceUri != null)
-                                            {
-                                                subnetValue["id"] = ipConfigurationsItem.Subnet.ReferenceUri;
-                                            }
-                                            
-                                            if (ipConfigurationsItem.LoadBalancerBackendAddressPools != null)
-                                            {
-                                                if (ipConfigurationsItem.LoadBalancerBackendAddressPools is ILazyCollection == false || ((ILazyCollection)ipConfigurationsItem.LoadBalancerBackendAddressPools).IsInitialized)
-                                                {
-                                                    JArray loadBalancerBackendAddressPoolsArray = new JArray();
-                                                    foreach (VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool loadBalancerBackendAddressPoolsItem in ipConfigurationsItem.LoadBalancerBackendAddressPools)
-                                                    {
-                                                        JObject virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonValue = new JObject();
-                                                        loadBalancerBackendAddressPoolsArray.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonValue);
-                                                        
-                                                        if (loadBalancerBackendAddressPoolsItem.ReferenceUri != null)
-                                                        {
-                                                            virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonValue["id"] = loadBalancerBackendAddressPoolsItem.ReferenceUri;
-                                                        }
-                                                    }
-                                                    propertiesValue4["loadBalancerBackendAddressPools"] = loadBalancerBackendAddressPoolsArray;
-                                                }
-                                            }
-                                        }
-                                        propertiesValue3["ipConfigurations"] = ipConfigurationsArray;
-                                    }
-                                }
-                            }
-                            networkProfileValue["networkConfigurations"] = networkConfigurationsArray;
-                        }
-                    }
-                }
-                
                 if (parameters.ProvisioningState != null)
                 {
                     propertiesValue["provisioningState"] = parameters.ProvisioningState;
@@ -906,11 +906,11 @@ namespace Microsoft.Azure.Management.Compute
                                     UpgradePolicy upgradePolicyInstance = new UpgradePolicy();
                                     virtualMachineScaleSetInstance.UpgradePolicy = upgradePolicyInstance;
                                     
-                                    JToken upgradeModeValue = upgradePolicyValue2["upgradeMode"];
-                                    if (upgradeModeValue != null && upgradeModeValue.Type != JTokenType.Null)
+                                    JToken modeValue = upgradePolicyValue2["mode"];
+                                    if (modeValue != null && modeValue.Type != JTokenType.Null)
                                     {
-                                        string upgradeModeInstance = ((string)upgradeModeValue);
-                                        upgradePolicyInstance.UpgradeMode = upgradeModeInstance;
+                                        string modeInstance = ((string)modeValue);
+                                        upgradePolicyInstance.Mode = modeInstance;
                                     }
                                 }
                                 
@@ -1245,6 +1245,93 @@ namespace Microsoft.Azure.Management.Compute
                                         }
                                     }
                                     
+                                    JToken networkProfileValue2 = virtualMachineProfileValue2["networkProfile"];
+                                    if (networkProfileValue2 != null && networkProfileValue2.Type != JTokenType.Null)
+                                    {
+                                        VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
+                                        virtualMachineProfileInstance.NetworkProfile = networkProfileInstance;
+                                        
+                                        JToken networkInterfaceConfigurationsArray2 = networkProfileValue2["networkInterfaceConfigurations"];
+                                        if (networkInterfaceConfigurationsArray2 != null && networkInterfaceConfigurationsArray2.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken networkInterfaceConfigurationsValue in ((JArray)networkInterfaceConfigurationsArray2))
+                                            {
+                                                VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
+                                                networkProfileInstance.NetworkInterfaceConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
+                                                
+                                                JToken nameValue3 = networkInterfaceConfigurationsValue["name"];
+                                                if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                {
+                                                    string nameInstance3 = ((string)nameValue3);
+                                                    virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance3;
+                                                }
+                                                
+                                                JToken propertiesValue6 = networkInterfaceConfigurationsValue["properties"];
+                                                if (propertiesValue6 != null && propertiesValue6.Type != JTokenType.Null)
+                                                {
+                                                    JToken primaryValue = propertiesValue6["primary"];
+                                                    if (primaryValue != null && primaryValue.Type != JTokenType.Null)
+                                                    {
+                                                        bool primaryInstance = ((bool)primaryValue);
+                                                        virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
+                                                    }
+                                                    
+                                                    JToken ipConfigurationsArray2 = propertiesValue6["ipConfigurations"];
+                                                    if (ipConfigurationsArray2 != null && ipConfigurationsArray2.Type != JTokenType.Null)
+                                                    {
+                                                        foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray2))
+                                                        {
+                                                            VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
+                                                            virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
+                                                            
+                                                            JToken nameValue4 = ipConfigurationsValue["name"];
+                                                            if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                                            {
+                                                                string nameInstance4 = ((string)nameValue4);
+                                                                virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance4;
+                                                            }
+                                                            
+                                                            JToken propertiesValue7 = ipConfigurationsValue["properties"];
+                                                            if (propertiesValue7 != null && propertiesValue7.Type != JTokenType.Null)
+                                                            {
+                                                                JToken subnetValue2 = propertiesValue7["subnet"];
+                                                                if (subnetValue2 != null && subnetValue2.Type != JTokenType.Null)
+                                                                {
+                                                                    ApiEntityReference subnetInstance = new ApiEntityReference();
+                                                                    virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
+                                                                    
+                                                                    JToken idValue2 = subnetValue2["id"];
+                                                                    if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                                    {
+                                                                        string idInstance2 = ((string)idValue2);
+                                                                        subnetInstance.ReferenceUri = idInstance2;
+                                                                    }
+                                                                }
+                                                                
+                                                                JToken loadBalancerBackendAddressPoolsArray2 = propertiesValue7["loadBalancerBackendAddressPools"];
+                                                                if (loadBalancerBackendAddressPoolsArray2 != null && loadBalancerBackendAddressPoolsArray2.Type != JTokenType.Null)
+                                                                {
+                                                                    foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray2))
+                                                                    {
+                                                                        VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
+                                                                        virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
+                                                                        
+                                                                        JToken idValue3 = loadBalancerBackendAddressPoolsValue["id"];
+                                                                        if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                                                        {
+                                                                            string idInstance3 = ((string)idValue3);
+                                                                            virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance3;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
                                     JToken extensionsArray2 = virtualMachineProfileValue2["extensions"];
                                     if (extensionsArray2 != null && extensionsArray2.Type != JTokenType.Null)
                                     {
@@ -1254,69 +1341,69 @@ namespace Microsoft.Azure.Management.Compute
                                             VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
                                             virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
                                             
-                                            JToken propertiesValue6 = extensionsValue["properties"];
-                                            if (propertiesValue6 != null && propertiesValue6.Type != JTokenType.Null)
+                                            JToken propertiesValue8 = extensionsValue["properties"];
+                                            if (propertiesValue8 != null && propertiesValue8.Type != JTokenType.Null)
                                             {
-                                                JToken publisherValue2 = propertiesValue6["publisher"];
+                                                JToken publisherValue2 = propertiesValue8["publisher"];
                                                 if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                 {
                                                     string publisherInstance2 = ((string)publisherValue2);
                                                     virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
                                                 }
                                                 
-                                                JToken typeValue = propertiesValue6["type"];
+                                                JToken typeValue = propertiesValue8["type"];
                                                 if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                 {
                                                     string typeInstance = ((string)typeValue);
                                                     virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
                                                 }
                                                 
-                                                JToken typeHandlerVersionValue = propertiesValue6["typeHandlerVersion"];
+                                                JToken typeHandlerVersionValue = propertiesValue8["typeHandlerVersion"];
                                                 if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                 {
                                                     string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
                                                     virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                 }
                                                 
-                                                JToken autoUpgradeMinorVersionValue = propertiesValue6["autoUpgradeMinorVersion"];
+                                                JToken autoUpgradeMinorVersionValue = propertiesValue8["autoUpgradeMinorVersion"];
                                                 if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                 {
                                                     bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
                                                     virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                 }
                                                 
-                                                JToken settingsValue = propertiesValue6["settings"];
+                                                JToken settingsValue = propertiesValue8["settings"];
                                                 if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                 {
                                                     string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                     virtualMachineExtensionJsonInstance.Settings = settingsInstance;
                                                 }
                                                 
-                                                JToken protectedSettingsValue = propertiesValue6["protectedSettings"];
+                                                JToken protectedSettingsValue = propertiesValue8["protectedSettings"];
                                                 if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
                                                 {
                                                     string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                     virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
                                                 }
                                                 
-                                                JToken provisioningStateValue = propertiesValue6["provisioningState"];
+                                                JToken provisioningStateValue = propertiesValue8["provisioningState"];
                                                 if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
                                                 {
                                                     string provisioningStateInstance = ((string)provisioningStateValue);
                                                     virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                 }
                                                 
-                                                JToken instanceViewValue2 = propertiesValue6["instanceView"];
+                                                JToken instanceViewValue2 = propertiesValue8["instanceView"];
                                                 if (instanceViewValue2 != null && instanceViewValue2.Type != JTokenType.Null)
                                                 {
                                                     VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
                                                     virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
                                                     
-                                                    JToken nameValue3 = instanceViewValue2["name"];
-                                                    if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                    JToken nameValue5 = instanceViewValue2["name"];
+                                                    if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
                                                     {
-                                                        string nameInstance3 = ((string)nameValue3);
-                                                        instanceViewInstance.Name = nameInstance3;
+                                                        string nameInstance5 = ((string)nameValue5);
+                                                        instanceViewInstance.Name = nameInstance5;
                                                     }
                                                     
                                                     JToken typeValue2 = instanceViewValue2["type"];
@@ -1425,18 +1512,18 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                             
-                                            JToken idValue2 = extensionsValue["id"];
-                                            if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                            JToken idValue4 = extensionsValue["id"];
+                                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                             {
-                                                string idInstance2 = ((string)idValue2);
-                                                virtualMachineExtensionJsonInstance.Id = idInstance2;
+                                                string idInstance4 = ((string)idValue4);
+                                                virtualMachineExtensionJsonInstance.Id = idInstance4;
                                             }
                                             
-                                            JToken nameValue4 = extensionsValue["name"];
-                                            if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                            JToken nameValue6 = extensionsValue["name"];
+                                            if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                             {
-                                                string nameInstance4 = ((string)nameValue4);
-                                                virtualMachineExtensionJsonInstance.Name = nameInstance4;
+                                                string nameInstance6 = ((string)nameValue6);
+                                                virtualMachineExtensionJsonInstance.Name = nameInstance6;
                                             }
                                             
                                             JToken typeValue3 = extensionsValue["type"];
@@ -1461,93 +1548,6 @@ namespace Microsoft.Azure.Management.Compute
                                                     string tagsKey3 = ((string)property.Name);
                                                     string tagsValue3 = ((string)property.Value);
                                                     virtualMachineExtensionJsonInstance.Tags.Add(tagsKey3, tagsValue3);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                JToken networkProfileValue2 = propertiesValue5["networkProfile"];
-                                if (networkProfileValue2 != null && networkProfileValue2.Type != JTokenType.Null)
-                                {
-                                    VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
-                                    virtualMachineScaleSetInstance.NetworkProfile = networkProfileInstance;
-                                    
-                                    JToken networkConfigurationsArray2 = networkProfileValue2["networkConfigurations"];
-                                    if (networkConfigurationsArray2 != null && networkConfigurationsArray2.Type != JTokenType.Null)
-                                    {
-                                        foreach (JToken networkConfigurationsValue in ((JArray)networkConfigurationsArray2))
-                                        {
-                                            VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
-                                            networkProfileInstance.NetworkConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
-                                            
-                                            JToken nameValue5 = networkConfigurationsValue["name"];
-                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
-                                            {
-                                                string nameInstance5 = ((string)nameValue5);
-                                                virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance5;
-                                            }
-                                            
-                                            JToken propertiesValue7 = networkConfigurationsValue["properties"];
-                                            if (propertiesValue7 != null && propertiesValue7.Type != JTokenType.Null)
-                                            {
-                                                JToken primaryValue = propertiesValue7["primary"];
-                                                if (primaryValue != null && primaryValue.Type != JTokenType.Null)
-                                                {
-                                                    bool primaryInstance = ((bool)primaryValue);
-                                                    virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
-                                                }
-                                                
-                                                JToken ipConfigurationsArray2 = propertiesValue7["ipConfigurations"];
-                                                if (ipConfigurationsArray2 != null && ipConfigurationsArray2.Type != JTokenType.Null)
-                                                {
-                                                    foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray2))
-                                                    {
-                                                        VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
-                                                        virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
-                                                        
-                                                        JToken nameValue6 = ipConfigurationsValue["name"];
-                                                        if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                                        {
-                                                            string nameInstance6 = ((string)nameValue6);
-                                                            virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance6;
-                                                        }
-                                                        
-                                                        JToken propertiesValue8 = ipConfigurationsValue["properties"];
-                                                        if (propertiesValue8 != null && propertiesValue8.Type != JTokenType.Null)
-                                                        {
-                                                            JToken subnetValue2 = propertiesValue8["subnet"];
-                                                            if (subnetValue2 != null && subnetValue2.Type != JTokenType.Null)
-                                                            {
-                                                                ApiEntityReference subnetInstance = new ApiEntityReference();
-                                                                virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
-                                                                
-                                                                JToken idValue3 = subnetValue2["id"];
-                                                                if (idValue3 != null && idValue3.Type != JTokenType.Null)
-                                                                {
-                                                                    string idInstance3 = ((string)idValue3);
-                                                                    subnetInstance.ReferenceUri = idInstance3;
-                                                                }
-                                                            }
-                                                            
-                                                            JToken loadBalancerBackendAddressPoolsArray2 = propertiesValue8["loadBalancerBackendAddressPools"];
-                                                            if (loadBalancerBackendAddressPoolsArray2 != null && loadBalancerBackendAddressPoolsArray2.Type != JTokenType.Null)
-                                                            {
-                                                                foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray2))
-                                                                {
-                                                                    VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
-                                                                    virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
-                                                                    
-                                                                    JToken idValue4 = loadBalancerBackendAddressPoolsValue["id"];
-                                                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                                                    {
-                                                                        string idInstance4 = ((string)idValue4);
-                                                                        virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance4;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
                                                 }
                                             }
                                         }
@@ -1786,6 +1786,188 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// The operation to deallocate virtual machines in a virtual machine
+        /// scale set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The compute long running operation response.
+        /// </returns>
+        public async Task<ComputeOperationResponse> BeginDeallocatingInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (vmScaleSetName == null)
+            {
+                throw new ArgumentNullException("vmScaleSetName");
+            }
+            if (vmInstanceIDs == null)
+            {
+                throw new ArgumentNullException("vmInstanceIDs");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "BeginDeallocatingInstancesAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + "Microsoft.Compute";
+            url = url + "/virtualMachineScaleSets/";
+            url = url + Uri.EscapeDataString(vmScaleSetName);
+            url = url + "/deallocate";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2015-06-15");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                JToken requestDoc = null;
+                
+                JObject virtualMachineScaleSetVMInstanceIDsJsonValue = new JObject();
+                requestDoc = virtualMachineScaleSetVMInstanceIDsJsonValue;
+                
+                if (vmInstanceIDs.InstanceIDs != null)
+                {
+                    if (vmInstanceIDs.InstanceIDs is ILazyCollection == false || ((ILazyCollection)vmInstanceIDs.InstanceIDs).IsInitialized)
+                    {
+                        JArray instanceIdsArray = new JArray();
+                        foreach (string instanceIdsItem in vmInstanceIDs.InstanceIDs)
+                        {
+                            instanceIdsArray.Add(instanceIdsItem);
+                        }
+                        virtualMachineScaleSetVMInstanceIDsJsonValue["instanceIds"] = instanceIdsArray;
+                    }
+                }
+                
+                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ComputeOperationResponse result = null;
+                    // Deserialize Response
+                    result = new ComputeOperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("Azure-AsyncOperation"))
+                    {
+                        result.AzureAsyncOperation = httpResponse.Headers.GetValues("Azure-AsyncOperation").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
         /// The operation to delete a virtual machine scale set.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -1946,6 +2128,188 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// The operation to delete virtual machines in a virtual machine scale
+        /// set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The compute long running operation response.
+        /// </returns>
+        public async Task<ComputeOperationResponse> BeginDeletingInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (vmScaleSetName == null)
+            {
+                throw new ArgumentNullException("vmScaleSetName");
+            }
+            if (vmInstanceIDs == null)
+            {
+                throw new ArgumentNullException("vmInstanceIDs");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "BeginDeletingInstancesAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + "Microsoft.Compute";
+            url = url + "/virtualMachineScaleSets/";
+            url = url + Uri.EscapeDataString(vmScaleSetName);
+            url = url + "/delete";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2015-06-15");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                JToken requestDoc = null;
+                
+                JObject virtualMachineScaleSetVMInstanceIDsJsonValue = new JObject();
+                requestDoc = virtualMachineScaleSetVMInstanceIDsJsonValue;
+                
+                if (vmInstanceIDs.InstanceIDs != null)
+                {
+                    if (vmInstanceIDs.InstanceIDs is ILazyCollection == false || ((ILazyCollection)vmInstanceIDs.InstanceIDs).IsInitialized)
+                    {
+                        JArray instanceIdsArray = new JArray();
+                        foreach (string instanceIdsItem in vmInstanceIDs.InstanceIDs)
+                        {
+                            instanceIdsArray.Add(instanceIdsItem);
+                        }
+                        virtualMachineScaleSetVMInstanceIDsJsonValue["instanceIds"] = instanceIdsArray;
+                    }
+                }
+                
+                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ComputeOperationResponse result = null;
+                    // Deserialize Response
+                    result = new ComputeOperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("Azure-AsyncOperation"))
+                    {
+                        result.AzureAsyncOperation = httpResponse.Headers.GetValues("Azure-AsyncOperation").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
         /// The operation to power off (stop) a virtual machine scale set.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -2050,6 +2414,188 @@ namespace Microsoft.Azure.Management.Compute
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ComputeOperationResponse result = null;
+                    // Deserialize Response
+                    result = new ComputeOperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("Azure-AsyncOperation"))
+                    {
+                        result.AzureAsyncOperation = httpResponse.Headers.GetValues("Azure-AsyncOperation").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The operation to power off (stop) virtual machines in a virtual
+        /// machine scale set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The compute long running operation response.
+        /// </returns>
+        public async Task<ComputeOperationResponse> BeginPoweringOffInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (vmScaleSetName == null)
+            {
+                throw new ArgumentNullException("vmScaleSetName");
+            }
+            if (vmInstanceIDs == null)
+            {
+                throw new ArgumentNullException("vmInstanceIDs");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "BeginPoweringOffInstancesAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + "Microsoft.Compute";
+            url = url + "/virtualMachineScaleSets/";
+            url = url + Uri.EscapeDataString(vmScaleSetName);
+            url = url + "/poweroff";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2015-06-15");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                JToken requestDoc = null;
+                
+                JObject virtualMachineScaleSetVMInstanceIDsJsonValue = new JObject();
+                requestDoc = virtualMachineScaleSetVMInstanceIDsJsonValue;
+                
+                if (vmInstanceIDs.InstanceIDs != null)
+                {
+                    if (vmInstanceIDs.InstanceIDs is ILazyCollection == false || ((ILazyCollection)vmInstanceIDs.InstanceIDs).IsInitialized)
+                    {
+                        JArray instanceIdsArray = new JArray();
+                        foreach (string instanceIdsItem in vmInstanceIDs.InstanceIDs)
+                        {
+                            instanceIdsArray.Add(instanceIdsItem);
+                        }
+                        virtualMachineScaleSetVMInstanceIDsJsonValue["instanceIds"] = instanceIdsArray;
+                    }
+                }
+                
+                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             TracingAdapter.Error(invocationId, ex);
@@ -2244,6 +2790,188 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// The operation to restart virtual machines in a virtual machine
+        /// scale set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The compute long running operation response.
+        /// </returns>
+        public async Task<ComputeOperationResponse> BeginRestartingInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (vmScaleSetName == null)
+            {
+                throw new ArgumentNullException("vmScaleSetName");
+            }
+            if (vmInstanceIDs == null)
+            {
+                throw new ArgumentNullException("vmInstanceIDs");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "BeginRestartingInstancesAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + "Microsoft.Compute";
+            url = url + "/virtualMachineScaleSets/";
+            url = url + Uri.EscapeDataString(vmScaleSetName);
+            url = url + "/restart";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2015-06-15");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                JToken requestDoc = null;
+                
+                JObject virtualMachineScaleSetVMInstanceIDsJsonValue = new JObject();
+                requestDoc = virtualMachineScaleSetVMInstanceIDsJsonValue;
+                
+                if (vmInstanceIDs.InstanceIDs != null)
+                {
+                    if (vmInstanceIDs.InstanceIDs is ILazyCollection == false || ((ILazyCollection)vmInstanceIDs.InstanceIDs).IsInitialized)
+                    {
+                        JArray instanceIdsArray = new JArray();
+                        foreach (string instanceIdsItem in vmInstanceIDs.InstanceIDs)
+                        {
+                            instanceIdsArray.Add(instanceIdsItem);
+                        }
+                        virtualMachineScaleSetVMInstanceIDsJsonValue["instanceIds"] = instanceIdsArray;
+                    }
+                }
+                
+                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ComputeOperationResponse result = null;
+                    // Deserialize Response
+                    result = new ComputeOperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("Azure-AsyncOperation"))
+                    {
+                        result.AzureAsyncOperation = httpResponse.Headers.GetValues("Azure-AsyncOperation").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
         /// The operation to start a virtual machine scale set.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -2348,6 +3076,188 @@ namespace Microsoft.Azure.Management.Compute
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ComputeOperationResponse result = null;
+                    // Deserialize Response
+                    result = new ComputeOperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("Azure-AsyncOperation"))
+                    {
+                        result.AzureAsyncOperation = httpResponse.Headers.GetValues("Azure-AsyncOperation").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The operation to start virtual machines in a virtual machine scale
+        /// set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The compute long running operation response.
+        /// </returns>
+        public async Task<ComputeOperationResponse> BeginStartingInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (vmScaleSetName == null)
+            {
+                throw new ArgumentNullException("vmScaleSetName");
+            }
+            if (vmInstanceIDs == null)
+            {
+                throw new ArgumentNullException("vmInstanceIDs");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "BeginStartingInstancesAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + "Microsoft.Compute";
+            url = url + "/virtualMachineScaleSets/";
+            url = url + Uri.EscapeDataString(vmScaleSetName);
+            url = url + "/start";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2015-06-15");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                JToken requestDoc = null;
+                
+                JObject virtualMachineScaleSetVMInstanceIDsJsonValue = new JObject();
+                requestDoc = virtualMachineScaleSetVMInstanceIDsJsonValue;
+                
+                if (vmInstanceIDs.InstanceIDs != null)
+                {
+                    if (vmInstanceIDs.InstanceIDs is ILazyCollection == false || ((ILazyCollection)vmInstanceIDs.InstanceIDs).IsInitialized)
+                    {
+                        JArray instanceIdsArray = new JArray();
+                        foreach (string instanceIdsItem in vmInstanceIDs.InstanceIDs)
+                        {
+                            instanceIdsArray.Add(instanceIdsItem);
+                        }
+                        virtualMachineScaleSetVMInstanceIDsJsonValue["instanceIds"] = instanceIdsArray;
+                    }
+                }
+                
+                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             TracingAdapter.Error(invocationId, ex);
@@ -2512,6 +3422,70 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// The operation to deallocate virtual machines in a virtual machine
+        /// scale set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Compute service response for long-running operations.
+        /// </returns>
+        public async Task<ComputeLongRunningOperationResponse> DeallocateInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "DeallocateInstancesAsync", tracingParameters);
+            }
+            
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeOperationResponse response = await client.VirtualMachineScaleSets.BeginDeallocatingInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeLongRunningOperationResponse result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+            int delayInSeconds = 30;
+            if (client.LongRunningOperationInitialTimeout >= 0)
+            {
+                delayInSeconds = client.LongRunningOperationInitialTimeout;
+            }
+            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+                delayInSeconds = 30;
+                if (client.LongRunningOperationRetryTimeout >= 0)
+                {
+                    delayInSeconds = client.LongRunningOperationRetryTimeout;
+                }
+            }
+            
+            if (shouldTrace)
+            {
+                TracingAdapter.Exit(invocationId, result);
+            }
+            
+            return result;
+        }
+        
+        /// <summary>
         /// The operation to delete a virtual machine scale set.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -2559,6 +3533,70 @@ namespace Microsoft.Azure.Management.Compute
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
                 result = await client.GetDeleteOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+                delayInSeconds = 30;
+                if (client.LongRunningOperationRetryTimeout >= 0)
+                {
+                    delayInSeconds = client.LongRunningOperationRetryTimeout;
+                }
+            }
+            
+            if (shouldTrace)
+            {
+                TracingAdapter.Exit(invocationId, result);
+            }
+            
+            return result;
+        }
+        
+        /// <summary>
+        /// The operation to delete virtual machines in a virtual machine scale
+        /// set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Compute service response for long-running operations.
+        /// </returns>
+        public async Task<ComputeLongRunningOperationResponse> DeleteInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "DeleteInstancesAsync", tracingParameters);
+            }
+            
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeOperationResponse response = await client.VirtualMachineScaleSets.BeginDeletingInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeLongRunningOperationResponse result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+            int delayInSeconds = 30;
+            if (client.LongRunningOperationInitialTimeout >= 0)
+            {
+                delayInSeconds = client.LongRunningOperationInitialTimeout;
+            }
+            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
                 delayInSeconds = 30;
                 if (client.LongRunningOperationRetryTimeout >= 0)
                 {
@@ -2741,11 +3779,11 @@ namespace Microsoft.Azure.Management.Compute
                                     UpgradePolicy upgradePolicyInstance = new UpgradePolicy();
                                     virtualMachineScaleSetInstance.UpgradePolicy = upgradePolicyInstance;
                                     
-                                    JToken upgradeModeValue = upgradePolicyValue["upgradeMode"];
-                                    if (upgradeModeValue != null && upgradeModeValue.Type != JTokenType.Null)
+                                    JToken modeValue = upgradePolicyValue["mode"];
+                                    if (modeValue != null && modeValue.Type != JTokenType.Null)
                                     {
-                                        string upgradeModeInstance = ((string)upgradeModeValue);
-                                        upgradePolicyInstance.UpgradeMode = upgradeModeInstance;
+                                        string modeInstance = ((string)modeValue);
+                                        upgradePolicyInstance.Mode = modeInstance;
                                     }
                                 }
                                 
@@ -3080,6 +4118,93 @@ namespace Microsoft.Azure.Management.Compute
                                         }
                                     }
                                     
+                                    JToken networkProfileValue = virtualMachineProfileValue["networkProfile"];
+                                    if (networkProfileValue != null && networkProfileValue.Type != JTokenType.Null)
+                                    {
+                                        VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
+                                        virtualMachineProfileInstance.NetworkProfile = networkProfileInstance;
+                                        
+                                        JToken networkInterfaceConfigurationsArray = networkProfileValue["networkInterfaceConfigurations"];
+                                        if (networkInterfaceConfigurationsArray != null && networkInterfaceConfigurationsArray.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken networkInterfaceConfigurationsValue in ((JArray)networkInterfaceConfigurationsArray))
+                                            {
+                                                VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
+                                                networkProfileInstance.NetworkInterfaceConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
+                                                
+                                                JToken nameValue3 = networkInterfaceConfigurationsValue["name"];
+                                                if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                {
+                                                    string nameInstance3 = ((string)nameValue3);
+                                                    virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance3;
+                                                }
+                                                
+                                                JToken propertiesValue2 = networkInterfaceConfigurationsValue["properties"];
+                                                if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                                                {
+                                                    JToken primaryValue = propertiesValue2["primary"];
+                                                    if (primaryValue != null && primaryValue.Type != JTokenType.Null)
+                                                    {
+                                                        bool primaryInstance = ((bool)primaryValue);
+                                                        virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
+                                                    }
+                                                    
+                                                    JToken ipConfigurationsArray = propertiesValue2["ipConfigurations"];
+                                                    if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
+                                                    {
+                                                        foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray))
+                                                        {
+                                                            VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
+                                                            virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
+                                                            
+                                                            JToken nameValue4 = ipConfigurationsValue["name"];
+                                                            if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                                            {
+                                                                string nameInstance4 = ((string)nameValue4);
+                                                                virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance4;
+                                                            }
+                                                            
+                                                            JToken propertiesValue3 = ipConfigurationsValue["properties"];
+                                                            if (propertiesValue3 != null && propertiesValue3.Type != JTokenType.Null)
+                                                            {
+                                                                JToken subnetValue = propertiesValue3["subnet"];
+                                                                if (subnetValue != null && subnetValue.Type != JTokenType.Null)
+                                                                {
+                                                                    ApiEntityReference subnetInstance = new ApiEntityReference();
+                                                                    virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
+                                                                    
+                                                                    JToken idValue2 = subnetValue["id"];
+                                                                    if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                                    {
+                                                                        string idInstance2 = ((string)idValue2);
+                                                                        subnetInstance.ReferenceUri = idInstance2;
+                                                                    }
+                                                                }
+                                                                
+                                                                JToken loadBalancerBackendAddressPoolsArray = propertiesValue3["loadBalancerBackendAddressPools"];
+                                                                if (loadBalancerBackendAddressPoolsArray != null && loadBalancerBackendAddressPoolsArray.Type != JTokenType.Null)
+                                                                {
+                                                                    foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray))
+                                                                    {
+                                                                        VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
+                                                                        virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
+                                                                        
+                                                                        JToken idValue3 = loadBalancerBackendAddressPoolsValue["id"];
+                                                                        if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                                                        {
+                                                                            string idInstance3 = ((string)idValue3);
+                                                                            virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance3;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
                                     JToken extensionsArray = virtualMachineProfileValue["extensions"];
                                     if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
                                     {
@@ -3089,69 +4214,69 @@ namespace Microsoft.Azure.Management.Compute
                                             VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
                                             virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
                                             
-                                            JToken propertiesValue2 = extensionsValue["properties"];
-                                            if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                                            JToken propertiesValue4 = extensionsValue["properties"];
+                                            if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
                                             {
-                                                JToken publisherValue2 = propertiesValue2["publisher"];
+                                                JToken publisherValue2 = propertiesValue4["publisher"];
                                                 if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                 {
                                                     string publisherInstance2 = ((string)publisherValue2);
                                                     virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
                                                 }
                                                 
-                                                JToken typeValue = propertiesValue2["type"];
+                                                JToken typeValue = propertiesValue4["type"];
                                                 if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                 {
                                                     string typeInstance = ((string)typeValue);
                                                     virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
                                                 }
                                                 
-                                                JToken typeHandlerVersionValue = propertiesValue2["typeHandlerVersion"];
+                                                JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
                                                 if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                 {
                                                     string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
                                                     virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                 }
                                                 
-                                                JToken autoUpgradeMinorVersionValue = propertiesValue2["autoUpgradeMinorVersion"];
+                                                JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
                                                 if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                 {
                                                     bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
                                                     virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                 }
                                                 
-                                                JToken settingsValue = propertiesValue2["settings"];
+                                                JToken settingsValue = propertiesValue4["settings"];
                                                 if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                 {
                                                     string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                     virtualMachineExtensionJsonInstance.Settings = settingsInstance;
                                                 }
                                                 
-                                                JToken protectedSettingsValue = propertiesValue2["protectedSettings"];
+                                                JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
                                                 if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
                                                 {
                                                     string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                     virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
                                                 }
                                                 
-                                                JToken provisioningStateValue = propertiesValue2["provisioningState"];
+                                                JToken provisioningStateValue = propertiesValue4["provisioningState"];
                                                 if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
                                                 {
                                                     string provisioningStateInstance = ((string)provisioningStateValue);
                                                     virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                 }
                                                 
-                                                JToken instanceViewValue = propertiesValue2["instanceView"];
+                                                JToken instanceViewValue = propertiesValue4["instanceView"];
                                                 if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
                                                 {
                                                     VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
                                                     virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
                                                     
-                                                    JToken nameValue3 = instanceViewValue["name"];
-                                                    if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                    JToken nameValue5 = instanceViewValue["name"];
+                                                    if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
                                                     {
-                                                        string nameInstance3 = ((string)nameValue3);
-                                                        instanceViewInstance.Name = nameInstance3;
+                                                        string nameInstance5 = ((string)nameValue5);
+                                                        instanceViewInstance.Name = nameInstance5;
                                                     }
                                                     
                                                     JToken typeValue2 = instanceViewValue["type"];
@@ -3260,18 +4385,18 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                             
-                                            JToken idValue2 = extensionsValue["id"];
-                                            if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                            JToken idValue4 = extensionsValue["id"];
+                                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                             {
-                                                string idInstance2 = ((string)idValue2);
-                                                virtualMachineExtensionJsonInstance.Id = idInstance2;
+                                                string idInstance4 = ((string)idValue4);
+                                                virtualMachineExtensionJsonInstance.Id = idInstance4;
                                             }
                                             
-                                            JToken nameValue4 = extensionsValue["name"];
-                                            if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                            JToken nameValue6 = extensionsValue["name"];
+                                            if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                             {
-                                                string nameInstance4 = ((string)nameValue4);
-                                                virtualMachineExtensionJsonInstance.Name = nameInstance4;
+                                                string nameInstance6 = ((string)nameValue6);
+                                                virtualMachineExtensionJsonInstance.Name = nameInstance6;
                                             }
                                             
                                             JToken typeValue3 = extensionsValue["type"];
@@ -3296,93 +4421,6 @@ namespace Microsoft.Azure.Management.Compute
                                                     string tagsKey = ((string)property.Name);
                                                     string tagsValue = ((string)property.Value);
                                                     virtualMachineExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                JToken networkProfileValue = propertiesValue["networkProfile"];
-                                if (networkProfileValue != null && networkProfileValue.Type != JTokenType.Null)
-                                {
-                                    VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
-                                    virtualMachineScaleSetInstance.NetworkProfile = networkProfileInstance;
-                                    
-                                    JToken networkConfigurationsArray = networkProfileValue["networkConfigurations"];
-                                    if (networkConfigurationsArray != null && networkConfigurationsArray.Type != JTokenType.Null)
-                                    {
-                                        foreach (JToken networkConfigurationsValue in ((JArray)networkConfigurationsArray))
-                                        {
-                                            VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
-                                            networkProfileInstance.NetworkConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
-                                            
-                                            JToken nameValue5 = networkConfigurationsValue["name"];
-                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
-                                            {
-                                                string nameInstance5 = ((string)nameValue5);
-                                                virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance5;
-                                            }
-                                            
-                                            JToken propertiesValue3 = networkConfigurationsValue["properties"];
-                                            if (propertiesValue3 != null && propertiesValue3.Type != JTokenType.Null)
-                                            {
-                                                JToken primaryValue = propertiesValue3["primary"];
-                                                if (primaryValue != null && primaryValue.Type != JTokenType.Null)
-                                                {
-                                                    bool primaryInstance = ((bool)primaryValue);
-                                                    virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
-                                                }
-                                                
-                                                JToken ipConfigurationsArray = propertiesValue3["ipConfigurations"];
-                                                if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
-                                                {
-                                                    foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray))
-                                                    {
-                                                        VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
-                                                        virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
-                                                        
-                                                        JToken nameValue6 = ipConfigurationsValue["name"];
-                                                        if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                                        {
-                                                            string nameInstance6 = ((string)nameValue6);
-                                                            virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance6;
-                                                        }
-                                                        
-                                                        JToken propertiesValue4 = ipConfigurationsValue["properties"];
-                                                        if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
-                                                        {
-                                                            JToken subnetValue = propertiesValue4["subnet"];
-                                                            if (subnetValue != null && subnetValue.Type != JTokenType.Null)
-                                                            {
-                                                                ApiEntityReference subnetInstance = new ApiEntityReference();
-                                                                virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
-                                                                
-                                                                JToken idValue3 = subnetValue["id"];
-                                                                if (idValue3 != null && idValue3.Type != JTokenType.Null)
-                                                                {
-                                                                    string idInstance3 = ((string)idValue3);
-                                                                    subnetInstance.ReferenceUri = idInstance3;
-                                                                }
-                                                            }
-                                                            
-                                                            JToken loadBalancerBackendAddressPoolsArray = propertiesValue4["loadBalancerBackendAddressPools"];
-                                                            if (loadBalancerBackendAddressPoolsArray != null && loadBalancerBackendAddressPoolsArray.Type != JTokenType.Null)
-                                                            {
-                                                                foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray))
-                                                                {
-                                                                    VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
-                                                                    virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
-                                                                    
-                                                                    JToken idValue4 = loadBalancerBackendAddressPoolsValue["id"];
-                                                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                                                    {
-                                                                        string idInstance4 = ((string)idValue4);
-                                                                        virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance4;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
                                                 }
                                             }
                                         }
@@ -3631,11 +4669,11 @@ namespace Microsoft.Azure.Management.Compute
                                             UpgradePolicy upgradePolicyInstance = new UpgradePolicy();
                                             virtualMachineScaleSetJsonInstance.UpgradePolicy = upgradePolicyInstance;
                                             
-                                            JToken upgradeModeValue = upgradePolicyValue["upgradeMode"];
-                                            if (upgradeModeValue != null && upgradeModeValue.Type != JTokenType.Null)
+                                            JToken modeValue = upgradePolicyValue["mode"];
+                                            if (modeValue != null && modeValue.Type != JTokenType.Null)
                                             {
-                                                string upgradeModeInstance = ((string)upgradeModeValue);
-                                                upgradePolicyInstance.UpgradeMode = upgradeModeInstance;
+                                                string modeInstance = ((string)modeValue);
+                                                upgradePolicyInstance.Mode = modeInstance;
                                             }
                                         }
                                         
@@ -3970,6 +5008,93 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                             
+                                            JToken networkProfileValue = virtualMachineProfileValue["networkProfile"];
+                                            if (networkProfileValue != null && networkProfileValue.Type != JTokenType.Null)
+                                            {
+                                                VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
+                                                virtualMachineProfileInstance.NetworkProfile = networkProfileInstance;
+                                                
+                                                JToken networkInterfaceConfigurationsArray = networkProfileValue["networkInterfaceConfigurations"];
+                                                if (networkInterfaceConfigurationsArray != null && networkInterfaceConfigurationsArray.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JToken networkInterfaceConfigurationsValue in ((JArray)networkInterfaceConfigurationsArray))
+                                                    {
+                                                        VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
+                                                        networkProfileInstance.NetworkInterfaceConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
+                                                        
+                                                        JToken nameValue3 = networkInterfaceConfigurationsValue["name"];
+                                                        if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                        {
+                                                            string nameInstance3 = ((string)nameValue3);
+                                                            virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance3;
+                                                        }
+                                                        
+                                                        JToken propertiesValue2 = networkInterfaceConfigurationsValue["properties"];
+                                                        if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                                                        {
+                                                            JToken primaryValue = propertiesValue2["primary"];
+                                                            if (primaryValue != null && primaryValue.Type != JTokenType.Null)
+                                                            {
+                                                                bool primaryInstance = ((bool)primaryValue);
+                                                                virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
+                                                            }
+                                                            
+                                                            JToken ipConfigurationsArray = propertiesValue2["ipConfigurations"];
+                                                            if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
+                                                            {
+                                                                foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray))
+                                                                {
+                                                                    VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
+                                                                    virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
+                                                                    
+                                                                    JToken nameValue4 = ipConfigurationsValue["name"];
+                                                                    if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                                                    {
+                                                                        string nameInstance4 = ((string)nameValue4);
+                                                                        virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance4;
+                                                                    }
+                                                                    
+                                                                    JToken propertiesValue3 = ipConfigurationsValue["properties"];
+                                                                    if (propertiesValue3 != null && propertiesValue3.Type != JTokenType.Null)
+                                                                    {
+                                                                        JToken subnetValue = propertiesValue3["subnet"];
+                                                                        if (subnetValue != null && subnetValue.Type != JTokenType.Null)
+                                                                        {
+                                                                            ApiEntityReference subnetInstance = new ApiEntityReference();
+                                                                            virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
+                                                                            
+                                                                            JToken idValue2 = subnetValue["id"];
+                                                                            if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                                            {
+                                                                                string idInstance2 = ((string)idValue2);
+                                                                                subnetInstance.ReferenceUri = idInstance2;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        JToken loadBalancerBackendAddressPoolsArray = propertiesValue3["loadBalancerBackendAddressPools"];
+                                                                        if (loadBalancerBackendAddressPoolsArray != null && loadBalancerBackendAddressPoolsArray.Type != JTokenType.Null)
+                                                                        {
+                                                                            foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray))
+                                                                            {
+                                                                                VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
+                                                                                virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
+                                                                                
+                                                                                JToken idValue3 = loadBalancerBackendAddressPoolsValue["id"];
+                                                                                if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                                                                {
+                                                                                    string idInstance3 = ((string)idValue3);
+                                                                                    virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance3;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
                                             JToken extensionsArray = virtualMachineProfileValue["extensions"];
                                             if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
                                             {
@@ -3979,69 +5104,69 @@ namespace Microsoft.Azure.Management.Compute
                                                     VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
                                                     virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
                                                     
-                                                    JToken propertiesValue2 = extensionsValue["properties"];
-                                                    if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                                                    JToken propertiesValue4 = extensionsValue["properties"];
+                                                    if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
                                                     {
-                                                        JToken publisherValue2 = propertiesValue2["publisher"];
+                                                        JToken publisherValue2 = propertiesValue4["publisher"];
                                                         if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                         {
                                                             string publisherInstance2 = ((string)publisherValue2);
                                                             virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
                                                         }
                                                         
-                                                        JToken typeValue = propertiesValue2["type"];
+                                                        JToken typeValue = propertiesValue4["type"];
                                                         if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                         {
                                                             string typeInstance = ((string)typeValue);
                                                             virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
                                                         }
                                                         
-                                                        JToken typeHandlerVersionValue = propertiesValue2["typeHandlerVersion"];
+                                                        JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
                                                         if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                         {
                                                             string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
                                                             virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                         }
                                                         
-                                                        JToken autoUpgradeMinorVersionValue = propertiesValue2["autoUpgradeMinorVersion"];
+                                                        JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
                                                         if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                         {
                                                             bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
                                                             virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                         }
                                                         
-                                                        JToken settingsValue = propertiesValue2["settings"];
+                                                        JToken settingsValue = propertiesValue4["settings"];
                                                         if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                         {
                                                             string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                             virtualMachineExtensionJsonInstance.Settings = settingsInstance;
                                                         }
                                                         
-                                                        JToken protectedSettingsValue = propertiesValue2["protectedSettings"];
+                                                        JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
                                                         if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
                                                         {
                                                             string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                             virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
                                                         }
                                                         
-                                                        JToken provisioningStateValue = propertiesValue2["provisioningState"];
+                                                        JToken provisioningStateValue = propertiesValue4["provisioningState"];
                                                         if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
                                                         {
                                                             string provisioningStateInstance = ((string)provisioningStateValue);
                                                             virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                         }
                                                         
-                                                        JToken instanceViewValue = propertiesValue2["instanceView"];
+                                                        JToken instanceViewValue = propertiesValue4["instanceView"];
                                                         if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
                                                         {
                                                             VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
                                                             virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
                                                             
-                                                            JToken nameValue3 = instanceViewValue["name"];
-                                                            if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                            JToken nameValue5 = instanceViewValue["name"];
+                                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
                                                             {
-                                                                string nameInstance3 = ((string)nameValue3);
-                                                                instanceViewInstance.Name = nameInstance3;
+                                                                string nameInstance5 = ((string)nameValue5);
+                                                                instanceViewInstance.Name = nameInstance5;
                                                             }
                                                             
                                                             JToken typeValue2 = instanceViewValue["type"];
@@ -4150,18 +5275,18 @@ namespace Microsoft.Azure.Management.Compute
                                                         }
                                                     }
                                                     
-                                                    JToken idValue2 = extensionsValue["id"];
-                                                    if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                    JToken idValue4 = extensionsValue["id"];
+                                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                     {
-                                                        string idInstance2 = ((string)idValue2);
-                                                        virtualMachineExtensionJsonInstance.Id = idInstance2;
+                                                        string idInstance4 = ((string)idValue4);
+                                                        virtualMachineExtensionJsonInstance.Id = idInstance4;
                                                     }
                                                     
-                                                    JToken nameValue4 = extensionsValue["name"];
-                                                    if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                                    JToken nameValue6 = extensionsValue["name"];
+                                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                                     {
-                                                        string nameInstance4 = ((string)nameValue4);
-                                                        virtualMachineExtensionJsonInstance.Name = nameInstance4;
+                                                        string nameInstance6 = ((string)nameValue6);
+                                                        virtualMachineExtensionJsonInstance.Name = nameInstance6;
                                                     }
                                                     
                                                     JToken typeValue3 = extensionsValue["type"];
@@ -4186,93 +5311,6 @@ namespace Microsoft.Azure.Management.Compute
                                                             string tagsKey = ((string)property.Name);
                                                             string tagsValue = ((string)property.Value);
                                                             virtualMachineExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        
-                                        JToken networkProfileValue = propertiesValue["networkProfile"];
-                                        if (networkProfileValue != null && networkProfileValue.Type != JTokenType.Null)
-                                        {
-                                            VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
-                                            virtualMachineScaleSetJsonInstance.NetworkProfile = networkProfileInstance;
-                                            
-                                            JToken networkConfigurationsArray = networkProfileValue["networkConfigurations"];
-                                            if (networkConfigurationsArray != null && networkConfigurationsArray.Type != JTokenType.Null)
-                                            {
-                                                foreach (JToken networkConfigurationsValue in ((JArray)networkConfigurationsArray))
-                                                {
-                                                    VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
-                                                    networkProfileInstance.NetworkConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
-                                                    
-                                                    JToken nameValue5 = networkConfigurationsValue["name"];
-                                                    if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
-                                                    {
-                                                        string nameInstance5 = ((string)nameValue5);
-                                                        virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance5;
-                                                    }
-                                                    
-                                                    JToken propertiesValue3 = networkConfigurationsValue["properties"];
-                                                    if (propertiesValue3 != null && propertiesValue3.Type != JTokenType.Null)
-                                                    {
-                                                        JToken primaryValue = propertiesValue3["primary"];
-                                                        if (primaryValue != null && primaryValue.Type != JTokenType.Null)
-                                                        {
-                                                            bool primaryInstance = ((bool)primaryValue);
-                                                            virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
-                                                        }
-                                                        
-                                                        JToken ipConfigurationsArray = propertiesValue3["ipConfigurations"];
-                                                        if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
-                                                        {
-                                                            foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray))
-                                                            {
-                                                                VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
-                                                                virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
-                                                                
-                                                                JToken nameValue6 = ipConfigurationsValue["name"];
-                                                                if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                                                {
-                                                                    string nameInstance6 = ((string)nameValue6);
-                                                                    virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance6;
-                                                                }
-                                                                
-                                                                JToken propertiesValue4 = ipConfigurationsValue["properties"];
-                                                                if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
-                                                                {
-                                                                    JToken subnetValue = propertiesValue4["subnet"];
-                                                                    if (subnetValue != null && subnetValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        ApiEntityReference subnetInstance = new ApiEntityReference();
-                                                                        virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
-                                                                        
-                                                                        JToken idValue3 = subnetValue["id"];
-                                                                        if (idValue3 != null && idValue3.Type != JTokenType.Null)
-                                                                        {
-                                                                            string idInstance3 = ((string)idValue3);
-                                                                            subnetInstance.ReferenceUri = idInstance3;
-                                                                        }
-                                                                    }
-                                                                    
-                                                                    JToken loadBalancerBackendAddressPoolsArray = propertiesValue4["loadBalancerBackendAddressPools"];
-                                                                    if (loadBalancerBackendAddressPoolsArray != null && loadBalancerBackendAddressPoolsArray.Type != JTokenType.Null)
-                                                                    {
-                                                                        foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray))
-                                                                        {
-                                                                            VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
-                                                                            virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
-                                                                            
-                                                                            JToken idValue4 = loadBalancerBackendAddressPoolsValue["id"];
-                                                                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                                                            {
-                                                                                string idInstance4 = ((string)idValue4);
-                                                                                virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance4;
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
                                                         }
                                                     }
                                                 }
@@ -4526,11 +5564,11 @@ namespace Microsoft.Azure.Management.Compute
                                             UpgradePolicy upgradePolicyInstance = new UpgradePolicy();
                                             virtualMachineScaleSetJsonInstance.UpgradePolicy = upgradePolicyInstance;
                                             
-                                            JToken upgradeModeValue = upgradePolicyValue["upgradeMode"];
-                                            if (upgradeModeValue != null && upgradeModeValue.Type != JTokenType.Null)
+                                            JToken modeValue = upgradePolicyValue["mode"];
+                                            if (modeValue != null && modeValue.Type != JTokenType.Null)
                                             {
-                                                string upgradeModeInstance = ((string)upgradeModeValue);
-                                                upgradePolicyInstance.UpgradeMode = upgradeModeInstance;
+                                                string modeInstance = ((string)modeValue);
+                                                upgradePolicyInstance.Mode = modeInstance;
                                             }
                                         }
                                         
@@ -4865,6 +5903,93 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                             
+                                            JToken networkProfileValue = virtualMachineProfileValue["networkProfile"];
+                                            if (networkProfileValue != null && networkProfileValue.Type != JTokenType.Null)
+                                            {
+                                                VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
+                                                virtualMachineProfileInstance.NetworkProfile = networkProfileInstance;
+                                                
+                                                JToken networkInterfaceConfigurationsArray = networkProfileValue["networkInterfaceConfigurations"];
+                                                if (networkInterfaceConfigurationsArray != null && networkInterfaceConfigurationsArray.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JToken networkInterfaceConfigurationsValue in ((JArray)networkInterfaceConfigurationsArray))
+                                                    {
+                                                        VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
+                                                        networkProfileInstance.NetworkInterfaceConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
+                                                        
+                                                        JToken nameValue3 = networkInterfaceConfigurationsValue["name"];
+                                                        if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                        {
+                                                            string nameInstance3 = ((string)nameValue3);
+                                                            virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance3;
+                                                        }
+                                                        
+                                                        JToken propertiesValue2 = networkInterfaceConfigurationsValue["properties"];
+                                                        if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                                                        {
+                                                            JToken primaryValue = propertiesValue2["primary"];
+                                                            if (primaryValue != null && primaryValue.Type != JTokenType.Null)
+                                                            {
+                                                                bool primaryInstance = ((bool)primaryValue);
+                                                                virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
+                                                            }
+                                                            
+                                                            JToken ipConfigurationsArray = propertiesValue2["ipConfigurations"];
+                                                            if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
+                                                            {
+                                                                foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray))
+                                                                {
+                                                                    VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
+                                                                    virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
+                                                                    
+                                                                    JToken nameValue4 = ipConfigurationsValue["name"];
+                                                                    if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                                                    {
+                                                                        string nameInstance4 = ((string)nameValue4);
+                                                                        virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance4;
+                                                                    }
+                                                                    
+                                                                    JToken propertiesValue3 = ipConfigurationsValue["properties"];
+                                                                    if (propertiesValue3 != null && propertiesValue3.Type != JTokenType.Null)
+                                                                    {
+                                                                        JToken subnetValue = propertiesValue3["subnet"];
+                                                                        if (subnetValue != null && subnetValue.Type != JTokenType.Null)
+                                                                        {
+                                                                            ApiEntityReference subnetInstance = new ApiEntityReference();
+                                                                            virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
+                                                                            
+                                                                            JToken idValue2 = subnetValue["id"];
+                                                                            if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                                            {
+                                                                                string idInstance2 = ((string)idValue2);
+                                                                                subnetInstance.ReferenceUri = idInstance2;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        JToken loadBalancerBackendAddressPoolsArray = propertiesValue3["loadBalancerBackendAddressPools"];
+                                                                        if (loadBalancerBackendAddressPoolsArray != null && loadBalancerBackendAddressPoolsArray.Type != JTokenType.Null)
+                                                                        {
+                                                                            foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray))
+                                                                            {
+                                                                                VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
+                                                                                virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
+                                                                                
+                                                                                JToken idValue3 = loadBalancerBackendAddressPoolsValue["id"];
+                                                                                if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                                                                {
+                                                                                    string idInstance3 = ((string)idValue3);
+                                                                                    virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance3;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
                                             JToken extensionsArray = virtualMachineProfileValue["extensions"];
                                             if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
                                             {
@@ -4874,69 +5999,69 @@ namespace Microsoft.Azure.Management.Compute
                                                     VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
                                                     virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
                                                     
-                                                    JToken propertiesValue2 = extensionsValue["properties"];
-                                                    if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                                                    JToken propertiesValue4 = extensionsValue["properties"];
+                                                    if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
                                                     {
-                                                        JToken publisherValue2 = propertiesValue2["publisher"];
+                                                        JToken publisherValue2 = propertiesValue4["publisher"];
                                                         if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                         {
                                                             string publisherInstance2 = ((string)publisherValue2);
                                                             virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
                                                         }
                                                         
-                                                        JToken typeValue = propertiesValue2["type"];
+                                                        JToken typeValue = propertiesValue4["type"];
                                                         if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                         {
                                                             string typeInstance = ((string)typeValue);
                                                             virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
                                                         }
                                                         
-                                                        JToken typeHandlerVersionValue = propertiesValue2["typeHandlerVersion"];
+                                                        JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
                                                         if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                         {
                                                             string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
                                                             virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                         }
                                                         
-                                                        JToken autoUpgradeMinorVersionValue = propertiesValue2["autoUpgradeMinorVersion"];
+                                                        JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
                                                         if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                         {
                                                             bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
                                                             virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                         }
                                                         
-                                                        JToken settingsValue = propertiesValue2["settings"];
+                                                        JToken settingsValue = propertiesValue4["settings"];
                                                         if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                         {
                                                             string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                             virtualMachineExtensionJsonInstance.Settings = settingsInstance;
                                                         }
                                                         
-                                                        JToken protectedSettingsValue = propertiesValue2["protectedSettings"];
+                                                        JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
                                                         if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
                                                         {
                                                             string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                             virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
                                                         }
                                                         
-                                                        JToken provisioningStateValue = propertiesValue2["provisioningState"];
+                                                        JToken provisioningStateValue = propertiesValue4["provisioningState"];
                                                         if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
                                                         {
                                                             string provisioningStateInstance = ((string)provisioningStateValue);
                                                             virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                         }
                                                         
-                                                        JToken instanceViewValue = propertiesValue2["instanceView"];
+                                                        JToken instanceViewValue = propertiesValue4["instanceView"];
                                                         if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
                                                         {
                                                             VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
                                                             virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
                                                             
-                                                            JToken nameValue3 = instanceViewValue["name"];
-                                                            if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                            JToken nameValue5 = instanceViewValue["name"];
+                                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
                                                             {
-                                                                string nameInstance3 = ((string)nameValue3);
-                                                                instanceViewInstance.Name = nameInstance3;
+                                                                string nameInstance5 = ((string)nameValue5);
+                                                                instanceViewInstance.Name = nameInstance5;
                                                             }
                                                             
                                                             JToken typeValue2 = instanceViewValue["type"];
@@ -5045,18 +6170,18 @@ namespace Microsoft.Azure.Management.Compute
                                                         }
                                                     }
                                                     
-                                                    JToken idValue2 = extensionsValue["id"];
-                                                    if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                    JToken idValue4 = extensionsValue["id"];
+                                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                     {
-                                                        string idInstance2 = ((string)idValue2);
-                                                        virtualMachineExtensionJsonInstance.Id = idInstance2;
+                                                        string idInstance4 = ((string)idValue4);
+                                                        virtualMachineExtensionJsonInstance.Id = idInstance4;
                                                     }
                                                     
-                                                    JToken nameValue4 = extensionsValue["name"];
-                                                    if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                                    JToken nameValue6 = extensionsValue["name"];
+                                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                                     {
-                                                        string nameInstance4 = ((string)nameValue4);
-                                                        virtualMachineExtensionJsonInstance.Name = nameInstance4;
+                                                        string nameInstance6 = ((string)nameValue6);
+                                                        virtualMachineExtensionJsonInstance.Name = nameInstance6;
                                                     }
                                                     
                                                     JToken typeValue3 = extensionsValue["type"];
@@ -5081,93 +6206,6 @@ namespace Microsoft.Azure.Management.Compute
                                                             string tagsKey = ((string)property.Name);
                                                             string tagsValue = ((string)property.Value);
                                                             virtualMachineExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        
-                                        JToken networkProfileValue = propertiesValue["networkProfile"];
-                                        if (networkProfileValue != null && networkProfileValue.Type != JTokenType.Null)
-                                        {
-                                            VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
-                                            virtualMachineScaleSetJsonInstance.NetworkProfile = networkProfileInstance;
-                                            
-                                            JToken networkConfigurationsArray = networkProfileValue["networkConfigurations"];
-                                            if (networkConfigurationsArray != null && networkConfigurationsArray.Type != JTokenType.Null)
-                                            {
-                                                foreach (JToken networkConfigurationsValue in ((JArray)networkConfigurationsArray))
-                                                {
-                                                    VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
-                                                    networkProfileInstance.NetworkConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
-                                                    
-                                                    JToken nameValue5 = networkConfigurationsValue["name"];
-                                                    if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
-                                                    {
-                                                        string nameInstance5 = ((string)nameValue5);
-                                                        virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance5;
-                                                    }
-                                                    
-                                                    JToken propertiesValue3 = networkConfigurationsValue["properties"];
-                                                    if (propertiesValue3 != null && propertiesValue3.Type != JTokenType.Null)
-                                                    {
-                                                        JToken primaryValue = propertiesValue3["primary"];
-                                                        if (primaryValue != null && primaryValue.Type != JTokenType.Null)
-                                                        {
-                                                            bool primaryInstance = ((bool)primaryValue);
-                                                            virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
-                                                        }
-                                                        
-                                                        JToken ipConfigurationsArray = propertiesValue3["ipConfigurations"];
-                                                        if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
-                                                        {
-                                                            foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray))
-                                                            {
-                                                                VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
-                                                                virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
-                                                                
-                                                                JToken nameValue6 = ipConfigurationsValue["name"];
-                                                                if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                                                {
-                                                                    string nameInstance6 = ((string)nameValue6);
-                                                                    virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance6;
-                                                                }
-                                                                
-                                                                JToken propertiesValue4 = ipConfigurationsValue["properties"];
-                                                                if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
-                                                                {
-                                                                    JToken subnetValue = propertiesValue4["subnet"];
-                                                                    if (subnetValue != null && subnetValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        ApiEntityReference subnetInstance = new ApiEntityReference();
-                                                                        virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
-                                                                        
-                                                                        JToken idValue3 = subnetValue["id"];
-                                                                        if (idValue3 != null && idValue3.Type != JTokenType.Null)
-                                                                        {
-                                                                            string idInstance3 = ((string)idValue3);
-                                                                            subnetInstance.ReferenceUri = idInstance3;
-                                                                        }
-                                                                    }
-                                                                    
-                                                                    JToken loadBalancerBackendAddressPoolsArray = propertiesValue4["loadBalancerBackendAddressPools"];
-                                                                    if (loadBalancerBackendAddressPoolsArray != null && loadBalancerBackendAddressPoolsArray.Type != JTokenType.Null)
-                                                                    {
-                                                                        foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray))
-                                                                        {
-                                                                            VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
-                                                                            virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
-                                                                            
-                                                                            JToken idValue4 = loadBalancerBackendAddressPoolsValue["id"];
-                                                                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                                                            {
-                                                                                string idInstance4 = ((string)idValue4);
-                                                                                virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance4;
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
                                                         }
                                                     }
                                                 }
@@ -5401,11 +6439,11 @@ namespace Microsoft.Azure.Management.Compute
                                             UpgradePolicy upgradePolicyInstance = new UpgradePolicy();
                                             virtualMachineScaleSetJsonInstance.UpgradePolicy = upgradePolicyInstance;
                                             
-                                            JToken upgradeModeValue = upgradePolicyValue["upgradeMode"];
-                                            if (upgradeModeValue != null && upgradeModeValue.Type != JTokenType.Null)
+                                            JToken modeValue = upgradePolicyValue["mode"];
+                                            if (modeValue != null && modeValue.Type != JTokenType.Null)
                                             {
-                                                string upgradeModeInstance = ((string)upgradeModeValue);
-                                                upgradePolicyInstance.UpgradeMode = upgradeModeInstance;
+                                                string modeInstance = ((string)modeValue);
+                                                upgradePolicyInstance.Mode = modeInstance;
                                             }
                                         }
                                         
@@ -5740,6 +6778,93 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                             
+                                            JToken networkProfileValue = virtualMachineProfileValue["networkProfile"];
+                                            if (networkProfileValue != null && networkProfileValue.Type != JTokenType.Null)
+                                            {
+                                                VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
+                                                virtualMachineProfileInstance.NetworkProfile = networkProfileInstance;
+                                                
+                                                JToken networkInterfaceConfigurationsArray = networkProfileValue["networkInterfaceConfigurations"];
+                                                if (networkInterfaceConfigurationsArray != null && networkInterfaceConfigurationsArray.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JToken networkInterfaceConfigurationsValue in ((JArray)networkInterfaceConfigurationsArray))
+                                                    {
+                                                        VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
+                                                        networkProfileInstance.NetworkInterfaceConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
+                                                        
+                                                        JToken nameValue3 = networkInterfaceConfigurationsValue["name"];
+                                                        if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                        {
+                                                            string nameInstance3 = ((string)nameValue3);
+                                                            virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance3;
+                                                        }
+                                                        
+                                                        JToken propertiesValue2 = networkInterfaceConfigurationsValue["properties"];
+                                                        if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                                                        {
+                                                            JToken primaryValue = propertiesValue2["primary"];
+                                                            if (primaryValue != null && primaryValue.Type != JTokenType.Null)
+                                                            {
+                                                                bool primaryInstance = ((bool)primaryValue);
+                                                                virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
+                                                            }
+                                                            
+                                                            JToken ipConfigurationsArray = propertiesValue2["ipConfigurations"];
+                                                            if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
+                                                            {
+                                                                foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray))
+                                                                {
+                                                                    VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
+                                                                    virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
+                                                                    
+                                                                    JToken nameValue4 = ipConfigurationsValue["name"];
+                                                                    if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                                                    {
+                                                                        string nameInstance4 = ((string)nameValue4);
+                                                                        virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance4;
+                                                                    }
+                                                                    
+                                                                    JToken propertiesValue3 = ipConfigurationsValue["properties"];
+                                                                    if (propertiesValue3 != null && propertiesValue3.Type != JTokenType.Null)
+                                                                    {
+                                                                        JToken subnetValue = propertiesValue3["subnet"];
+                                                                        if (subnetValue != null && subnetValue.Type != JTokenType.Null)
+                                                                        {
+                                                                            ApiEntityReference subnetInstance = new ApiEntityReference();
+                                                                            virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
+                                                                            
+                                                                            JToken idValue2 = subnetValue["id"];
+                                                                            if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                                            {
+                                                                                string idInstance2 = ((string)idValue2);
+                                                                                subnetInstance.ReferenceUri = idInstance2;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        JToken loadBalancerBackendAddressPoolsArray = propertiesValue3["loadBalancerBackendAddressPools"];
+                                                                        if (loadBalancerBackendAddressPoolsArray != null && loadBalancerBackendAddressPoolsArray.Type != JTokenType.Null)
+                                                                        {
+                                                                            foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray))
+                                                                            {
+                                                                                VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
+                                                                                virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
+                                                                                
+                                                                                JToken idValue3 = loadBalancerBackendAddressPoolsValue["id"];
+                                                                                if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                                                                {
+                                                                                    string idInstance3 = ((string)idValue3);
+                                                                                    virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance3;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
                                             JToken extensionsArray = virtualMachineProfileValue["extensions"];
                                             if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
                                             {
@@ -5749,69 +6874,69 @@ namespace Microsoft.Azure.Management.Compute
                                                     VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
                                                     virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
                                                     
-                                                    JToken propertiesValue2 = extensionsValue["properties"];
-                                                    if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                                                    JToken propertiesValue4 = extensionsValue["properties"];
+                                                    if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
                                                     {
-                                                        JToken publisherValue2 = propertiesValue2["publisher"];
+                                                        JToken publisherValue2 = propertiesValue4["publisher"];
                                                         if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                         {
                                                             string publisherInstance2 = ((string)publisherValue2);
                                                             virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
                                                         }
                                                         
-                                                        JToken typeValue = propertiesValue2["type"];
+                                                        JToken typeValue = propertiesValue4["type"];
                                                         if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                         {
                                                             string typeInstance = ((string)typeValue);
                                                             virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
                                                         }
                                                         
-                                                        JToken typeHandlerVersionValue = propertiesValue2["typeHandlerVersion"];
+                                                        JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
                                                         if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                         {
                                                             string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
                                                             virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                         }
                                                         
-                                                        JToken autoUpgradeMinorVersionValue = propertiesValue2["autoUpgradeMinorVersion"];
+                                                        JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
                                                         if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                         {
                                                             bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
                                                             virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                         }
                                                         
-                                                        JToken settingsValue = propertiesValue2["settings"];
+                                                        JToken settingsValue = propertiesValue4["settings"];
                                                         if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                         {
                                                             string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                             virtualMachineExtensionJsonInstance.Settings = settingsInstance;
                                                         }
                                                         
-                                                        JToken protectedSettingsValue = propertiesValue2["protectedSettings"];
+                                                        JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
                                                         if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
                                                         {
                                                             string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
                                                             virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
                                                         }
                                                         
-                                                        JToken provisioningStateValue = propertiesValue2["provisioningState"];
+                                                        JToken provisioningStateValue = propertiesValue4["provisioningState"];
                                                         if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
                                                         {
                                                             string provisioningStateInstance = ((string)provisioningStateValue);
                                                             virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                         }
                                                         
-                                                        JToken instanceViewValue = propertiesValue2["instanceView"];
+                                                        JToken instanceViewValue = propertiesValue4["instanceView"];
                                                         if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
                                                         {
                                                             VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
                                                             virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
                                                             
-                                                            JToken nameValue3 = instanceViewValue["name"];
-                                                            if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                                            JToken nameValue5 = instanceViewValue["name"];
+                                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
                                                             {
-                                                                string nameInstance3 = ((string)nameValue3);
-                                                                instanceViewInstance.Name = nameInstance3;
+                                                                string nameInstance5 = ((string)nameValue5);
+                                                                instanceViewInstance.Name = nameInstance5;
                                                             }
                                                             
                                                             JToken typeValue2 = instanceViewValue["type"];
@@ -5920,18 +7045,18 @@ namespace Microsoft.Azure.Management.Compute
                                                         }
                                                     }
                                                     
-                                                    JToken idValue2 = extensionsValue["id"];
-                                                    if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                    JToken idValue4 = extensionsValue["id"];
+                                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                     {
-                                                        string idInstance2 = ((string)idValue2);
-                                                        virtualMachineExtensionJsonInstance.Id = idInstance2;
+                                                        string idInstance4 = ((string)idValue4);
+                                                        virtualMachineExtensionJsonInstance.Id = idInstance4;
                                                     }
                                                     
-                                                    JToken nameValue4 = extensionsValue["name"];
-                                                    if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                                    JToken nameValue6 = extensionsValue["name"];
+                                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                                     {
-                                                        string nameInstance4 = ((string)nameValue4);
-                                                        virtualMachineExtensionJsonInstance.Name = nameInstance4;
+                                                        string nameInstance6 = ((string)nameValue6);
+                                                        virtualMachineExtensionJsonInstance.Name = nameInstance6;
                                                     }
                                                     
                                                     JToken typeValue3 = extensionsValue["type"];
@@ -5956,93 +7081,6 @@ namespace Microsoft.Azure.Management.Compute
                                                             string tagsKey = ((string)property.Name);
                                                             string tagsValue = ((string)property.Value);
                                                             virtualMachineExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        
-                                        JToken networkProfileValue = propertiesValue["networkProfile"];
-                                        if (networkProfileValue != null && networkProfileValue.Type != JTokenType.Null)
-                                        {
-                                            VirtualMachineScaleSetNetworkProfile networkProfileInstance = new VirtualMachineScaleSetNetworkProfile();
-                                            virtualMachineScaleSetJsonInstance.NetworkProfile = networkProfileInstance;
-                                            
-                                            JToken networkConfigurationsArray = networkProfileValue["networkConfigurations"];
-                                            if (networkConfigurationsArray != null && networkConfigurationsArray.Type != JTokenType.Null)
-                                            {
-                                                foreach (JToken networkConfigurationsValue in ((JArray)networkConfigurationsArray))
-                                                {
-                                                    VirtualMachineScaleSetNetworkConfiguration virtualMachineScaleSetNetworkConfigurationJsonInstance = new VirtualMachineScaleSetNetworkConfiguration();
-                                                    networkProfileInstance.NetworkConfigurations.Add(virtualMachineScaleSetNetworkConfigurationJsonInstance);
-                                                    
-                                                    JToken nameValue5 = networkConfigurationsValue["name"];
-                                                    if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
-                                                    {
-                                                        string nameInstance5 = ((string)nameValue5);
-                                                        virtualMachineScaleSetNetworkConfigurationJsonInstance.Name = nameInstance5;
-                                                    }
-                                                    
-                                                    JToken propertiesValue3 = networkConfigurationsValue["properties"];
-                                                    if (propertiesValue3 != null && propertiesValue3.Type != JTokenType.Null)
-                                                    {
-                                                        JToken primaryValue = propertiesValue3["primary"];
-                                                        if (primaryValue != null && primaryValue.Type != JTokenType.Null)
-                                                        {
-                                                            bool primaryInstance = ((bool)primaryValue);
-                                                            virtualMachineScaleSetNetworkConfigurationJsonInstance.Primary = primaryInstance;
-                                                        }
-                                                        
-                                                        JToken ipConfigurationsArray = propertiesValue3["ipConfigurations"];
-                                                        if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
-                                                        {
-                                                            foreach (JToken ipConfigurationsValue in ((JArray)ipConfigurationsArray))
-                                                            {
-                                                                VirtualMachineScaleSetIPConfiguration virtualMachineScaleSetIPConfigurationJsonInstance = new VirtualMachineScaleSetIPConfiguration();
-                                                                virtualMachineScaleSetNetworkConfigurationJsonInstance.IPConfigurations.Add(virtualMachineScaleSetIPConfigurationJsonInstance);
-                                                                
-                                                                JToken nameValue6 = ipConfigurationsValue["name"];
-                                                                if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                                                {
-                                                                    string nameInstance6 = ((string)nameValue6);
-                                                                    virtualMachineScaleSetIPConfigurationJsonInstance.Name = nameInstance6;
-                                                                }
-                                                                
-                                                                JToken propertiesValue4 = ipConfigurationsValue["properties"];
-                                                                if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
-                                                                {
-                                                                    JToken subnetValue = propertiesValue4["subnet"];
-                                                                    if (subnetValue != null && subnetValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        ApiEntityReference subnetInstance = new ApiEntityReference();
-                                                                        virtualMachineScaleSetIPConfigurationJsonInstance.Subnet = subnetInstance;
-                                                                        
-                                                                        JToken idValue3 = subnetValue["id"];
-                                                                        if (idValue3 != null && idValue3.Type != JTokenType.Null)
-                                                                        {
-                                                                            string idInstance3 = ((string)idValue3);
-                                                                            subnetInstance.ReferenceUri = idInstance3;
-                                                                        }
-                                                                    }
-                                                                    
-                                                                    JToken loadBalancerBackendAddressPoolsArray = propertiesValue4["loadBalancerBackendAddressPools"];
-                                                                    if (loadBalancerBackendAddressPoolsArray != null && loadBalancerBackendAddressPoolsArray.Type != JTokenType.Null)
-                                                                    {
-                                                                        foreach (JToken loadBalancerBackendAddressPoolsValue in ((JArray)loadBalancerBackendAddressPoolsArray))
-                                                                        {
-                                                                            VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance = new VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool();
-                                                                            virtualMachineScaleSetIPConfigurationJsonInstance.LoadBalancerBackendAddressPools.Add(virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance);
-                                                                            
-                                                                            JToken idValue4 = loadBalancerBackendAddressPoolsValue["id"];
-                                                                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                                                            {
-                                                                                string idInstance4 = ((string)idValue4);
-                                                                                virtualMachineScaleSetIPConfigurationLoadBalancerAddressPoolJsonInstance.ReferenceUri = idInstance4;
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
                                                         }
                                                     }
                                                 }
@@ -6436,6 +7474,70 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// The operation to power off (stop) virtual machines from a virtual
+        /// machine scale set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Compute service response for long-running operations.
+        /// </returns>
+        public async Task<ComputeLongRunningOperationResponse> PowerOffInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "PowerOffInstancesAsync", tracingParameters);
+            }
+            
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeOperationResponse response = await client.VirtualMachineScaleSets.BeginPoweringOffInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeLongRunningOperationResponse result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+            int delayInSeconds = 30;
+            if (client.LongRunningOperationInitialTimeout >= 0)
+            {
+                delayInSeconds = client.LongRunningOperationInitialTimeout;
+            }
+            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+                delayInSeconds = 30;
+                if (client.LongRunningOperationRetryTimeout >= 0)
+                {
+                    delayInSeconds = client.LongRunningOperationRetryTimeout;
+                }
+            }
+            
+            if (shouldTrace)
+            {
+                TracingAdapter.Exit(invocationId, result);
+            }
+            
+            return result;
+        }
+        
+        /// <summary>
         /// The operation to restart a virtual machine scale set.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -6495,6 +7597,70 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// The operation to restart virtual machines in a virtual machine
+        /// scale set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Compute service response for long-running operations.
+        /// </returns>
+        public async Task<ComputeLongRunningOperationResponse> RestartInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "RestartInstancesAsync", tracingParameters);
+            }
+            
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeOperationResponse response = await client.VirtualMachineScaleSets.BeginRestartingInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeLongRunningOperationResponse result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+            int delayInSeconds = 30;
+            if (client.LongRunningOperationInitialTimeout >= 0)
+            {
+                delayInSeconds = client.LongRunningOperationInitialTimeout;
+            }
+            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+                delayInSeconds = 30;
+                if (client.LongRunningOperationRetryTimeout >= 0)
+                {
+                    delayInSeconds = client.LongRunningOperationRetryTimeout;
+                }
+            }
+            
+            if (shouldTrace)
+            {
+                TracingAdapter.Exit(invocationId, result);
+            }
+            
+            return result;
+        }
+        
+        /// <summary>
         /// The operation to start a virtual machine scale set.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -6525,6 +7691,70 @@ namespace Microsoft.Azure.Management.Compute
             
             cancellationToken.ThrowIfCancellationRequested();
             ComputeOperationResponse response = await client.VirtualMachineScaleSets.BeginStartingAsync(resourceGroupName, vmScaleSetName, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeLongRunningOperationResponse result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+            int delayInSeconds = 30;
+            if (client.LongRunningOperationInitialTimeout >= 0)
+            {
+                delayInSeconds = client.LongRunningOperationInitialTimeout;
+            }
+            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
+                delayInSeconds = 30;
+                if (client.LongRunningOperationRetryTimeout >= 0)
+                {
+                    delayInSeconds = client.LongRunningOperationRetryTimeout;
+                }
+            }
+            
+            if (shouldTrace)
+            {
+                TracingAdapter.Exit(invocationId, result);
+            }
+            
+            return result;
+        }
+        
+        /// <summary>
+        /// The operation to start virtual machines in a virtual machine scale
+        /// set.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Compute service response for long-running operations.
+        /// </returns>
+        public async Task<ComputeLongRunningOperationResponse> StartInstancesAsync(string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("vmScaleSetName", vmScaleSetName);
+                tracingParameters.Add("vmInstanceIDs", vmInstanceIDs);
+                TracingAdapter.Enter(invocationId, this, "StartInstancesAsync", tracingParameters);
+            }
+            
+            cancellationToken.ThrowIfCancellationRequested();
+            ComputeOperationResponse response = await client.VirtualMachineScaleSets.BeginStartingInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs, cancellationToken).ConfigureAwait(false);
             cancellationToken.ThrowIfCancellationRequested();
             ComputeLongRunningOperationResponse result = await client.GetLongRunningOperationStatusAsync(response.AzureAsyncOperation, cancellationToken).ConfigureAwait(false);
             int delayInSeconds = 30;

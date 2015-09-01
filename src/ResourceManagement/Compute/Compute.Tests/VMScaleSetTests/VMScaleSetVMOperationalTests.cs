@@ -17,7 +17,6 @@ using Microsoft.Azure;
 using Microsoft.Azure.Management.Compute;
 using Microsoft.Azure.Management.Compute.Models;
 using Microsoft.Azure.Management.Resources;
-using Microsoft.Azure.Management.Storage.Models;
 using Microsoft.Azure.Test;
 using System.Net;
 using Xunit;
@@ -34,6 +33,8 @@ namespace Compute.Tests
         /// Create VMScaleSet
         /// Get VMScaleSetVM Model View
         /// Get VMScaleSetVM Instance View
+        /// List VMScaleSetVMs Model View
+        /// List VMScaleSetVMs Instance View
         /// Start VMScaleSetVM
         /// Stop VMScaleSetVM
         /// Restart VMScaleSetVM
@@ -75,6 +76,29 @@ namespace Compute.Tests
                     Assert.True(getInstanceViewResponse.VirtualMachineScaleSetVMInstanceView != null, "VMScaleSetVM not returned.");
                     ValidateVMScaleSetVMInstanceView(getInstanceViewResponse.VirtualMachineScaleSetVMInstanceView);
 
+                    var listParameters = new VirtualMachineScaleSetVMListParameters()
+                    {
+                        ResourceGroupName = rgName,
+                        VirtualMachineScaleSetName = inputVMScaleSet.Name,
+                        FilterExpression = "$filter=properties/latestModelApplied eq true"
+                    };
+                    var listResponse = m_CrpClient.VirtualMachineScaleSetVMs.List(listParameters);
+                    Assert.True(listResponse.StatusCode == HttpStatusCode.OK);
+                    Assert.False(listResponse.VirtualMachineScaleSetVMs == null, "VMScaleSetVMs not returned");
+                    Assert.True(listResponse.VirtualMachineScaleSetVMs.Count == inputVMScaleSet.Sku.Capacity);
+
+                    listParameters = new VirtualMachineScaleSetVMListParameters()
+                    {
+                        ResourceGroupName = rgName,
+                        VirtualMachineScaleSetName = inputVMScaleSet.Name,
+                        SelectExpression = "$select=instanceView",
+                        ExpandExpression = "$expand=instanceView"
+                    };
+                    listResponse = m_CrpClient.VirtualMachineScaleSetVMs.List(listParameters);
+                    Assert.True(listResponse.StatusCode == HttpStatusCode.OK);
+                    Assert.False(listResponse.VirtualMachineScaleSetVMs == null, "VMScaleSetVMs not returned");
+                    Assert.True(listResponse.VirtualMachineScaleSetVMs.Count == inputVMScaleSet.Sku.Capacity);
+                    
                     var startOperationResponse = m_CrpClient.VirtualMachineScaleSetVMs.BeginStarting(rgName, vmScaleSet.Name, instanceId);
                     Assert.Equal(HttpStatusCode.Accepted, startOperationResponse.StatusCode);
                     ComputeLongRunningOperationResponse lroResponse = m_CrpClient.VirtualMachineScaleSetVMs.Start(rgName, vmScaleSet.Name, instanceId);

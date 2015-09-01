@@ -72,6 +72,7 @@ namespace Compute.Tests
 
                     var listSkusResponse = m_CrpClient.VirtualMachineScaleSets.ListSkus(rgName, inputVMScaleSet.Name);
                     Assert.True(listSkusResponse.StatusCode == HttpStatusCode.OK);
+                    Assert.False(listSkusResponse.VirtualMachineScaleSetAvailableSkus == null);
                     Assert.False(listSkusResponse.VirtualMachineScaleSetAvailableSkus.Count == 0);
 
                     var deleteResponse = m_CrpClient.VirtualMachineScaleSets.Delete(rgName, inputVMScaleSet.Name);

@@ -1644,6 +1644,34 @@ namespace Microsoft.Azure.Management.Compute
                                     }
                                 }
                                 
+                                JToken diagnosticsProfileValue = propertiesValue["diagnosticsProfile"];
+                                if (diagnosticsProfileValue != null && diagnosticsProfileValue.Type != JTokenType.Null)
+                                {
+                                    DiagnosticsProfile diagnosticsProfileInstance = new DiagnosticsProfile();
+                                    virtualMachineScaleSetVMInstance.DiagnosticsProfile = diagnosticsProfileInstance;
+                                    
+                                    JToken bootDiagnosticsValue = diagnosticsProfileValue["bootDiagnostics"];
+                                    if (bootDiagnosticsValue != null && bootDiagnosticsValue.Type != JTokenType.Null)
+                                    {
+                                        BootDiagnostics bootDiagnosticsInstance = new BootDiagnostics();
+                                        diagnosticsProfileInstance.BootDiagnostics = bootDiagnosticsInstance;
+                                        
+                                        JToken enabledValue = bootDiagnosticsValue["enabled"];
+                                        if (enabledValue != null && enabledValue.Type != JTokenType.Null)
+                                        {
+                                            bool enabledInstance = ((bool)enabledValue);
+                                            bootDiagnosticsInstance.Enabled = enabledInstance;
+                                        }
+                                        
+                                        JToken storageUriValue = bootDiagnosticsValue["storageUri"];
+                                        if (storageUriValue != null && storageUriValue.Type != JTokenType.Null)
+                                        {
+                                            Uri storageUriInstance = TypeConversion.TryParseUri(((string)storageUriValue));
+                                            bootDiagnosticsInstance.StorageUri = storageUriInstance;
+                                        }
+                                    }
+                                }
+                                
                                 JToken availabilitySetValue = propertiesValue["availabilitySet"];
                                 if (availabilitySetValue != null && availabilitySetValue.Type != JTokenType.Null)
                                 {
@@ -1997,6 +2025,27 @@ namespace Microsoft.Azure.Management.Compute
                                                     }
                                                 }
                                             }
+                                        }
+                                    }
+                                    
+                                    JToken bootDiagnosticsValue2 = instanceViewValue["bootDiagnostics"];
+                                    if (bootDiagnosticsValue2 != null && bootDiagnosticsValue2.Type != JTokenType.Null)
+                                    {
+                                        BootDiagnosticsInstanceView bootDiagnosticsInstance2 = new BootDiagnosticsInstanceView();
+                                        instanceViewInstance.BootDiagnostics = bootDiagnosticsInstance2;
+                                        
+                                        JToken consoleScreenshotBlobUriValue = bootDiagnosticsValue2["consoleScreenshotBlobUri"];
+                                        if (consoleScreenshotBlobUriValue != null && consoleScreenshotBlobUriValue.Type != JTokenType.Null)
+                                        {
+                                            Uri consoleScreenshotBlobUriInstance = TypeConversion.TryParseUri(((string)consoleScreenshotBlobUriValue));
+                                            bootDiagnosticsInstance2.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance;
+                                        }
+                                        
+                                        JToken serialConsoleLogBlobUriValue = bootDiagnosticsValue2["serialConsoleLogBlobUri"];
+                                        if (serialConsoleLogBlobUriValue != null && serialConsoleLogBlobUriValue.Type != JTokenType.Null)
+                                        {
+                                            Uri serialConsoleLogBlobUriInstance = TypeConversion.TryParseUri(((string)serialConsoleLogBlobUriValue));
+                                            bootDiagnosticsInstance2.SerialConsoleLogBlobUri = serialConsoleLogBlobUriInstance;
                                         }
                                     }
                                     
@@ -2379,6 +2428,27 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                         }
+                                    }
+                                }
+                                
+                                JToken bootDiagnosticsValue3 = instanceViewValue2["bootDiagnostics"];
+                                if (bootDiagnosticsValue3 != null && bootDiagnosticsValue3.Type != JTokenType.Null)
+                                {
+                                    BootDiagnosticsInstanceView bootDiagnosticsInstance3 = new BootDiagnosticsInstanceView();
+                                    instanceViewInstance2.BootDiagnostics = bootDiagnosticsInstance3;
+                                    
+                                    JToken consoleScreenshotBlobUriValue2 = bootDiagnosticsValue3["consoleScreenshotBlobUri"];
+                                    if (consoleScreenshotBlobUriValue2 != null && consoleScreenshotBlobUriValue2.Type != JTokenType.Null)
+                                    {
+                                        Uri consoleScreenshotBlobUriInstance2 = TypeConversion.TryParseUri(((string)consoleScreenshotBlobUriValue2));
+                                        bootDiagnosticsInstance3.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance2;
+                                    }
+                                    
+                                    JToken serialConsoleLogBlobUriValue2 = bootDiagnosticsValue3["serialConsoleLogBlobUri"];
+                                    if (serialConsoleLogBlobUriValue2 != null && serialConsoleLogBlobUriValue2.Type != JTokenType.Null)
+                                    {
+                                        Uri serialConsoleLogBlobUriInstance2 = TypeConversion.TryParseUri(((string)serialConsoleLogBlobUriValue2));
+                                        bootDiagnosticsInstance3.SerialConsoleLogBlobUri = serialConsoleLogBlobUriInstance2;
                                     }
                                 }
                                 
@@ -2925,6 +2995,34 @@ namespace Microsoft.Azure.Management.Compute
                                     }
                                 }
                                 
+                                JToken diagnosticsProfileValue2 = propertiesValue3["diagnosticsProfile"];
+                                if (diagnosticsProfileValue2 != null && diagnosticsProfileValue2.Type != JTokenType.Null)
+                                {
+                                    DiagnosticsProfile diagnosticsProfileInstance2 = new DiagnosticsProfile();
+                                    virtualMachineScaleSetVMInstance.DiagnosticsProfile = diagnosticsProfileInstance2;
+                                    
+                                    JToken bootDiagnosticsValue4 = diagnosticsProfileValue2["bootDiagnostics"];
+                                    if (bootDiagnosticsValue4 != null && bootDiagnosticsValue4.Type != JTokenType.Null)
+                                    {
+                                        BootDiagnostics bootDiagnosticsInstance4 = new BootDiagnostics();
+                                        diagnosticsProfileInstance2.BootDiagnostics = bootDiagnosticsInstance4;
+                                        
+                                        JToken enabledValue2 = bootDiagnosticsValue4["enabled"];
+                                        if (enabledValue2 != null && enabledValue2.Type != JTokenType.Null)
+                                        {
+                                            bool enabledInstance2 = ((bool)enabledValue2);
+                                            bootDiagnosticsInstance4.Enabled = enabledInstance2;
+                                        }
+                                        
+                                        JToken storageUriValue2 = bootDiagnosticsValue4["storageUri"];
+                                        if (storageUriValue2 != null && storageUriValue2.Type != JTokenType.Null)
+                                        {
+                                            Uri storageUriInstance2 = TypeConversion.TryParseUri(((string)storageUriValue2));
+                                            bootDiagnosticsInstance4.StorageUri = storageUriInstance2;
+                                        }
+                                    }
+                                }
+                                
                                 JToken availabilitySetValue2 = propertiesValue3["availabilitySet"];
                                 if (availabilitySetValue2 != null && availabilitySetValue2.Type != JTokenType.Null)
                                 {
@@ -3278,6 +3376,27 @@ namespace Microsoft.Azure.Management.Compute
                                                     }
                                                 }
                                             }
+                                        }
+                                    }
+                                    
+                                    JToken bootDiagnosticsValue5 = instanceViewValue3["bootDiagnostics"];
+                                    if (bootDiagnosticsValue5 != null && bootDiagnosticsValue5.Type != JTokenType.Null)
+                                    {
+                                        BootDiagnosticsInstanceView bootDiagnosticsInstance5 = new BootDiagnosticsInstanceView();
+                                        instanceViewInstance3.BootDiagnostics = bootDiagnosticsInstance5;
+                                        
+                                        JToken consoleScreenshotBlobUriValue3 = bootDiagnosticsValue5["consoleScreenshotBlobUri"];
+                                        if (consoleScreenshotBlobUriValue3 != null && consoleScreenshotBlobUriValue3.Type != JTokenType.Null)
+                                        {
+                                            Uri consoleScreenshotBlobUriInstance3 = TypeConversion.TryParseUri(((string)consoleScreenshotBlobUriValue3));
+                                            bootDiagnosticsInstance5.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance3;
+                                        }
+                                        
+                                        JToken serialConsoleLogBlobUriValue3 = bootDiagnosticsValue5["serialConsoleLogBlobUri"];
+                                        if (serialConsoleLogBlobUriValue3 != null && serialConsoleLogBlobUriValue3.Type != JTokenType.Null)
+                                        {
+                                            Uri serialConsoleLogBlobUriInstance3 = TypeConversion.TryParseUri(((string)serialConsoleLogBlobUriValue3));
+                                            bootDiagnosticsInstance5.SerialConsoleLogBlobUri = serialConsoleLogBlobUriInstance3;
                                         }
                                     }
                                     
@@ -4089,6 +4208,27 @@ namespace Microsoft.Azure.Management.Compute
                                 }
                             }
                             
+                            JToken bootDiagnosticsValue = responseDoc["bootDiagnostics"];
+                            if (bootDiagnosticsValue != null && bootDiagnosticsValue.Type != JTokenType.Null)
+                            {
+                                BootDiagnosticsInstanceView bootDiagnosticsInstance = new BootDiagnosticsInstanceView();
+                                virtualMachineScaleSetVMInstanceViewInstance.BootDiagnostics = bootDiagnosticsInstance;
+                                
+                                JToken consoleScreenshotBlobUriValue = bootDiagnosticsValue["consoleScreenshotBlobUri"];
+                                if (consoleScreenshotBlobUriValue != null && consoleScreenshotBlobUriValue.Type != JTokenType.Null)
+                                {
+                                    Uri consoleScreenshotBlobUriInstance = TypeConversion.TryParseUri(((string)consoleScreenshotBlobUriValue));
+                                    bootDiagnosticsInstance.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance;
+                                }
+                                
+                                JToken serialConsoleLogBlobUriValue = bootDiagnosticsValue["serialConsoleLogBlobUri"];
+                                if (serialConsoleLogBlobUriValue != null && serialConsoleLogBlobUriValue.Type != JTokenType.Null)
+                                {
+                                    Uri serialConsoleLogBlobUriInstance = TypeConversion.TryParseUri(((string)serialConsoleLogBlobUriValue));
+                                    bootDiagnosticsInstance.SerialConsoleLogBlobUri = serialConsoleLogBlobUriInstance;
+                                }
+                            }
+                            
                             JToken statusesArray4 = responseDoc["statuses"];
                             if (statusesArray4 != null && statusesArray4.Type != JTokenType.Null)
                             {
@@ -4222,6 +4362,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 url = url + Uri.EscapeDataString(parameters.VirtualMachineScaleSetName);
             }
+            url = url + "/virtualMachines";
             List<string> queryParameters = new List<string>();
             queryParameters.Add("api-version=2015-06-15");
             if (parameters != null && parameters.FilterExpression != null)
@@ -4309,6 +4450,54 @@ namespace Microsoft.Azure.Management.Compute
                         
                         if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
+                            JToken valueArray = responseDoc["value"];
+                            if (valueArray != null && valueArray.Type != JTokenType.Null)
+                            {
+                                foreach (JToken valueValue in ((JArray)valueArray))
+                                {
+                                    VirtualMachineScaleSetVM virtualMachineScaleSetVMInstance = new VirtualMachineScaleSetVM();
+                                    result.VirtualMachineScaleSetVMs.Add(virtualMachineScaleSetVMInstance);
+                                    
+                                    JToken idValue = valueValue["id"];
+                                    if (idValue != null && idValue.Type != JTokenType.Null)
+                                    {
+                                        string idInstance = ((string)idValue);
+                                        virtualMachineScaleSetVMInstance.Id = idInstance;
+                                    }
+                                    
+                                    JToken nameValue = valueValue["name"];
+                                    if (nameValue != null && nameValue.Type != JTokenType.Null)
+                                    {
+                                        string nameInstance = ((string)nameValue);
+                                        virtualMachineScaleSetVMInstance.Name = nameInstance;
+                                    }
+                                    
+                                    JToken typeValue = valueValue["type"];
+                                    if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                    {
+                                        string typeInstance = ((string)typeValue);
+                                        virtualMachineScaleSetVMInstance.Type = typeInstance;
+                                    }
+                                    
+                                    JToken locationValue = valueValue["location"];
+                                    if (locationValue != null && locationValue.Type != JTokenType.Null)
+                                    {
+                                        string locationInstance = ((string)locationValue);
+                                        virtualMachineScaleSetVMInstance.Location = locationInstance;
+                                    }
+                                    
+                                    JToken tagsSequenceElement = ((JToken)valueValue["tags"]);
+                                    if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
+                                    {
+                                        foreach (JProperty property in tagsSequenceElement)
+                                        {
+                                            string tagsKey = ((string)property.Name);
+                                            string tagsValue = ((string)property.Value);
+                                            virtualMachineScaleSetVMInstance.Tags.Add(tagsKey, tagsValue);
+                                        }
+                                    }
+                                }
+                            }
                         }
                         
                     }

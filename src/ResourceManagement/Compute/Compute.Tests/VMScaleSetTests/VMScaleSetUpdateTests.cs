@@ -18,10 +18,8 @@ using Microsoft.Azure.Management.Compute;
 using Microsoft.Azure.Management.Compute.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Test;
-using System.Linq;
 using System.Net;
 using Xunit;
-using Hyak.Common;
 
 namespace Compute.Tests
 {

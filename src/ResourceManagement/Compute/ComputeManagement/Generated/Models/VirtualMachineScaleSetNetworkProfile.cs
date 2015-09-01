@@ -32,15 +32,15 @@ namespace Microsoft.Azure.Management.Compute.Models
     /// </summary>
     public partial class VirtualMachineScaleSetNetworkProfile
     {
-        private IList<VirtualMachineScaleSetNetworkConfiguration> _networkConfigurations;
+        private IList<VirtualMachineScaleSetNetworkConfiguration> _networkInterfaceConfigurations;
         
         /// <summary>
         /// Optional. Gets or sets the list of network configurations.
         /// </summary>
-        public IList<VirtualMachineScaleSetNetworkConfiguration> NetworkConfigurations
+        public IList<VirtualMachineScaleSetNetworkConfiguration> NetworkInterfaceConfigurations
         {
-            get { return this._networkConfigurations; }
-            set { this._networkConfigurations = value; }
+            get { return this._networkInterfaceConfigurations; }
+            set { this._networkInterfaceConfigurations = value; }
         }
         
         /// <summary>
@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Management.Compute.Models
         /// </summary>
         public VirtualMachineScaleSetNetworkProfile()
         {
-            this.NetworkConfigurations = new LazyList<VirtualMachineScaleSetNetworkConfiguration>();
+            this.NetworkInterfaceConfigurations = new LazyList<VirtualMachineScaleSetNetworkConfiguration>();
         }
     }
 }

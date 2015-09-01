@@ -13,12 +13,13 @@
 // limitations under the License.
 //
 
+using System.Collections.Generic;
+using Microsoft.Azure;
 using Microsoft.Azure.Management.Compute;
 using Microsoft.Azure.Management.Compute.Models;
+using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Test;
 using System.Net;
-using Microsoft.Azure.Management.Resources;
-using Microsoft.Azure.Management.Storage.Models;
 using Xunit;
 
 namespace Compute.Tests
@@ -79,6 +80,88 @@ namespace Compute.Tests
                     Assert.Equal(HttpStatusCode.Accepted, deallocateOperationResponse.StatusCode);
                     lroResponse = m_CrpClient.VirtualMachineScaleSets.Deallocate(rgName, vmScaleSet.Name);
                     Assert.Equal(ComputeOperationStatus.Succeeded, lroResponse.Status);
+
+                    var deleteResponse = m_CrpClient.VirtualMachineScaleSets.Delete(rgName, vmScaleSet.Name);
+                    Assert.True(deleteResponse.Status != OperationStatus.Failed);
+
+                    passed = true;
+                }
+                finally
+                {
+                    // Cleanup the created resources. But don't wait since it takes too long, and it's not the purpose
+                    // of the test to cover deletion. CSM does persistent retrying over all RG resources.
+                    var deleteRgResponse = m_ResourcesClient.ResourceGroups.BeginDeleting(rgName);
+                    Assert.True(deleteRgResponse.StatusCode == HttpStatusCode.Accepted, "BeginDeleting status was not Accepted.");
+                }
+
+                Assert.True(passed);
+            }
+        }
+
+        /// <summary>
+        /// Covers following Operations:
+        /// Create RG
+        /// Create Storage Account
+        /// Create Network Resources
+        /// Create VMScaleSet
+        /// Start VMScaleSet Instances
+        /// Stop VMScaleSet Instance
+        /// Restart VMScaleSet Instance
+        /// Deallocate VMScaleSet Instance
+        /// Delete VMScaleSet Instance
+        /// Delete RG
+        /// </summary>
+        [Fact]
+        public void TestVMScaleSetBatchOperations()
+        {
+            using (var context = UndoContext.Current)
+            {
+                context.Start();
+                EnsureClientsInitialized();
+
+                ImageReference imageRef = GetPlatformVMImage(useWindowsImage: true);
+
+                // Create resource group
+                string rgName = TestUtilities.GenerateName(TestPrefix) + 1;
+                string storageAccountName = TestUtilities.GenerateName(TestPrefix);
+                VirtualMachineScaleSet inputVMScaleSet;
+
+                bool passed = false;
+                try
+                {
+                    var storageAccountOutput = CreateStorageAccount(rgName, storageAccountName);
+
+                    VirtualMachineScaleSet vmScaleSet = CreateVMScaleSet_NoAsyncTracking(rgName, storageAccountOutput, imageRef, out inputVMScaleSet);
+
+                    VirtualMachineScaleSetVMInstanceIDs virtualMachineScaleSetInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs()
+                    {
+                        InstanceIDs = new List<string>() {"0", "1"}
+                    };
+
+                    var startOperationResponse = m_CrpClient.VirtualMachineScaleSets.BeginStartingInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(HttpStatusCode.Accepted, startOperationResponse.StatusCode);
+                    ComputeLongRunningOperationResponse lroResponse = m_CrpClient.VirtualMachineScaleSets.StartInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(ComputeOperationStatus.Succeeded, lroResponse.Status);
+
+                    virtualMachineScaleSetInstanceIDs.InstanceIDs = new List<string>() { "0" };
+                    var stopOperationResponse = m_CrpClient.VirtualMachineScaleSets.BeginPoweringOffInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(HttpStatusCode.Accepted, stopOperationResponse.StatusCode);
+                    lroResponse = m_CrpClient.VirtualMachineScaleSets.PowerOffInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(ComputeOperationStatus.Succeeded, lroResponse.Status);
+
+                    virtualMachineScaleSetInstanceIDs.InstanceIDs = new List<string>() { "1" };
+                    var restartOperationResponse = m_CrpClient.VirtualMachineScaleSets.BeginRestartingInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(HttpStatusCode.Accepted, restartOperationResponse.StatusCode);
+                    lroResponse = m_CrpClient.VirtualMachineScaleSets.RestartInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(ComputeOperationStatus.Succeeded, lroResponse.Status);
+
+                    var deallocateOperationResponse = m_CrpClient.VirtualMachineScaleSets.BeginDeallocatingInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(HttpStatusCode.Accepted, deallocateOperationResponse.StatusCode);
+                    lroResponse = m_CrpClient.VirtualMachineScaleSets.DeallocateInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(ComputeOperationStatus.Succeeded, lroResponse.Status);
+
+                    var deleteOperationResponse = m_CrpClient.VirtualMachineScaleSets.BeginDeletingInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(HttpStatusCode.Accepted, deleteOperationResponse.StatusCode);
 
                     passed = true;
                 }
