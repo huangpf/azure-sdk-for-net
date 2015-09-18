@@ -7318,66 +7318,66 @@ namespace Microsoft.Azure.Management.Compute
                                         virtualMachineScaleSetSkuInstance.ResourceType = resourceTypeInstance;
                                     }
                                     
-                                    JToken nameValue = valueValue["name"];
-                                    if (nameValue != null && nameValue.Type != JTokenType.Null)
+                                    JToken skuValue = valueValue["sku"];
+                                    if (skuValue != null && skuValue.Type != JTokenType.Null)
                                     {
-                                        Sku nameInstance = new Sku();
-                                        virtualMachineScaleSetSkuInstance.Sku = nameInstance;
+                                        Sku skuInstance = new Sku();
+                                        virtualMachineScaleSetSkuInstance.Sku = skuInstance;
                                         
-                                        JToken nameValue2 = nameValue["name"];
-                                        if (nameValue2 != null && nameValue2.Type != JTokenType.Null)
+                                        JToken nameValue = skuValue["name"];
+                                        if (nameValue != null && nameValue.Type != JTokenType.Null)
                                         {
-                                            string nameInstance2 = ((string)nameValue2);
-                                            nameInstance.Name = nameInstance2;
+                                            string nameInstance = ((string)nameValue);
+                                            skuInstance.Name = nameInstance;
                                         }
                                         
-                                        JToken tierValue = nameValue["tier"];
+                                        JToken tierValue = skuValue["tier"];
                                         if (tierValue != null && tierValue.Type != JTokenType.Null)
                                         {
                                             string tierInstance = ((string)tierValue);
-                                            nameInstance.Tier = tierInstance;
+                                            skuInstance.Tier = tierInstance;
                                         }
                                         
-                                        JToken capacityValue = nameValue["capacity"];
+                                        JToken capacityValue = skuValue["capacity"];
                                         if (capacityValue != null && capacityValue.Type != JTokenType.Null)
                                         {
                                             uint capacityInstance = ((uint)capacityValue);
-                                            nameInstance.Capacity = capacityInstance;
+                                            skuInstance.Capacity = capacityInstance;
                                         }
                                     }
                                     
-                                    JToken nameValue3 = valueValue["name"];
-                                    if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                    JToken capacityValue2 = valueValue["capacity"];
+                                    if (capacityValue2 != null && capacityValue2.Type != JTokenType.Null)
                                     {
-                                        VirtualMachineScaleSetSkuCapacity nameInstance3 = new VirtualMachineScaleSetSkuCapacity();
-                                        virtualMachineScaleSetSkuInstance.Capacity = nameInstance3;
+                                        VirtualMachineScaleSetSkuCapacity capacityInstance2 = new VirtualMachineScaleSetSkuCapacity();
+                                        virtualMachineScaleSetSkuInstance.Capacity = capacityInstance2;
                                         
-                                        JToken minimumValue = nameValue3["minimum"];
+                                        JToken minimumValue = capacityValue2["minimum"];
                                         if (minimumValue != null && minimumValue.Type != JTokenType.Null)
                                         {
                                             uint minimumInstance = ((uint)minimumValue);
-                                            nameInstance3.Minimum = minimumInstance;
+                                            capacityInstance2.Minimum = minimumInstance;
                                         }
                                         
-                                        JToken maximumValue = nameValue3["maximum"];
+                                        JToken maximumValue = capacityValue2["maximum"];
                                         if (maximumValue != null && maximumValue.Type != JTokenType.Null)
                                         {
                                             uint maximumInstance = ((uint)maximumValue);
-                                            nameInstance3.Maximum = maximumInstance;
+                                            capacityInstance2.Maximum = maximumInstance;
                                         }
                                         
-                                        JToken defaultCapacityValue = nameValue3["defaultCapacity"];
+                                        JToken defaultCapacityValue = capacityValue2["defaultCapacity"];
                                         if (defaultCapacityValue != null && defaultCapacityValue.Type != JTokenType.Null)
                                         {
                                             uint defaultCapacityInstance = ((uint)defaultCapacityValue);
-                                            nameInstance3.DefaultCapacity = defaultCapacityInstance;
+                                            capacityInstance2.DefaultCapacity = defaultCapacityInstance;
                                         }
                                         
-                                        JToken scaleTypeValue = nameValue3["scaleType"];
+                                        JToken scaleTypeValue = capacityValue2["scaleType"];
                                         if (scaleTypeValue != null && scaleTypeValue.Type != JTokenType.Null)
                                         {
                                             string scaleTypeInstance = ((string)scaleTypeValue);
-                                            nameInstance3.ScaleType = scaleTypeInstance;
+                                            capacityInstance2.ScaleType = scaleTypeInstance;
                                         }
                                     }
                                 }

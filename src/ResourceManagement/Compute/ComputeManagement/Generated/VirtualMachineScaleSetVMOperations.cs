@@ -1185,6 +1185,408 @@ namespace Microsoft.Azure.Management.Compute
                                     virtualMachineScaleSetVMInstance.LatestModelApplied = latestModelAppliedInstance;
                                 }
                                 
+                                JToken instanceViewValue = propertiesValue["instanceView"];
+                                if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
+                                {
+                                    VirtualMachineInstanceView instanceViewInstance = new VirtualMachineInstanceView();
+                                    virtualMachineScaleSetVMInstance.InstanceView = instanceViewInstance;
+                                    
+                                    JToken platformUpdateDomainValue = instanceViewValue["platformUpdateDomain"];
+                                    if (platformUpdateDomainValue != null && platformUpdateDomainValue.Type != JTokenType.Null)
+                                    {
+                                        int platformUpdateDomainInstance = ((int)platformUpdateDomainValue);
+                                        instanceViewInstance.PlatformUpdateDomain = platformUpdateDomainInstance;
+                                    }
+                                    
+                                    JToken platformFaultDomainValue = instanceViewValue["platformFaultDomain"];
+                                    if (platformFaultDomainValue != null && platformFaultDomainValue.Type != JTokenType.Null)
+                                    {
+                                        int platformFaultDomainInstance = ((int)platformFaultDomainValue);
+                                        instanceViewInstance.PlatformFaultDomain = platformFaultDomainInstance;
+                                    }
+                                    
+                                    JToken rdpThumbPrintValue = instanceViewValue["rdpThumbPrint"];
+                                    if (rdpThumbPrintValue != null && rdpThumbPrintValue.Type != JTokenType.Null)
+                                    {
+                                        string rdpThumbPrintInstance = ((string)rdpThumbPrintValue);
+                                        instanceViewInstance.RemoteDesktopThumbprint = rdpThumbPrintInstance;
+                                    }
+                                    
+                                    JToken vmAgentValue = instanceViewValue["vmAgent"];
+                                    if (vmAgentValue != null && vmAgentValue.Type != JTokenType.Null)
+                                    {
+                                        VirtualMachineAgentInstanceView vmAgentInstance = new VirtualMachineAgentInstanceView();
+                                        instanceViewInstance.VMAgent = vmAgentInstance;
+                                        
+                                        JToken vmAgentVersionValue = vmAgentValue["vmAgentVersion"];
+                                        if (vmAgentVersionValue != null && vmAgentVersionValue.Type != JTokenType.Null)
+                                        {
+                                            string vmAgentVersionInstance = ((string)vmAgentVersionValue);
+                                            vmAgentInstance.VMAgentVersion = vmAgentVersionInstance;
+                                        }
+                                        
+                                        JToken extensionHandlersArray = vmAgentValue["extensionHandlers"];
+                                        if (extensionHandlersArray != null && extensionHandlersArray.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken extensionHandlersValue in ((JArray)extensionHandlersArray))
+                                            {
+                                                VirtualMachineExtensionHandlerInstanceView virtualMachineExtensionHandlerInstanceViewInstance = new VirtualMachineExtensionHandlerInstanceView();
+                                                vmAgentInstance.ExtensionHandlers.Add(virtualMachineExtensionHandlerInstanceViewInstance);
+                                                
+                                                JToken typeValue = extensionHandlersValue["type"];
+                                                if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                                {
+                                                    string typeInstance = ((string)typeValue);
+                                                    virtualMachineExtensionHandlerInstanceViewInstance.Type = typeInstance;
+                                                }
+                                                
+                                                JToken typeHandlerVersionValue = extensionHandlersValue["typeHandlerVersion"];
+                                                if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
+                                                {
+                                                    string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
+                                                    virtualMachineExtensionHandlerInstanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance;
+                                                }
+                                                
+                                                JToken statusValue = extensionHandlersValue["status"];
+                                                if (statusValue != null && statusValue.Type != JTokenType.Null)
+                                                {
+                                                    InstanceViewStatus statusInstance = new InstanceViewStatus();
+                                                    virtualMachineExtensionHandlerInstanceViewInstance.Status = statusInstance;
+                                                    
+                                                    JToken codeValue = statusValue["code"];
+                                                    if (codeValue != null && codeValue.Type != JTokenType.Null)
+                                                    {
+                                                        string codeInstance = ((string)codeValue);
+                                                        statusInstance.Code = codeInstance;
+                                                    }
+                                                    
+                                                    JToken levelValue = statusValue["level"];
+                                                    if (levelValue != null && levelValue.Type != JTokenType.Null)
+                                                    {
+                                                        string levelInstance = ((string)levelValue);
+                                                        statusInstance.Level = levelInstance;
+                                                    }
+                                                    
+                                                    JToken displayStatusValue = statusValue["displayStatus"];
+                                                    if (displayStatusValue != null && displayStatusValue.Type != JTokenType.Null)
+                                                    {
+                                                        string displayStatusInstance = ((string)displayStatusValue);
+                                                        statusInstance.DisplayStatus = displayStatusInstance;
+                                                    }
+                                                    
+                                                    JToken messageValue = statusValue["message"];
+                                                    if (messageValue != null && messageValue.Type != JTokenType.Null)
+                                                    {
+                                                        string messageInstance = ((string)messageValue);
+                                                        statusInstance.Message = messageInstance;
+                                                    }
+                                                    
+                                                    JToken timeValue = statusValue["time"];
+                                                    if (timeValue != null && timeValue.Type != JTokenType.Null)
+                                                    {
+                                                        DateTimeOffset timeInstance = ((DateTimeOffset)timeValue);
+                                                        statusInstance.Time = timeInstance;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                        JToken statusesArray = vmAgentValue["statuses"];
+                                        if (statusesArray != null && statusesArray.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken statusesValue in ((JArray)statusesArray))
+                                            {
+                                                InstanceViewStatus instanceViewStatusInstance = new InstanceViewStatus();
+                                                vmAgentInstance.Statuses.Add(instanceViewStatusInstance);
+                                                
+                                                JToken codeValue2 = statusesValue["code"];
+                                                if (codeValue2 != null && codeValue2.Type != JTokenType.Null)
+                                                {
+                                                    string codeInstance2 = ((string)codeValue2);
+                                                    instanceViewStatusInstance.Code = codeInstance2;
+                                                }
+                                                
+                                                JToken levelValue2 = statusesValue["level"];
+                                                if (levelValue2 != null && levelValue2.Type != JTokenType.Null)
+                                                {
+                                                    string levelInstance2 = ((string)levelValue2);
+                                                    instanceViewStatusInstance.Level = levelInstance2;
+                                                }
+                                                
+                                                JToken displayStatusValue2 = statusesValue["displayStatus"];
+                                                if (displayStatusValue2 != null && displayStatusValue2.Type != JTokenType.Null)
+                                                {
+                                                    string displayStatusInstance2 = ((string)displayStatusValue2);
+                                                    instanceViewStatusInstance.DisplayStatus = displayStatusInstance2;
+                                                }
+                                                
+                                                JToken messageValue2 = statusesValue["message"];
+                                                if (messageValue2 != null && messageValue2.Type != JTokenType.Null)
+                                                {
+                                                    string messageInstance2 = ((string)messageValue2);
+                                                    instanceViewStatusInstance.Message = messageInstance2;
+                                                }
+                                                
+                                                JToken timeValue2 = statusesValue["time"];
+                                                if (timeValue2 != null && timeValue2.Type != JTokenType.Null)
+                                                {
+                                                    DateTimeOffset timeInstance2 = ((DateTimeOffset)timeValue2);
+                                                    instanceViewStatusInstance.Time = timeInstance2;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken disksArray = instanceViewValue["disks"];
+                                    if (disksArray != null && disksArray.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken disksValue in ((JArray)disksArray))
+                                        {
+                                            DiskInstanceView diskInstanceViewInstance = new DiskInstanceView();
+                                            instanceViewInstance.Disks.Add(diskInstanceViewInstance);
+                                            
+                                            JToken nameValue2 = disksValue["name"];
+                                            if (nameValue2 != null && nameValue2.Type != JTokenType.Null)
+                                            {
+                                                string nameInstance2 = ((string)nameValue2);
+                                                diskInstanceViewInstance.Name = nameInstance2;
+                                            }
+                                            
+                                            JToken statusesArray2 = disksValue["statuses"];
+                                            if (statusesArray2 != null && statusesArray2.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken statusesValue2 in ((JArray)statusesArray2))
+                                                {
+                                                    InstanceViewStatus instanceViewStatusInstance2 = new InstanceViewStatus();
+                                                    diskInstanceViewInstance.Statuses.Add(instanceViewStatusInstance2);
+                                                    
+                                                    JToken codeValue3 = statusesValue2["code"];
+                                                    if (codeValue3 != null && codeValue3.Type != JTokenType.Null)
+                                                    {
+                                                        string codeInstance3 = ((string)codeValue3);
+                                                        instanceViewStatusInstance2.Code = codeInstance3;
+                                                    }
+                                                    
+                                                    JToken levelValue3 = statusesValue2["level"];
+                                                    if (levelValue3 != null && levelValue3.Type != JTokenType.Null)
+                                                    {
+                                                        string levelInstance3 = ((string)levelValue3);
+                                                        instanceViewStatusInstance2.Level = levelInstance3;
+                                                    }
+                                                    
+                                                    JToken displayStatusValue3 = statusesValue2["displayStatus"];
+                                                    if (displayStatusValue3 != null && displayStatusValue3.Type != JTokenType.Null)
+                                                    {
+                                                        string displayStatusInstance3 = ((string)displayStatusValue3);
+                                                        instanceViewStatusInstance2.DisplayStatus = displayStatusInstance3;
+                                                    }
+                                                    
+                                                    JToken messageValue3 = statusesValue2["message"];
+                                                    if (messageValue3 != null && messageValue3.Type != JTokenType.Null)
+                                                    {
+                                                        string messageInstance3 = ((string)messageValue3);
+                                                        instanceViewStatusInstance2.Message = messageInstance3;
+                                                    }
+                                                    
+                                                    JToken timeValue3 = statusesValue2["time"];
+                                                    if (timeValue3 != null && timeValue3.Type != JTokenType.Null)
+                                                    {
+                                                        DateTimeOffset timeInstance3 = ((DateTimeOffset)timeValue3);
+                                                        instanceViewStatusInstance2.Time = timeInstance3;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken extensionsArray = instanceViewValue["extensions"];
+                                    if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken extensionsValue in ((JArray)extensionsArray))
+                                        {
+                                            VirtualMachineExtensionInstanceView virtualMachineExtensionInstanceViewInstance = new VirtualMachineExtensionInstanceView();
+                                            instanceViewInstance.Extensions.Add(virtualMachineExtensionInstanceViewInstance);
+                                            
+                                            JToken nameValue3 = extensionsValue["name"];
+                                            if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                            {
+                                                string nameInstance3 = ((string)nameValue3);
+                                                virtualMachineExtensionInstanceViewInstance.Name = nameInstance3;
+                                            }
+                                            
+                                            JToken typeValue2 = extensionsValue["type"];
+                                            if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                            {
+                                                string typeInstance2 = ((string)typeValue2);
+                                                virtualMachineExtensionInstanceViewInstance.ExtensionType = typeInstance2;
+                                            }
+                                            
+                                            JToken typeHandlerVersionValue2 = extensionsValue["typeHandlerVersion"];
+                                            if (typeHandlerVersionValue2 != null && typeHandlerVersionValue2.Type != JTokenType.Null)
+                                            {
+                                                string typeHandlerVersionInstance2 = ((string)typeHandlerVersionValue2);
+                                                virtualMachineExtensionInstanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance2;
+                                            }
+                                            
+                                            JToken substatusesArray = extensionsValue["substatuses"];
+                                            if (substatusesArray != null && substatusesArray.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken substatusesValue in ((JArray)substatusesArray))
+                                                {
+                                                    InstanceViewStatus instanceViewStatusInstance3 = new InstanceViewStatus();
+                                                    virtualMachineExtensionInstanceViewInstance.SubStatuses.Add(instanceViewStatusInstance3);
+                                                    
+                                                    JToken codeValue4 = substatusesValue["code"];
+                                                    if (codeValue4 != null && codeValue4.Type != JTokenType.Null)
+                                                    {
+                                                        string codeInstance4 = ((string)codeValue4);
+                                                        instanceViewStatusInstance3.Code = codeInstance4;
+                                                    }
+                                                    
+                                                    JToken levelValue4 = substatusesValue["level"];
+                                                    if (levelValue4 != null && levelValue4.Type != JTokenType.Null)
+                                                    {
+                                                        string levelInstance4 = ((string)levelValue4);
+                                                        instanceViewStatusInstance3.Level = levelInstance4;
+                                                    }
+                                                    
+                                                    JToken displayStatusValue4 = substatusesValue["displayStatus"];
+                                                    if (displayStatusValue4 != null && displayStatusValue4.Type != JTokenType.Null)
+                                                    {
+                                                        string displayStatusInstance4 = ((string)displayStatusValue4);
+                                                        instanceViewStatusInstance3.DisplayStatus = displayStatusInstance4;
+                                                    }
+                                                    
+                                                    JToken messageValue4 = substatusesValue["message"];
+                                                    if (messageValue4 != null && messageValue4.Type != JTokenType.Null)
+                                                    {
+                                                        string messageInstance4 = ((string)messageValue4);
+                                                        instanceViewStatusInstance3.Message = messageInstance4;
+                                                    }
+                                                    
+                                                    JToken timeValue4 = substatusesValue["time"];
+                                                    if (timeValue4 != null && timeValue4.Type != JTokenType.Null)
+                                                    {
+                                                        DateTimeOffset timeInstance4 = ((DateTimeOffset)timeValue4);
+                                                        instanceViewStatusInstance3.Time = timeInstance4;
+                                                    }
+                                                }
+                                            }
+                                            
+                                            JToken statusesArray3 = extensionsValue["statuses"];
+                                            if (statusesArray3 != null && statusesArray3.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken statusesValue3 in ((JArray)statusesArray3))
+                                                {
+                                                    InstanceViewStatus instanceViewStatusInstance4 = new InstanceViewStatus();
+                                                    virtualMachineExtensionInstanceViewInstance.Statuses.Add(instanceViewStatusInstance4);
+                                                    
+                                                    JToken codeValue5 = statusesValue3["code"];
+                                                    if (codeValue5 != null && codeValue5.Type != JTokenType.Null)
+                                                    {
+                                                        string codeInstance5 = ((string)codeValue5);
+                                                        instanceViewStatusInstance4.Code = codeInstance5;
+                                                    }
+                                                    
+                                                    JToken levelValue5 = statusesValue3["level"];
+                                                    if (levelValue5 != null && levelValue5.Type != JTokenType.Null)
+                                                    {
+                                                        string levelInstance5 = ((string)levelValue5);
+                                                        instanceViewStatusInstance4.Level = levelInstance5;
+                                                    }
+                                                    
+                                                    JToken displayStatusValue5 = statusesValue3["displayStatus"];
+                                                    if (displayStatusValue5 != null && displayStatusValue5.Type != JTokenType.Null)
+                                                    {
+                                                        string displayStatusInstance5 = ((string)displayStatusValue5);
+                                                        instanceViewStatusInstance4.DisplayStatus = displayStatusInstance5;
+                                                    }
+                                                    
+                                                    JToken messageValue5 = statusesValue3["message"];
+                                                    if (messageValue5 != null && messageValue5.Type != JTokenType.Null)
+                                                    {
+                                                        string messageInstance5 = ((string)messageValue5);
+                                                        instanceViewStatusInstance4.Message = messageInstance5;
+                                                    }
+                                                    
+                                                    JToken timeValue5 = statusesValue3["time"];
+                                                    if (timeValue5 != null && timeValue5.Type != JTokenType.Null)
+                                                    {
+                                                        DateTimeOffset timeInstance5 = ((DateTimeOffset)timeValue5);
+                                                        instanceViewStatusInstance4.Time = timeInstance5;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken bootDiagnosticsValue = instanceViewValue["bootDiagnostics"];
+                                    if (bootDiagnosticsValue != null && bootDiagnosticsValue.Type != JTokenType.Null)
+                                    {
+                                        BootDiagnosticsInstanceView bootDiagnosticsInstance = new BootDiagnosticsInstanceView();
+                                        instanceViewInstance.BootDiagnostics = bootDiagnosticsInstance;
+                                        
+                                        JToken consoleScreenshotBlobUriValue = bootDiagnosticsValue["consoleScreenshotBlobUri"];
+                                        if (consoleScreenshotBlobUriValue != null && consoleScreenshotBlobUriValue.Type != JTokenType.Null)
+                                        {
+                                            Uri consoleScreenshotBlobUriInstance = TypeConversion.TryParseUri(((string)consoleScreenshotBlobUriValue));
+                                            bootDiagnosticsInstance.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance;
+                                        }
+                                        
+                                        JToken serialConsoleLogBlobUriValue = bootDiagnosticsValue["serialConsoleLogBlobUri"];
+                                        if (serialConsoleLogBlobUriValue != null && serialConsoleLogBlobUriValue.Type != JTokenType.Null)
+                                        {
+                                            Uri serialConsoleLogBlobUriInstance = TypeConversion.TryParseUri(((string)serialConsoleLogBlobUriValue));
+                                            bootDiagnosticsInstance.SerialConsoleLogBlobUri = serialConsoleLogBlobUriInstance;
+                                        }
+                                    }
+                                    
+                                    JToken statusesArray4 = instanceViewValue["statuses"];
+                                    if (statusesArray4 != null && statusesArray4.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken statusesValue4 in ((JArray)statusesArray4))
+                                        {
+                                            InstanceViewStatus instanceViewStatusInstance5 = new InstanceViewStatus();
+                                            instanceViewInstance.Statuses.Add(instanceViewStatusInstance5);
+                                            
+                                            JToken codeValue6 = statusesValue4["code"];
+                                            if (codeValue6 != null && codeValue6.Type != JTokenType.Null)
+                                            {
+                                                string codeInstance6 = ((string)codeValue6);
+                                                instanceViewStatusInstance5.Code = codeInstance6;
+                                            }
+                                            
+                                            JToken levelValue6 = statusesValue4["level"];
+                                            if (levelValue6 != null && levelValue6.Type != JTokenType.Null)
+                                            {
+                                                string levelInstance6 = ((string)levelValue6);
+                                                instanceViewStatusInstance5.Level = levelInstance6;
+                                            }
+                                            
+                                            JToken displayStatusValue6 = statusesValue4["displayStatus"];
+                                            if (displayStatusValue6 != null && displayStatusValue6.Type != JTokenType.Null)
+                                            {
+                                                string displayStatusInstance6 = ((string)displayStatusValue6);
+                                                instanceViewStatusInstance5.DisplayStatus = displayStatusInstance6;
+                                            }
+                                            
+                                            JToken messageValue6 = statusesValue4["message"];
+                                            if (messageValue6 != null && messageValue6.Type != JTokenType.Null)
+                                            {
+                                                string messageInstance6 = ((string)messageValue6);
+                                                instanceViewStatusInstance5.Message = messageInstance6;
+                                            }
+                                            
+                                            JToken timeValue6 = statusesValue4["time"];
+                                            if (timeValue6 != null && timeValue6.Type != JTokenType.Null)
+                                            {
+                                                DateTimeOffset timeInstance6 = ((DateTimeOffset)timeValue6);
+                                                instanceViewStatusInstance5.Time = timeInstance6;
+                                            }
+                                        }
+                                    }
+                                }
+                                
                                 JToken hardwareProfileValue = propertiesValue["hardwareProfile"];
                                 if (hardwareProfileValue != null && hardwareProfileValue.Type != JTokenType.Null)
                                 {
@@ -1253,11 +1655,11 @@ namespace Microsoft.Azure.Management.Compute
                                             osDiskInstance.OperatingSystemType = osTypeInstance;
                                         }
                                         
-                                        JToken nameValue2 = osDiskValue["name"];
-                                        if (nameValue2 != null && nameValue2.Type != JTokenType.Null)
+                                        JToken nameValue4 = osDiskValue["name"];
+                                        if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
                                         {
-                                            string nameInstance2 = ((string)nameValue2);
-                                            osDiskInstance.Name = nameInstance2;
+                                            string nameInstance4 = ((string)nameValue4);
+                                            osDiskInstance.Name = nameInstance4;
                                         }
                                         
                                         JToken vhdValue = osDiskValue["vhd"];
@@ -1325,11 +1727,11 @@ namespace Microsoft.Azure.Management.Compute
                                                 dataDiskInstance.Lun = lunInstance;
                                             }
                                             
-                                            JToken nameValue3 = dataDisksValue["name"];
-                                            if (nameValue3 != null && nameValue3.Type != JTokenType.Null)
+                                            JToken nameValue5 = dataDisksValue["name"];
+                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
                                             {
-                                                string nameInstance3 = ((string)nameValue3);
-                                                dataDiskInstance.Name = nameInstance3;
+                                                string nameInstance5 = ((string)nameValue5);
+                                                dataDiskInstance.Name = nameInstance5;
                                             }
                                             
                                             JToken vhdValue2 = dataDisksValue["vhd"];
@@ -1650,24 +2052,24 @@ namespace Microsoft.Azure.Management.Compute
                                     DiagnosticsProfile diagnosticsProfileInstance = new DiagnosticsProfile();
                                     virtualMachineScaleSetVMInstance.DiagnosticsProfile = diagnosticsProfileInstance;
                                     
-                                    JToken bootDiagnosticsValue = diagnosticsProfileValue["bootDiagnostics"];
-                                    if (bootDiagnosticsValue != null && bootDiagnosticsValue.Type != JTokenType.Null)
+                                    JToken bootDiagnosticsValue2 = diagnosticsProfileValue["bootDiagnostics"];
+                                    if (bootDiagnosticsValue2 != null && bootDiagnosticsValue2.Type != JTokenType.Null)
                                     {
-                                        BootDiagnostics bootDiagnosticsInstance = new BootDiagnostics();
-                                        diagnosticsProfileInstance.BootDiagnostics = bootDiagnosticsInstance;
+                                        BootDiagnostics bootDiagnosticsInstance2 = new BootDiagnostics();
+                                        diagnosticsProfileInstance.BootDiagnostics = bootDiagnosticsInstance2;
                                         
-                                        JToken enabledValue = bootDiagnosticsValue["enabled"];
+                                        JToken enabledValue = bootDiagnosticsValue2["enabled"];
                                         if (enabledValue != null && enabledValue.Type != JTokenType.Null)
                                         {
                                             bool enabledInstance = ((bool)enabledValue);
-                                            bootDiagnosticsInstance.Enabled = enabledInstance;
+                                            bootDiagnosticsInstance2.Enabled = enabledInstance;
                                         }
                                         
-                                        JToken storageUriValue = bootDiagnosticsValue["storageUri"];
+                                        JToken storageUriValue = bootDiagnosticsValue2["storageUri"];
                                         if (storageUriValue != null && storageUriValue.Type != JTokenType.Null)
                                         {
                                             Uri storageUriInstance = TypeConversion.TryParseUri(((string)storageUriValue));
-                                            bootDiagnosticsInstance.StorageUri = storageUriInstance;
+                                            bootDiagnosticsInstance2.StorageUri = storageUriInstance;
                                         }
                                     }
                                 }
@@ -1693,806 +2095,404 @@ namespace Microsoft.Azure.Management.Compute
                                     virtualMachineScaleSetVMInstance.ProvisioningState = provisioningStateInstance;
                                 }
                                 
-                                JToken instanceViewValue = propertiesValue["instanceView"];
-                                if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
+                                JToken instanceViewValue2 = propertiesValue["instanceView"];
+                                if (instanceViewValue2 != null && instanceViewValue2.Type != JTokenType.Null)
                                 {
-                                    VirtualMachineInstanceView instanceViewInstance = new VirtualMachineInstanceView();
-                                    virtualMachineScaleSetVMInstance.InstanceView = instanceViewInstance;
+                                    VirtualMachineInstanceView instanceViewInstance2 = new VirtualMachineInstanceView();
+                                    virtualMachineScaleSetVMInstance.InstanceView = instanceViewInstance2;
                                     
-                                    JToken platformUpdateDomainValue = instanceViewValue["platformUpdateDomain"];
-                                    if (platformUpdateDomainValue != null && platformUpdateDomainValue.Type != JTokenType.Null)
+                                    JToken platformUpdateDomainValue2 = instanceViewValue2["platformUpdateDomain"];
+                                    if (platformUpdateDomainValue2 != null && platformUpdateDomainValue2.Type != JTokenType.Null)
                                     {
-                                        int platformUpdateDomainInstance = ((int)platformUpdateDomainValue);
-                                        instanceViewInstance.PlatformUpdateDomain = platformUpdateDomainInstance;
+                                        int platformUpdateDomainInstance2 = ((int)platformUpdateDomainValue2);
+                                        instanceViewInstance2.PlatformUpdateDomain = platformUpdateDomainInstance2;
                                     }
                                     
-                                    JToken platformFaultDomainValue = instanceViewValue["platformFaultDomain"];
-                                    if (platformFaultDomainValue != null && platformFaultDomainValue.Type != JTokenType.Null)
+                                    JToken platformFaultDomainValue2 = instanceViewValue2["platformFaultDomain"];
+                                    if (platformFaultDomainValue2 != null && platformFaultDomainValue2.Type != JTokenType.Null)
                                     {
-                                        int platformFaultDomainInstance = ((int)platformFaultDomainValue);
-                                        instanceViewInstance.PlatformFaultDomain = platformFaultDomainInstance;
+                                        int platformFaultDomainInstance2 = ((int)platformFaultDomainValue2);
+                                        instanceViewInstance2.PlatformFaultDomain = platformFaultDomainInstance2;
                                     }
                                     
-                                    JToken rdpThumbPrintValue = instanceViewValue["rdpThumbPrint"];
-                                    if (rdpThumbPrintValue != null && rdpThumbPrintValue.Type != JTokenType.Null)
+                                    JToken rdpThumbPrintValue2 = instanceViewValue2["rdpThumbPrint"];
+                                    if (rdpThumbPrintValue2 != null && rdpThumbPrintValue2.Type != JTokenType.Null)
                                     {
-                                        string rdpThumbPrintInstance = ((string)rdpThumbPrintValue);
-                                        instanceViewInstance.RemoteDesktopThumbprint = rdpThumbPrintInstance;
+                                        string rdpThumbPrintInstance2 = ((string)rdpThumbPrintValue2);
+                                        instanceViewInstance2.RemoteDesktopThumbprint = rdpThumbPrintInstance2;
                                     }
                                     
-                                    JToken vmAgentValue = instanceViewValue["vmAgent"];
-                                    if (vmAgentValue != null && vmAgentValue.Type != JTokenType.Null)
+                                    JToken vmAgentValue2 = instanceViewValue2["vmAgent"];
+                                    if (vmAgentValue2 != null && vmAgentValue2.Type != JTokenType.Null)
                                     {
-                                        VirtualMachineAgentInstanceView vmAgentInstance = new VirtualMachineAgentInstanceView();
-                                        instanceViewInstance.VMAgent = vmAgentInstance;
+                                        VirtualMachineAgentInstanceView vmAgentInstance2 = new VirtualMachineAgentInstanceView();
+                                        instanceViewInstance2.VMAgent = vmAgentInstance2;
                                         
-                                        JToken vmAgentVersionValue = vmAgentValue["vmAgentVersion"];
-                                        if (vmAgentVersionValue != null && vmAgentVersionValue.Type != JTokenType.Null)
+                                        JToken vmAgentVersionValue2 = vmAgentValue2["vmAgentVersion"];
+                                        if (vmAgentVersionValue2 != null && vmAgentVersionValue2.Type != JTokenType.Null)
                                         {
-                                            string vmAgentVersionInstance = ((string)vmAgentVersionValue);
-                                            vmAgentInstance.VMAgentVersion = vmAgentVersionInstance;
-                                        }
-                                        
-                                        JToken extensionHandlersArray = vmAgentValue["extensionHandlers"];
-                                        if (extensionHandlersArray != null && extensionHandlersArray.Type != JTokenType.Null)
-                                        {
-                                            foreach (JToken extensionHandlersValue in ((JArray)extensionHandlersArray))
-                                            {
-                                                VirtualMachineExtensionHandlerInstanceView virtualMachineExtensionHandlerInstanceViewInstance = new VirtualMachineExtensionHandlerInstanceView();
-                                                vmAgentInstance.ExtensionHandlers.Add(virtualMachineExtensionHandlerInstanceViewInstance);
-                                                
-                                                JToken typeValue = extensionHandlersValue["type"];
-                                                if (typeValue != null && typeValue.Type != JTokenType.Null)
-                                                {
-                                                    string typeInstance = ((string)typeValue);
-                                                    virtualMachineExtensionHandlerInstanceViewInstance.Type = typeInstance;
-                                                }
-                                                
-                                                JToken typeHandlerVersionValue = extensionHandlersValue["typeHandlerVersion"];
-                                                if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
-                                                {
-                                                    string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
-                                                    virtualMachineExtensionHandlerInstanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance;
-                                                }
-                                                
-                                                JToken statusValue = extensionHandlersValue["status"];
-                                                if (statusValue != null && statusValue.Type != JTokenType.Null)
-                                                {
-                                                    InstanceViewStatus statusInstance = new InstanceViewStatus();
-                                                    virtualMachineExtensionHandlerInstanceViewInstance.Status = statusInstance;
-                                                    
-                                                    JToken codeValue = statusValue["code"];
-                                                    if (codeValue != null && codeValue.Type != JTokenType.Null)
-                                                    {
-                                                        string codeInstance = ((string)codeValue);
-                                                        statusInstance.Code = codeInstance;
-                                                    }
-                                                    
-                                                    JToken levelValue = statusValue["level"];
-                                                    if (levelValue != null && levelValue.Type != JTokenType.Null)
-                                                    {
-                                                        string levelInstance = ((string)levelValue);
-                                                        statusInstance.Level = levelInstance;
-                                                    }
-                                                    
-                                                    JToken displayStatusValue = statusValue["displayStatus"];
-                                                    if (displayStatusValue != null && displayStatusValue.Type != JTokenType.Null)
-                                                    {
-                                                        string displayStatusInstance = ((string)displayStatusValue);
-                                                        statusInstance.DisplayStatus = displayStatusInstance;
-                                                    }
-                                                    
-                                                    JToken messageValue = statusValue["message"];
-                                                    if (messageValue != null && messageValue.Type != JTokenType.Null)
-                                                    {
-                                                        string messageInstance = ((string)messageValue);
-                                                        statusInstance.Message = messageInstance;
-                                                    }
-                                                    
-                                                    JToken timeValue = statusValue["time"];
-                                                    if (timeValue != null && timeValue.Type != JTokenType.Null)
-                                                    {
-                                                        DateTimeOffset timeInstance = ((DateTimeOffset)timeValue);
-                                                        statusInstance.Time = timeInstance;
-                                                    }
-                                                }
-                                            }
+                                            string vmAgentVersionInstance2 = ((string)vmAgentVersionValue2);
+                                            vmAgentInstance2.VMAgentVersion = vmAgentVersionInstance2;
                                         }
                                         
-                                        JToken statusesArray = vmAgentValue["statuses"];
-                                        if (statusesArray != null && statusesArray.Type != JTokenType.Null)
+                                        JToken extensionHandlersArray2 = vmAgentValue2["extensionHandlers"];
+                                        if (extensionHandlersArray2 != null && extensionHandlersArray2.Type != JTokenType.Null)
                                         {
-                                            foreach (JToken statusesValue in ((JArray)statusesArray))
+                                            foreach (JToken extensionHandlersValue2 in ((JArray)extensionHandlersArray2))
                                             {
-                                                InstanceViewStatus instanceViewStatusInstance = new InstanceViewStatus();
-                                                vmAgentInstance.Statuses.Add(instanceViewStatusInstance);
+                                                VirtualMachineExtensionHandlerInstanceView virtualMachineExtensionHandlerInstanceViewInstance2 = new VirtualMachineExtensionHandlerInstanceView();
+                                                vmAgentInstance2.ExtensionHandlers.Add(virtualMachineExtensionHandlerInstanceViewInstance2);
                                                 
-                                                JToken codeValue2 = statusesValue["code"];
-                                                if (codeValue2 != null && codeValue2.Type != JTokenType.Null)
+                                                JToken typeValue3 = extensionHandlersValue2["type"];
+                                                if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
                                                 {
-                                                    string codeInstance2 = ((string)codeValue2);
-                                                    instanceViewStatusInstance.Code = codeInstance2;
+                                                    string typeInstance3 = ((string)typeValue3);
+                                                    virtualMachineExtensionHandlerInstanceViewInstance2.Type = typeInstance3;
                                                 }
                                                 
-                                                JToken levelValue2 = statusesValue["level"];
-                                                if (levelValue2 != null && levelValue2.Type != JTokenType.Null)
+                                                JToken typeHandlerVersionValue3 = extensionHandlersValue2["typeHandlerVersion"];
+                                                if (typeHandlerVersionValue3 != null && typeHandlerVersionValue3.Type != JTokenType.Null)
                                                 {
-                                                    string levelInstance2 = ((string)levelValue2);
-                                                    instanceViewStatusInstance.Level = levelInstance2;
+                                                    string typeHandlerVersionInstance3 = ((string)typeHandlerVersionValue3);
+                                                    virtualMachineExtensionHandlerInstanceViewInstance2.TypeHandlerVersion = typeHandlerVersionInstance3;
                                                 }
                                                 
-                                                JToken displayStatusValue2 = statusesValue["displayStatus"];
-                                                if (displayStatusValue2 != null && displayStatusValue2.Type != JTokenType.Null)
+                                                JToken statusValue2 = extensionHandlersValue2["status"];
+                                                if (statusValue2 != null && statusValue2.Type != JTokenType.Null)
                                                 {
-                                                    string displayStatusInstance2 = ((string)displayStatusValue2);
-                                                    instanceViewStatusInstance.DisplayStatus = displayStatusInstance2;
+                                                    InstanceViewStatus statusInstance2 = new InstanceViewStatus();
+                                                    virtualMachineExtensionHandlerInstanceViewInstance2.Status = statusInstance2;
+                                                    
+                                                    JToken codeValue7 = statusValue2["code"];
+                                                    if (codeValue7 != null && codeValue7.Type != JTokenType.Null)
+                                                    {
+                                                        string codeInstance7 = ((string)codeValue7);
+                                                        statusInstance2.Code = codeInstance7;
+                                                    }
+                                                    
+                                                    JToken levelValue7 = statusValue2["level"];
+                                                    if (levelValue7 != null && levelValue7.Type != JTokenType.Null)
+                                                    {
+                                                        string levelInstance7 = ((string)levelValue7);
+                                                        statusInstance2.Level = levelInstance7;
+                                                    }
+                                                    
+                                                    JToken displayStatusValue7 = statusValue2["displayStatus"];
+                                                    if (displayStatusValue7 != null && displayStatusValue7.Type != JTokenType.Null)
+                                                    {
+                                                        string displayStatusInstance7 = ((string)displayStatusValue7);
+                                                        statusInstance2.DisplayStatus = displayStatusInstance7;
+                                                    }
+                                                    
+                                                    JToken messageValue7 = statusValue2["message"];
+                                                    if (messageValue7 != null && messageValue7.Type != JTokenType.Null)
+                                                    {
+                                                        string messageInstance7 = ((string)messageValue7);
+                                                        statusInstance2.Message = messageInstance7;
+                                                    }
+                                                    
+                                                    JToken timeValue7 = statusValue2["time"];
+                                                    if (timeValue7 != null && timeValue7.Type != JTokenType.Null)
+                                                    {
+                                                        DateTimeOffset timeInstance7 = ((DateTimeOffset)timeValue7);
+                                                        statusInstance2.Time = timeInstance7;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                        JToken statusesArray5 = vmAgentValue2["statuses"];
+                                        if (statusesArray5 != null && statusesArray5.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken statusesValue5 in ((JArray)statusesArray5))
+                                            {
+                                                InstanceViewStatus instanceViewStatusInstance6 = new InstanceViewStatus();
+                                                vmAgentInstance2.Statuses.Add(instanceViewStatusInstance6);
+                                                
+                                                JToken codeValue8 = statusesValue5["code"];
+                                                if (codeValue8 != null && codeValue8.Type != JTokenType.Null)
+                                                {
+                                                    string codeInstance8 = ((string)codeValue8);
+                                                    instanceViewStatusInstance6.Code = codeInstance8;
                                                 }
                                                 
-                                                JToken messageValue2 = statusesValue["message"];
-                                                if (messageValue2 != null && messageValue2.Type != JTokenType.Null)
+                                                JToken levelValue8 = statusesValue5["level"];
+                                                if (levelValue8 != null && levelValue8.Type != JTokenType.Null)
                                                 {
-                                                    string messageInstance2 = ((string)messageValue2);
-                                                    instanceViewStatusInstance.Message = messageInstance2;
+                                                    string levelInstance8 = ((string)levelValue8);
+                                                    instanceViewStatusInstance6.Level = levelInstance8;
                                                 }
                                                 
-                                                JToken timeValue2 = statusesValue["time"];
-                                                if (timeValue2 != null && timeValue2.Type != JTokenType.Null)
+                                                JToken displayStatusValue8 = statusesValue5["displayStatus"];
+                                                if (displayStatusValue8 != null && displayStatusValue8.Type != JTokenType.Null)
                                                 {
-                                                    DateTimeOffset timeInstance2 = ((DateTimeOffset)timeValue2);
-                                                    instanceViewStatusInstance.Time = timeInstance2;
+                                                    string displayStatusInstance8 = ((string)displayStatusValue8);
+                                                    instanceViewStatusInstance6.DisplayStatus = displayStatusInstance8;
+                                                }
+                                                
+                                                JToken messageValue8 = statusesValue5["message"];
+                                                if (messageValue8 != null && messageValue8.Type != JTokenType.Null)
+                                                {
+                                                    string messageInstance8 = ((string)messageValue8);
+                                                    instanceViewStatusInstance6.Message = messageInstance8;
+                                                }
+                                                
+                                                JToken timeValue8 = statusesValue5["time"];
+                                                if (timeValue8 != null && timeValue8.Type != JTokenType.Null)
+                                                {
+                                                    DateTimeOffset timeInstance8 = ((DateTimeOffset)timeValue8);
+                                                    instanceViewStatusInstance6.Time = timeInstance8;
                                                 }
                                             }
                                         }
                                     }
                                     
-                                    JToken disksArray = instanceViewValue["disks"];
-                                    if (disksArray != null && disksArray.Type != JTokenType.Null)
+                                    JToken disksArray2 = instanceViewValue2["disks"];
+                                    if (disksArray2 != null && disksArray2.Type != JTokenType.Null)
                                     {
-                                        foreach (JToken disksValue in ((JArray)disksArray))
+                                        foreach (JToken disksValue2 in ((JArray)disksArray2))
                                         {
-                                            DiskInstanceView diskInstanceViewInstance = new DiskInstanceView();
-                                            instanceViewInstance.Disks.Add(diskInstanceViewInstance);
+                                            DiskInstanceView diskInstanceViewInstance2 = new DiskInstanceView();
+                                            instanceViewInstance2.Disks.Add(diskInstanceViewInstance2);
                                             
-                                            JToken nameValue4 = disksValue["name"];
-                                            if (nameValue4 != null && nameValue4.Type != JTokenType.Null)
+                                            JToken nameValue6 = disksValue2["name"];
+                                            if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                             {
-                                                string nameInstance4 = ((string)nameValue4);
-                                                diskInstanceViewInstance.Name = nameInstance4;
+                                                string nameInstance6 = ((string)nameValue6);
+                                                diskInstanceViewInstance2.Name = nameInstance6;
                                             }
                                             
-                                            JToken statusesArray2 = disksValue["statuses"];
-                                            if (statusesArray2 != null && statusesArray2.Type != JTokenType.Null)
+                                            JToken statusesArray6 = disksValue2["statuses"];
+                                            if (statusesArray6 != null && statusesArray6.Type != JTokenType.Null)
                                             {
-                                                foreach (JToken statusesValue2 in ((JArray)statusesArray2))
+                                                foreach (JToken statusesValue6 in ((JArray)statusesArray6))
                                                 {
-                                                    InstanceViewStatus instanceViewStatusInstance2 = new InstanceViewStatus();
-                                                    diskInstanceViewInstance.Statuses.Add(instanceViewStatusInstance2);
+                                                    InstanceViewStatus instanceViewStatusInstance7 = new InstanceViewStatus();
+                                                    diskInstanceViewInstance2.Statuses.Add(instanceViewStatusInstance7);
                                                     
-                                                    JToken codeValue3 = statusesValue2["code"];
-                                                    if (codeValue3 != null && codeValue3.Type != JTokenType.Null)
+                                                    JToken codeValue9 = statusesValue6["code"];
+                                                    if (codeValue9 != null && codeValue9.Type != JTokenType.Null)
                                                     {
-                                                        string codeInstance3 = ((string)codeValue3);
-                                                        instanceViewStatusInstance2.Code = codeInstance3;
+                                                        string codeInstance9 = ((string)codeValue9);
+                                                        instanceViewStatusInstance7.Code = codeInstance9;
                                                     }
                                                     
-                                                    JToken levelValue3 = statusesValue2["level"];
-                                                    if (levelValue3 != null && levelValue3.Type != JTokenType.Null)
+                                                    JToken levelValue9 = statusesValue6["level"];
+                                                    if (levelValue9 != null && levelValue9.Type != JTokenType.Null)
                                                     {
-                                                        string levelInstance3 = ((string)levelValue3);
-                                                        instanceViewStatusInstance2.Level = levelInstance3;
+                                                        string levelInstance9 = ((string)levelValue9);
+                                                        instanceViewStatusInstance7.Level = levelInstance9;
                                                     }
                                                     
-                                                    JToken displayStatusValue3 = statusesValue2["displayStatus"];
-                                                    if (displayStatusValue3 != null && displayStatusValue3.Type != JTokenType.Null)
+                                                    JToken displayStatusValue9 = statusesValue6["displayStatus"];
+                                                    if (displayStatusValue9 != null && displayStatusValue9.Type != JTokenType.Null)
                                                     {
-                                                        string displayStatusInstance3 = ((string)displayStatusValue3);
-                                                        instanceViewStatusInstance2.DisplayStatus = displayStatusInstance3;
+                                                        string displayStatusInstance9 = ((string)displayStatusValue9);
+                                                        instanceViewStatusInstance7.DisplayStatus = displayStatusInstance9;
                                                     }
                                                     
-                                                    JToken messageValue3 = statusesValue2["message"];
-                                                    if (messageValue3 != null && messageValue3.Type != JTokenType.Null)
+                                                    JToken messageValue9 = statusesValue6["message"];
+                                                    if (messageValue9 != null && messageValue9.Type != JTokenType.Null)
                                                     {
-                                                        string messageInstance3 = ((string)messageValue3);
-                                                        instanceViewStatusInstance2.Message = messageInstance3;
+                                                        string messageInstance9 = ((string)messageValue9);
+                                                        instanceViewStatusInstance7.Message = messageInstance9;
                                                     }
                                                     
-                                                    JToken timeValue3 = statusesValue2["time"];
-                                                    if (timeValue3 != null && timeValue3.Type != JTokenType.Null)
+                                                    JToken timeValue9 = statusesValue6["time"];
+                                                    if (timeValue9 != null && timeValue9.Type != JTokenType.Null)
                                                     {
-                                                        DateTimeOffset timeInstance3 = ((DateTimeOffset)timeValue3);
-                                                        instanceViewStatusInstance2.Time = timeInstance3;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                    JToken extensionsArray = instanceViewValue["extensions"];
-                                    if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
-                                    {
-                                        foreach (JToken extensionsValue in ((JArray)extensionsArray))
-                                        {
-                                            VirtualMachineExtensionInstanceView virtualMachineExtensionInstanceViewInstance = new VirtualMachineExtensionInstanceView();
-                                            instanceViewInstance.Extensions.Add(virtualMachineExtensionInstanceViewInstance);
-                                            
-                                            JToken nameValue5 = extensionsValue["name"];
-                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
-                                            {
-                                                string nameInstance5 = ((string)nameValue5);
-                                                virtualMachineExtensionInstanceViewInstance.Name = nameInstance5;
-                                            }
-                                            
-                                            JToken typeValue2 = extensionsValue["type"];
-                                            if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
-                                            {
-                                                string typeInstance2 = ((string)typeValue2);
-                                                virtualMachineExtensionInstanceViewInstance.ExtensionType = typeInstance2;
-                                            }
-                                            
-                                            JToken typeHandlerVersionValue2 = extensionsValue["typeHandlerVersion"];
-                                            if (typeHandlerVersionValue2 != null && typeHandlerVersionValue2.Type != JTokenType.Null)
-                                            {
-                                                string typeHandlerVersionInstance2 = ((string)typeHandlerVersionValue2);
-                                                virtualMachineExtensionInstanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance2;
-                                            }
-                                            
-                                            JToken substatusesArray = extensionsValue["substatuses"];
-                                            if (substatusesArray != null && substatusesArray.Type != JTokenType.Null)
-                                            {
-                                                foreach (JToken substatusesValue in ((JArray)substatusesArray))
-                                                {
-                                                    InstanceViewStatus instanceViewStatusInstance3 = new InstanceViewStatus();
-                                                    virtualMachineExtensionInstanceViewInstance.SubStatuses.Add(instanceViewStatusInstance3);
-                                                    
-                                                    JToken codeValue4 = substatusesValue["code"];
-                                                    if (codeValue4 != null && codeValue4.Type != JTokenType.Null)
-                                                    {
-                                                        string codeInstance4 = ((string)codeValue4);
-                                                        instanceViewStatusInstance3.Code = codeInstance4;
-                                                    }
-                                                    
-                                                    JToken levelValue4 = substatusesValue["level"];
-                                                    if (levelValue4 != null && levelValue4.Type != JTokenType.Null)
-                                                    {
-                                                        string levelInstance4 = ((string)levelValue4);
-                                                        instanceViewStatusInstance3.Level = levelInstance4;
-                                                    }
-                                                    
-                                                    JToken displayStatusValue4 = substatusesValue["displayStatus"];
-                                                    if (displayStatusValue4 != null && displayStatusValue4.Type != JTokenType.Null)
-                                                    {
-                                                        string displayStatusInstance4 = ((string)displayStatusValue4);
-                                                        instanceViewStatusInstance3.DisplayStatus = displayStatusInstance4;
-                                                    }
-                                                    
-                                                    JToken messageValue4 = substatusesValue["message"];
-                                                    if (messageValue4 != null && messageValue4.Type != JTokenType.Null)
-                                                    {
-                                                        string messageInstance4 = ((string)messageValue4);
-                                                        instanceViewStatusInstance3.Message = messageInstance4;
-                                                    }
-                                                    
-                                                    JToken timeValue4 = substatusesValue["time"];
-                                                    if (timeValue4 != null && timeValue4.Type != JTokenType.Null)
-                                                    {
-                                                        DateTimeOffset timeInstance4 = ((DateTimeOffset)timeValue4);
-                                                        instanceViewStatusInstance3.Time = timeInstance4;
-                                                    }
-                                                }
-                                            }
-                                            
-                                            JToken statusesArray3 = extensionsValue["statuses"];
-                                            if (statusesArray3 != null && statusesArray3.Type != JTokenType.Null)
-                                            {
-                                                foreach (JToken statusesValue3 in ((JArray)statusesArray3))
-                                                {
-                                                    InstanceViewStatus instanceViewStatusInstance4 = new InstanceViewStatus();
-                                                    virtualMachineExtensionInstanceViewInstance.Statuses.Add(instanceViewStatusInstance4);
-                                                    
-                                                    JToken codeValue5 = statusesValue3["code"];
-                                                    if (codeValue5 != null && codeValue5.Type != JTokenType.Null)
-                                                    {
-                                                        string codeInstance5 = ((string)codeValue5);
-                                                        instanceViewStatusInstance4.Code = codeInstance5;
-                                                    }
-                                                    
-                                                    JToken levelValue5 = statusesValue3["level"];
-                                                    if (levelValue5 != null && levelValue5.Type != JTokenType.Null)
-                                                    {
-                                                        string levelInstance5 = ((string)levelValue5);
-                                                        instanceViewStatusInstance4.Level = levelInstance5;
-                                                    }
-                                                    
-                                                    JToken displayStatusValue5 = statusesValue3["displayStatus"];
-                                                    if (displayStatusValue5 != null && displayStatusValue5.Type != JTokenType.Null)
-                                                    {
-                                                        string displayStatusInstance5 = ((string)displayStatusValue5);
-                                                        instanceViewStatusInstance4.DisplayStatus = displayStatusInstance5;
-                                                    }
-                                                    
-                                                    JToken messageValue5 = statusesValue3["message"];
-                                                    if (messageValue5 != null && messageValue5.Type != JTokenType.Null)
-                                                    {
-                                                        string messageInstance5 = ((string)messageValue5);
-                                                        instanceViewStatusInstance4.Message = messageInstance5;
-                                                    }
-                                                    
-                                                    JToken timeValue5 = statusesValue3["time"];
-                                                    if (timeValue5 != null && timeValue5.Type != JTokenType.Null)
-                                                    {
-                                                        DateTimeOffset timeInstance5 = ((DateTimeOffset)timeValue5);
-                                                        instanceViewStatusInstance4.Time = timeInstance5;
+                                                        DateTimeOffset timeInstance9 = ((DateTimeOffset)timeValue9);
+                                                        instanceViewStatusInstance7.Time = timeInstance9;
                                                     }
                                                 }
                                             }
                                         }
                                     }
                                     
-                                    JToken bootDiagnosticsValue2 = instanceViewValue["bootDiagnostics"];
-                                    if (bootDiagnosticsValue2 != null && bootDiagnosticsValue2.Type != JTokenType.Null)
+                                    JToken extensionsArray2 = instanceViewValue2["extensions"];
+                                    if (extensionsArray2 != null && extensionsArray2.Type != JTokenType.Null)
                                     {
-                                        BootDiagnosticsInstanceView bootDiagnosticsInstance2 = new BootDiagnosticsInstanceView();
-                                        instanceViewInstance.BootDiagnostics = bootDiagnosticsInstance2;
-                                        
-                                        JToken consoleScreenshotBlobUriValue = bootDiagnosticsValue2["consoleScreenshotBlobUri"];
-                                        if (consoleScreenshotBlobUriValue != null && consoleScreenshotBlobUriValue.Type != JTokenType.Null)
+                                        foreach (JToken extensionsValue2 in ((JArray)extensionsArray2))
                                         {
-                                            Uri consoleScreenshotBlobUriInstance = TypeConversion.TryParseUri(((string)consoleScreenshotBlobUriValue));
-                                            bootDiagnosticsInstance2.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance;
-                                        }
-                                        
-                                        JToken serialConsoleLogBlobUriValue = bootDiagnosticsValue2["serialConsoleLogBlobUri"];
-                                        if (serialConsoleLogBlobUriValue != null && serialConsoleLogBlobUriValue.Type != JTokenType.Null)
-                                        {
-                                            Uri serialConsoleLogBlobUriInstance = TypeConversion.TryParseUri(((string)serialConsoleLogBlobUriValue));
-                                            bootDiagnosticsInstance2.SerialConsoleLogBlobUri = serialConsoleLogBlobUriInstance;
-                                        }
-                                    }
-                                    
-                                    JToken statusesArray4 = instanceViewValue["statuses"];
-                                    if (statusesArray4 != null && statusesArray4.Type != JTokenType.Null)
-                                    {
-                                        foreach (JToken statusesValue4 in ((JArray)statusesArray4))
-                                        {
-                                            InstanceViewStatus instanceViewStatusInstance5 = new InstanceViewStatus();
-                                            instanceViewInstance.Statuses.Add(instanceViewStatusInstance5);
+                                            VirtualMachineExtensionInstanceView virtualMachineExtensionInstanceViewInstance2 = new VirtualMachineExtensionInstanceView();
+                                            instanceViewInstance2.Extensions.Add(virtualMachineExtensionInstanceViewInstance2);
                                             
-                                            JToken codeValue6 = statusesValue4["code"];
-                                            if (codeValue6 != null && codeValue6.Type != JTokenType.Null)
+                                            JToken nameValue7 = extensionsValue2["name"];
+                                            if (nameValue7 != null && nameValue7.Type != JTokenType.Null)
                                             {
-                                                string codeInstance6 = ((string)codeValue6);
-                                                instanceViewStatusInstance5.Code = codeInstance6;
+                                                string nameInstance7 = ((string)nameValue7);
+                                                virtualMachineExtensionInstanceViewInstance2.Name = nameInstance7;
                                             }
                                             
-                                            JToken levelValue6 = statusesValue4["level"];
-                                            if (levelValue6 != null && levelValue6.Type != JTokenType.Null)
+                                            JToken typeValue4 = extensionsValue2["type"];
+                                            if (typeValue4 != null && typeValue4.Type != JTokenType.Null)
                                             {
-                                                string levelInstance6 = ((string)levelValue6);
-                                                instanceViewStatusInstance5.Level = levelInstance6;
+                                                string typeInstance4 = ((string)typeValue4);
+                                                virtualMachineExtensionInstanceViewInstance2.ExtensionType = typeInstance4;
                                             }
                                             
-                                            JToken displayStatusValue6 = statusesValue4["displayStatus"];
-                                            if (displayStatusValue6 != null && displayStatusValue6.Type != JTokenType.Null)
+                                            JToken typeHandlerVersionValue4 = extensionsValue2["typeHandlerVersion"];
+                                            if (typeHandlerVersionValue4 != null && typeHandlerVersionValue4.Type != JTokenType.Null)
                                             {
-                                                string displayStatusInstance6 = ((string)displayStatusValue6);
-                                                instanceViewStatusInstance5.DisplayStatus = displayStatusInstance6;
+                                                string typeHandlerVersionInstance4 = ((string)typeHandlerVersionValue4);
+                                                virtualMachineExtensionInstanceViewInstance2.TypeHandlerVersion = typeHandlerVersionInstance4;
                                             }
                                             
-                                            JToken messageValue6 = statusesValue4["message"];
-                                            if (messageValue6 != null && messageValue6.Type != JTokenType.Null)
+                                            JToken substatusesArray2 = extensionsValue2["substatuses"];
+                                            if (substatusesArray2 != null && substatusesArray2.Type != JTokenType.Null)
                                             {
-                                                string messageInstance6 = ((string)messageValue6);
-                                                instanceViewStatusInstance5.Message = messageInstance6;
-                                            }
-                                            
-                                            JToken timeValue6 = statusesValue4["time"];
-                                            if (timeValue6 != null && timeValue6.Type != JTokenType.Null)
-                                            {
-                                                DateTimeOffset timeInstance6 = ((DateTimeOffset)timeValue6);
-                                                instanceViewStatusInstance5.Time = timeInstance6;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            JToken instanceViewValue2 = responseDoc["instanceView"];
-                            if (instanceViewValue2 != null && instanceViewValue2.Type != JTokenType.Null)
-                            {
-                                VirtualMachineInstanceView instanceViewInstance2 = new VirtualMachineInstanceView();
-                                virtualMachineScaleSetVMInstance.InstanceView = instanceViewInstance2;
-                                
-                                JToken platformUpdateDomainValue2 = instanceViewValue2["platformUpdateDomain"];
-                                if (platformUpdateDomainValue2 != null && platformUpdateDomainValue2.Type != JTokenType.Null)
-                                {
-                                    int platformUpdateDomainInstance2 = ((int)platformUpdateDomainValue2);
-                                    instanceViewInstance2.PlatformUpdateDomain = platformUpdateDomainInstance2;
-                                }
-                                
-                                JToken platformFaultDomainValue2 = instanceViewValue2["platformFaultDomain"];
-                                if (platformFaultDomainValue2 != null && platformFaultDomainValue2.Type != JTokenType.Null)
-                                {
-                                    int platformFaultDomainInstance2 = ((int)platformFaultDomainValue2);
-                                    instanceViewInstance2.PlatformFaultDomain = platformFaultDomainInstance2;
-                                }
-                                
-                                JToken rdpThumbPrintValue2 = instanceViewValue2["rdpThumbPrint"];
-                                if (rdpThumbPrintValue2 != null && rdpThumbPrintValue2.Type != JTokenType.Null)
-                                {
-                                    string rdpThumbPrintInstance2 = ((string)rdpThumbPrintValue2);
-                                    instanceViewInstance2.RemoteDesktopThumbprint = rdpThumbPrintInstance2;
-                                }
-                                
-                                JToken vmAgentValue2 = instanceViewValue2["vmAgent"];
-                                if (vmAgentValue2 != null && vmAgentValue2.Type != JTokenType.Null)
-                                {
-                                    VirtualMachineAgentInstanceView vmAgentInstance2 = new VirtualMachineAgentInstanceView();
-                                    instanceViewInstance2.VMAgent = vmAgentInstance2;
-                                    
-                                    JToken vmAgentVersionValue2 = vmAgentValue2["vmAgentVersion"];
-                                    if (vmAgentVersionValue2 != null && vmAgentVersionValue2.Type != JTokenType.Null)
-                                    {
-                                        string vmAgentVersionInstance2 = ((string)vmAgentVersionValue2);
-                                        vmAgentInstance2.VMAgentVersion = vmAgentVersionInstance2;
-                                    }
-                                    
-                                    JToken extensionHandlersArray2 = vmAgentValue2["extensionHandlers"];
-                                    if (extensionHandlersArray2 != null && extensionHandlersArray2.Type != JTokenType.Null)
-                                    {
-                                        foreach (JToken extensionHandlersValue2 in ((JArray)extensionHandlersArray2))
-                                        {
-                                            VirtualMachineExtensionHandlerInstanceView virtualMachineExtensionHandlerInstanceViewInstance2 = new VirtualMachineExtensionHandlerInstanceView();
-                                            vmAgentInstance2.ExtensionHandlers.Add(virtualMachineExtensionHandlerInstanceViewInstance2);
-                                            
-                                            JToken typeValue3 = extensionHandlersValue2["type"];
-                                            if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
-                                            {
-                                                string typeInstance3 = ((string)typeValue3);
-                                                virtualMachineExtensionHandlerInstanceViewInstance2.Type = typeInstance3;
-                                            }
-                                            
-                                            JToken typeHandlerVersionValue3 = extensionHandlersValue2["typeHandlerVersion"];
-                                            if (typeHandlerVersionValue3 != null && typeHandlerVersionValue3.Type != JTokenType.Null)
-                                            {
-                                                string typeHandlerVersionInstance3 = ((string)typeHandlerVersionValue3);
-                                                virtualMachineExtensionHandlerInstanceViewInstance2.TypeHandlerVersion = typeHandlerVersionInstance3;
-                                            }
-                                            
-                                            JToken statusValue2 = extensionHandlersValue2["status"];
-                                            if (statusValue2 != null && statusValue2.Type != JTokenType.Null)
-                                            {
-                                                InstanceViewStatus statusInstance2 = new InstanceViewStatus();
-                                                virtualMachineExtensionHandlerInstanceViewInstance2.Status = statusInstance2;
-                                                
-                                                JToken codeValue7 = statusValue2["code"];
-                                                if (codeValue7 != null && codeValue7.Type != JTokenType.Null)
+                                                foreach (JToken substatusesValue2 in ((JArray)substatusesArray2))
                                                 {
-                                                    string codeInstance7 = ((string)codeValue7);
-                                                    statusInstance2.Code = codeInstance7;
+                                                    InstanceViewStatus instanceViewStatusInstance8 = new InstanceViewStatus();
+                                                    virtualMachineExtensionInstanceViewInstance2.SubStatuses.Add(instanceViewStatusInstance8);
+                                                    
+                                                    JToken codeValue10 = substatusesValue2["code"];
+                                                    if (codeValue10 != null && codeValue10.Type != JTokenType.Null)
+                                                    {
+                                                        string codeInstance10 = ((string)codeValue10);
+                                                        instanceViewStatusInstance8.Code = codeInstance10;
+                                                    }
+                                                    
+                                                    JToken levelValue10 = substatusesValue2["level"];
+                                                    if (levelValue10 != null && levelValue10.Type != JTokenType.Null)
+                                                    {
+                                                        string levelInstance10 = ((string)levelValue10);
+                                                        instanceViewStatusInstance8.Level = levelInstance10;
+                                                    }
+                                                    
+                                                    JToken displayStatusValue10 = substatusesValue2["displayStatus"];
+                                                    if (displayStatusValue10 != null && displayStatusValue10.Type != JTokenType.Null)
+                                                    {
+                                                        string displayStatusInstance10 = ((string)displayStatusValue10);
+                                                        instanceViewStatusInstance8.DisplayStatus = displayStatusInstance10;
+                                                    }
+                                                    
+                                                    JToken messageValue10 = substatusesValue2["message"];
+                                                    if (messageValue10 != null && messageValue10.Type != JTokenType.Null)
+                                                    {
+                                                        string messageInstance10 = ((string)messageValue10);
+                                                        instanceViewStatusInstance8.Message = messageInstance10;
+                                                    }
+                                                    
+                                                    JToken timeValue10 = substatusesValue2["time"];
+                                                    if (timeValue10 != null && timeValue10.Type != JTokenType.Null)
+                                                    {
+                                                        DateTimeOffset timeInstance10 = ((DateTimeOffset)timeValue10);
+                                                        instanceViewStatusInstance8.Time = timeInstance10;
+                                                    }
                                                 }
-                                                
-                                                JToken levelValue7 = statusValue2["level"];
-                                                if (levelValue7 != null && levelValue7.Type != JTokenType.Null)
+                                            }
+                                            
+                                            JToken statusesArray7 = extensionsValue2["statuses"];
+                                            if (statusesArray7 != null && statusesArray7.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken statusesValue7 in ((JArray)statusesArray7))
                                                 {
-                                                    string levelInstance7 = ((string)levelValue7);
-                                                    statusInstance2.Level = levelInstance7;
-                                                }
-                                                
-                                                JToken displayStatusValue7 = statusValue2["displayStatus"];
-                                                if (displayStatusValue7 != null && displayStatusValue7.Type != JTokenType.Null)
-                                                {
-                                                    string displayStatusInstance7 = ((string)displayStatusValue7);
-                                                    statusInstance2.DisplayStatus = displayStatusInstance7;
-                                                }
-                                                
-                                                JToken messageValue7 = statusValue2["message"];
-                                                if (messageValue7 != null && messageValue7.Type != JTokenType.Null)
-                                                {
-                                                    string messageInstance7 = ((string)messageValue7);
-                                                    statusInstance2.Message = messageInstance7;
-                                                }
-                                                
-                                                JToken timeValue7 = statusValue2["time"];
-                                                if (timeValue7 != null && timeValue7.Type != JTokenType.Null)
-                                                {
-                                                    DateTimeOffset timeInstance7 = ((DateTimeOffset)timeValue7);
-                                                    statusInstance2.Time = timeInstance7;
+                                                    InstanceViewStatus instanceViewStatusInstance9 = new InstanceViewStatus();
+                                                    virtualMachineExtensionInstanceViewInstance2.Statuses.Add(instanceViewStatusInstance9);
+                                                    
+                                                    JToken codeValue11 = statusesValue7["code"];
+                                                    if (codeValue11 != null && codeValue11.Type != JTokenType.Null)
+                                                    {
+                                                        string codeInstance11 = ((string)codeValue11);
+                                                        instanceViewStatusInstance9.Code = codeInstance11;
+                                                    }
+                                                    
+                                                    JToken levelValue11 = statusesValue7["level"];
+                                                    if (levelValue11 != null && levelValue11.Type != JTokenType.Null)
+                                                    {
+                                                        string levelInstance11 = ((string)levelValue11);
+                                                        instanceViewStatusInstance9.Level = levelInstance11;
+                                                    }
+                                                    
+                                                    JToken displayStatusValue11 = statusesValue7["displayStatus"];
+                                                    if (displayStatusValue11 != null && displayStatusValue11.Type != JTokenType.Null)
+                                                    {
+                                                        string displayStatusInstance11 = ((string)displayStatusValue11);
+                                                        instanceViewStatusInstance9.DisplayStatus = displayStatusInstance11;
+                                                    }
+                                                    
+                                                    JToken messageValue11 = statusesValue7["message"];
+                                                    if (messageValue11 != null && messageValue11.Type != JTokenType.Null)
+                                                    {
+                                                        string messageInstance11 = ((string)messageValue11);
+                                                        instanceViewStatusInstance9.Message = messageInstance11;
+                                                    }
+                                                    
+                                                    JToken timeValue11 = statusesValue7["time"];
+                                                    if (timeValue11 != null && timeValue11.Type != JTokenType.Null)
+                                                    {
+                                                        DateTimeOffset timeInstance11 = ((DateTimeOffset)timeValue11);
+                                                        instanceViewStatusInstance9.Time = timeInstance11;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                     
-                                    JToken statusesArray5 = vmAgentValue2["statuses"];
-                                    if (statusesArray5 != null && statusesArray5.Type != JTokenType.Null)
+                                    JToken bootDiagnosticsValue3 = instanceViewValue2["bootDiagnostics"];
+                                    if (bootDiagnosticsValue3 != null && bootDiagnosticsValue3.Type != JTokenType.Null)
                                     {
-                                        foreach (JToken statusesValue5 in ((JArray)statusesArray5))
-                                        {
-                                            InstanceViewStatus instanceViewStatusInstance6 = new InstanceViewStatus();
-                                            vmAgentInstance2.Statuses.Add(instanceViewStatusInstance6);
-                                            
-                                            JToken codeValue8 = statusesValue5["code"];
-                                            if (codeValue8 != null && codeValue8.Type != JTokenType.Null)
-                                            {
-                                                string codeInstance8 = ((string)codeValue8);
-                                                instanceViewStatusInstance6.Code = codeInstance8;
-                                            }
-                                            
-                                            JToken levelValue8 = statusesValue5["level"];
-                                            if (levelValue8 != null && levelValue8.Type != JTokenType.Null)
-                                            {
-                                                string levelInstance8 = ((string)levelValue8);
-                                                instanceViewStatusInstance6.Level = levelInstance8;
-                                            }
-                                            
-                                            JToken displayStatusValue8 = statusesValue5["displayStatus"];
-                                            if (displayStatusValue8 != null && displayStatusValue8.Type != JTokenType.Null)
-                                            {
-                                                string displayStatusInstance8 = ((string)displayStatusValue8);
-                                                instanceViewStatusInstance6.DisplayStatus = displayStatusInstance8;
-                                            }
-                                            
-                                            JToken messageValue8 = statusesValue5["message"];
-                                            if (messageValue8 != null && messageValue8.Type != JTokenType.Null)
-                                            {
-                                                string messageInstance8 = ((string)messageValue8);
-                                                instanceViewStatusInstance6.Message = messageInstance8;
-                                            }
-                                            
-                                            JToken timeValue8 = statusesValue5["time"];
-                                            if (timeValue8 != null && timeValue8.Type != JTokenType.Null)
-                                            {
-                                                DateTimeOffset timeInstance8 = ((DateTimeOffset)timeValue8);
-                                                instanceViewStatusInstance6.Time = timeInstance8;
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                JToken disksArray2 = instanceViewValue2["disks"];
-                                if (disksArray2 != null && disksArray2.Type != JTokenType.Null)
-                                {
-                                    foreach (JToken disksValue2 in ((JArray)disksArray2))
-                                    {
-                                        DiskInstanceView diskInstanceViewInstance2 = new DiskInstanceView();
-                                        instanceViewInstance2.Disks.Add(diskInstanceViewInstance2);
+                                        BootDiagnosticsInstanceView bootDiagnosticsInstance3 = new BootDiagnosticsInstanceView();
+                                        instanceViewInstance2.BootDiagnostics = bootDiagnosticsInstance3;
                                         
-                                        JToken nameValue6 = disksValue2["name"];
-                                        if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
+                                        JToken consoleScreenshotBlobUriValue2 = bootDiagnosticsValue3["consoleScreenshotBlobUri"];
+                                        if (consoleScreenshotBlobUriValue2 != null && consoleScreenshotBlobUriValue2.Type != JTokenType.Null)
                                         {
-                                            string nameInstance6 = ((string)nameValue6);
-                                            diskInstanceViewInstance2.Name = nameInstance6;
+                                            Uri consoleScreenshotBlobUriInstance2 = TypeConversion.TryParseUri(((string)consoleScreenshotBlobUriValue2));
+                                            bootDiagnosticsInstance3.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance2;
                                         }
                                         
-                                        JToken statusesArray6 = disksValue2["statuses"];
-                                        if (statusesArray6 != null && statusesArray6.Type != JTokenType.Null)
+                                        JToken serialConsoleLogBlobUriValue2 = bootDiagnosticsValue3["serialConsoleLogBlobUri"];
+                                        if (serialConsoleLogBlobUriValue2 != null && serialConsoleLogBlobUriValue2.Type != JTokenType.Null)
                                         {
-                                            foreach (JToken statusesValue6 in ((JArray)statusesArray6))
-                                            {
-                                                InstanceViewStatus instanceViewStatusInstance7 = new InstanceViewStatus();
-                                                diskInstanceViewInstance2.Statuses.Add(instanceViewStatusInstance7);
-                                                
-                                                JToken codeValue9 = statusesValue6["code"];
-                                                if (codeValue9 != null && codeValue9.Type != JTokenType.Null)
-                                                {
-                                                    string codeInstance9 = ((string)codeValue9);
-                                                    instanceViewStatusInstance7.Code = codeInstance9;
-                                                }
-                                                
-                                                JToken levelValue9 = statusesValue6["level"];
-                                                if (levelValue9 != null && levelValue9.Type != JTokenType.Null)
-                                                {
-                                                    string levelInstance9 = ((string)levelValue9);
-                                                    instanceViewStatusInstance7.Level = levelInstance9;
-                                                }
-                                                
-                                                JToken displayStatusValue9 = statusesValue6["displayStatus"];
-                                                if (displayStatusValue9 != null && displayStatusValue9.Type != JTokenType.Null)
-                                                {
-                                                    string displayStatusInstance9 = ((string)displayStatusValue9);
-                                                    instanceViewStatusInstance7.DisplayStatus = displayStatusInstance9;
-                                                }
-                                                
-                                                JToken messageValue9 = statusesValue6["message"];
-                                                if (messageValue9 != null && messageValue9.Type != JTokenType.Null)
-                                                {
-                                                    string messageInstance9 = ((string)messageValue9);
-                                                    instanceViewStatusInstance7.Message = messageInstance9;
-                                                }
-                                                
-                                                JToken timeValue9 = statusesValue6["time"];
-                                                if (timeValue9 != null && timeValue9.Type != JTokenType.Null)
-                                                {
-                                                    DateTimeOffset timeInstance9 = ((DateTimeOffset)timeValue9);
-                                                    instanceViewStatusInstance7.Time = timeInstance9;
-                                                }
-                                            }
+                                            Uri serialConsoleLogBlobUriInstance2 = TypeConversion.TryParseUri(((string)serialConsoleLogBlobUriValue2));
+                                            bootDiagnosticsInstance3.SerialConsoleLogBlobUri = serialConsoleLogBlobUriInstance2;
                                         }
-                                    }
-                                }
-                                
-                                JToken extensionsArray2 = instanceViewValue2["extensions"];
-                                if (extensionsArray2 != null && extensionsArray2.Type != JTokenType.Null)
-                                {
-                                    foreach (JToken extensionsValue2 in ((JArray)extensionsArray2))
-                                    {
-                                        VirtualMachineExtensionInstanceView virtualMachineExtensionInstanceViewInstance2 = new VirtualMachineExtensionInstanceView();
-                                        instanceViewInstance2.Extensions.Add(virtualMachineExtensionInstanceViewInstance2);
-                                        
-                                        JToken nameValue7 = extensionsValue2["name"];
-                                        if (nameValue7 != null && nameValue7.Type != JTokenType.Null)
-                                        {
-                                            string nameInstance7 = ((string)nameValue7);
-                                            virtualMachineExtensionInstanceViewInstance2.Name = nameInstance7;
-                                        }
-                                        
-                                        JToken typeValue4 = extensionsValue2["type"];
-                                        if (typeValue4 != null && typeValue4.Type != JTokenType.Null)
-                                        {
-                                            string typeInstance4 = ((string)typeValue4);
-                                            virtualMachineExtensionInstanceViewInstance2.ExtensionType = typeInstance4;
-                                        }
-                                        
-                                        JToken typeHandlerVersionValue4 = extensionsValue2["typeHandlerVersion"];
-                                        if (typeHandlerVersionValue4 != null && typeHandlerVersionValue4.Type != JTokenType.Null)
-                                        {
-                                            string typeHandlerVersionInstance4 = ((string)typeHandlerVersionValue4);
-                                            virtualMachineExtensionInstanceViewInstance2.TypeHandlerVersion = typeHandlerVersionInstance4;
-                                        }
-                                        
-                                        JToken substatusesArray2 = extensionsValue2["substatuses"];
-                                        if (substatusesArray2 != null && substatusesArray2.Type != JTokenType.Null)
-                                        {
-                                            foreach (JToken substatusesValue2 in ((JArray)substatusesArray2))
-                                            {
-                                                InstanceViewStatus instanceViewStatusInstance8 = new InstanceViewStatus();
-                                                virtualMachineExtensionInstanceViewInstance2.SubStatuses.Add(instanceViewStatusInstance8);
-                                                
-                                                JToken codeValue10 = substatusesValue2["code"];
-                                                if (codeValue10 != null && codeValue10.Type != JTokenType.Null)
-                                                {
-                                                    string codeInstance10 = ((string)codeValue10);
-                                                    instanceViewStatusInstance8.Code = codeInstance10;
-                                                }
-                                                
-                                                JToken levelValue10 = substatusesValue2["level"];
-                                                if (levelValue10 != null && levelValue10.Type != JTokenType.Null)
-                                                {
-                                                    string levelInstance10 = ((string)levelValue10);
-                                                    instanceViewStatusInstance8.Level = levelInstance10;
-                                                }
-                                                
-                                                JToken displayStatusValue10 = substatusesValue2["displayStatus"];
-                                                if (displayStatusValue10 != null && displayStatusValue10.Type != JTokenType.Null)
-                                                {
-                                                    string displayStatusInstance10 = ((string)displayStatusValue10);
-                                                    instanceViewStatusInstance8.DisplayStatus = displayStatusInstance10;
-                                                }
-                                                
-                                                JToken messageValue10 = substatusesValue2["message"];
-                                                if (messageValue10 != null && messageValue10.Type != JTokenType.Null)
-                                                {
-                                                    string messageInstance10 = ((string)messageValue10);
-                                                    instanceViewStatusInstance8.Message = messageInstance10;
-                                                }
-                                                
-                                                JToken timeValue10 = substatusesValue2["time"];
-                                                if (timeValue10 != null && timeValue10.Type != JTokenType.Null)
-                                                {
-                                                    DateTimeOffset timeInstance10 = ((DateTimeOffset)timeValue10);
-                                                    instanceViewStatusInstance8.Time = timeInstance10;
-                                                }
-                                            }
-                                        }
-                                        
-                                        JToken statusesArray7 = extensionsValue2["statuses"];
-                                        if (statusesArray7 != null && statusesArray7.Type != JTokenType.Null)
-                                        {
-                                            foreach (JToken statusesValue7 in ((JArray)statusesArray7))
-                                            {
-                                                InstanceViewStatus instanceViewStatusInstance9 = new InstanceViewStatus();
-                                                virtualMachineExtensionInstanceViewInstance2.Statuses.Add(instanceViewStatusInstance9);
-                                                
-                                                JToken codeValue11 = statusesValue7["code"];
-                                                if (codeValue11 != null && codeValue11.Type != JTokenType.Null)
-                                                {
-                                                    string codeInstance11 = ((string)codeValue11);
-                                                    instanceViewStatusInstance9.Code = codeInstance11;
-                                                }
-                                                
-                                                JToken levelValue11 = statusesValue7["level"];
-                                                if (levelValue11 != null && levelValue11.Type != JTokenType.Null)
-                                                {
-                                                    string levelInstance11 = ((string)levelValue11);
-                                                    instanceViewStatusInstance9.Level = levelInstance11;
-                                                }
-                                                
-                                                JToken displayStatusValue11 = statusesValue7["displayStatus"];
-                                                if (displayStatusValue11 != null && displayStatusValue11.Type != JTokenType.Null)
-                                                {
-                                                    string displayStatusInstance11 = ((string)displayStatusValue11);
-                                                    instanceViewStatusInstance9.DisplayStatus = displayStatusInstance11;
-                                                }
-                                                
-                                                JToken messageValue11 = statusesValue7["message"];
-                                                if (messageValue11 != null && messageValue11.Type != JTokenType.Null)
-                                                {
-                                                    string messageInstance11 = ((string)messageValue11);
-                                                    instanceViewStatusInstance9.Message = messageInstance11;
-                                                }
-                                                
-                                                JToken timeValue11 = statusesValue7["time"];
-                                                if (timeValue11 != null && timeValue11.Type != JTokenType.Null)
-                                                {
-                                                    DateTimeOffset timeInstance11 = ((DateTimeOffset)timeValue11);
-                                                    instanceViewStatusInstance9.Time = timeInstance11;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                JToken bootDiagnosticsValue3 = instanceViewValue2["bootDiagnostics"];
-                                if (bootDiagnosticsValue3 != null && bootDiagnosticsValue3.Type != JTokenType.Null)
-                                {
-                                    BootDiagnosticsInstanceView bootDiagnosticsInstance3 = new BootDiagnosticsInstanceView();
-                                    instanceViewInstance2.BootDiagnostics = bootDiagnosticsInstance3;
-                                    
-                                    JToken consoleScreenshotBlobUriValue2 = bootDiagnosticsValue3["consoleScreenshotBlobUri"];
-                                    if (consoleScreenshotBlobUriValue2 != null && consoleScreenshotBlobUriValue2.Type != JTokenType.Null)
-                                    {
-                                        Uri consoleScreenshotBlobUriInstance2 = TypeConversion.TryParseUri(((string)consoleScreenshotBlobUriValue2));
-                                        bootDiagnosticsInstance3.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance2;
                                     }
                                     
-                                    JToken serialConsoleLogBlobUriValue2 = bootDiagnosticsValue3["serialConsoleLogBlobUri"];
-                                    if (serialConsoleLogBlobUriValue2 != null && serialConsoleLogBlobUriValue2.Type != JTokenType.Null)
+                                    JToken statusesArray8 = instanceViewValue2["statuses"];
+                                    if (statusesArray8 != null && statusesArray8.Type != JTokenType.Null)
                                     {
-                                        Uri serialConsoleLogBlobUriInstance2 = TypeConversion.TryParseUri(((string)serialConsoleLogBlobUriValue2));
-                                        bootDiagnosticsInstance3.SerialConsoleLogBlobUri = serialConsoleLogBlobUriInstance2;
-                                    }
-                                }
-                                
-                                JToken statusesArray8 = instanceViewValue2["statuses"];
-                                if (statusesArray8 != null && statusesArray8.Type != JTokenType.Null)
-                                {
-                                    foreach (JToken statusesValue8 in ((JArray)statusesArray8))
-                                    {
-                                        InstanceViewStatus instanceViewStatusInstance10 = new InstanceViewStatus();
-                                        instanceViewInstance2.Statuses.Add(instanceViewStatusInstance10);
-                                        
-                                        JToken codeValue12 = statusesValue8["code"];
-                                        if (codeValue12 != null && codeValue12.Type != JTokenType.Null)
+                                        foreach (JToken statusesValue8 in ((JArray)statusesArray8))
                                         {
-                                            string codeInstance12 = ((string)codeValue12);
-                                            instanceViewStatusInstance10.Code = codeInstance12;
-                                        }
-                                        
-                                        JToken levelValue12 = statusesValue8["level"];
-                                        if (levelValue12 != null && levelValue12.Type != JTokenType.Null)
-                                        {
-                                            string levelInstance12 = ((string)levelValue12);
-                                            instanceViewStatusInstance10.Level = levelInstance12;
-                                        }
-                                        
-                                        JToken displayStatusValue12 = statusesValue8["displayStatus"];
-                                        if (displayStatusValue12 != null && displayStatusValue12.Type != JTokenType.Null)
-                                        {
-                                            string displayStatusInstance12 = ((string)displayStatusValue12);
-                                            instanceViewStatusInstance10.DisplayStatus = displayStatusInstance12;
-                                        }
-                                        
-                                        JToken messageValue12 = statusesValue8["message"];
-                                        if (messageValue12 != null && messageValue12.Type != JTokenType.Null)
-                                        {
-                                            string messageInstance12 = ((string)messageValue12);
-                                            instanceViewStatusInstance10.Message = messageInstance12;
-                                        }
-                                        
-                                        JToken timeValue12 = statusesValue8["time"];
-                                        if (timeValue12 != null && timeValue12.Type != JTokenType.Null)
-                                        {
-                                            DateTimeOffset timeInstance12 = ((DateTimeOffset)timeValue12);
-                                            instanceViewStatusInstance10.Time = timeInstance12;
+                                            InstanceViewStatus instanceViewStatusInstance10 = new InstanceViewStatus();
+                                            instanceViewInstance2.Statuses.Add(instanceViewStatusInstance10);
+                                            
+                                            JToken codeValue12 = statusesValue8["code"];
+                                            if (codeValue12 != null && codeValue12.Type != JTokenType.Null)
+                                            {
+                                                string codeInstance12 = ((string)codeValue12);
+                                                instanceViewStatusInstance10.Code = codeInstance12;
+                                            }
+                                            
+                                            JToken levelValue12 = statusesValue8["level"];
+                                            if (levelValue12 != null && levelValue12.Type != JTokenType.Null)
+                                            {
+                                                string levelInstance12 = ((string)levelValue12);
+                                                instanceViewStatusInstance10.Level = levelInstance12;
+                                            }
+                                            
+                                            JToken displayStatusValue12 = statusesValue8["displayStatus"];
+                                            if (displayStatusValue12 != null && displayStatusValue12.Type != JTokenType.Null)
+                                            {
+                                                string displayStatusInstance12 = ((string)displayStatusValue12);
+                                                instanceViewStatusInstance10.DisplayStatus = displayStatusInstance12;
+                                            }
+                                            
+                                            JToken messageValue12 = statusesValue8["message"];
+                                            if (messageValue12 != null && messageValue12.Type != JTokenType.Null)
+                                            {
+                                                string messageInstance12 = ((string)messageValue12);
+                                                instanceViewStatusInstance10.Message = messageInstance12;
+                                            }
+                                            
+                                            JToken timeValue12 = statusesValue8["time"];
+                                            if (timeValue12 != null && timeValue12.Type != JTokenType.Null)
+                                            {
+                                                DateTimeOffset timeInstance12 = ((DateTimeOffset)timeValue12);
+                                                instanceViewStatusInstance10.Time = timeInstance12;
+                                            }
                                         }
                                     }
                                 }

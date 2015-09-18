@@ -36,7 +36,8 @@ namespace Microsoft.Azure.Management.Compute.Models
         private IList<VirtualMachineScaleSetSku> _virtualMachineScaleSetAvailableSkus;
         
         /// <summary>
-        /// Optional. Gets the list of virtual machine sizes.
+        /// Optional. Gets the list of skus available for the virtual machine
+        /// scale set.
         /// </summary>
         public IList<VirtualMachineScaleSetSku> VirtualMachineScaleSetAvailableSkus
         {
