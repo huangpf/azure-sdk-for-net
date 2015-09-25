@@ -21,29 +21,32 @@
 
 using System;
 using System.Linq;
+using Microsoft.Azure;
+using Microsoft.Azure.Management.Automation.Models;
 
-namespace Microsoft.Azure.Management.HDInsight.Job.Models
+namespace Microsoft.Azure.Management.Automation.Models
 {
     /// <summary>
-    /// The job submission json response.
+    /// The response model for the patch hybrid runbook worker group operation.
     /// </summary>
-    public partial class JobSubmissionJsonResponse
+    public partial class HybridRunbookWorkerGroupPatchResponse : AzureOperationResponse
     {
-        private string _id;
+        private HybridRunbookWorkerGroup _hybridRunbookWorkerGroup;
         
         /// <summary>
-        /// Optional. Gets or sets the Id of the created job.
+        /// Optional. Gets or sets a hybrid runbook worker group.
         /// </summary>
-        public string Id
+        public HybridRunbookWorkerGroup HybridRunbookWorkerGroup
         {
-            get { return this._id; }
-            set { this._id = value; }
+            get { return this._hybridRunbookWorkerGroup; }
+            set { this._hybridRunbookWorkerGroup = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the JobSubmissionJsonResponse class.
+        /// Initializes a new instance of the
+        /// HybridRunbookWorkerGroupPatchResponse class.
         /// </summary>
-        public JobSubmissionJsonResponse()
+        public HybridRunbookWorkerGroupPatchResponse()
         {
         }
     }

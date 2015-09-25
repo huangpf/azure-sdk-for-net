@@ -21,32 +21,40 @@
 
 using System;
 using System.Linq;
-using Microsoft.Azure;
-using Microsoft.Azure.Management.HDInsight.Job.Models;
 
-namespace Microsoft.Azure.Management.HDInsight.Job.Models
+namespace Microsoft.Azure.Management.Automation.Models
 {
     /// <summary>
-    /// The Get Job operation response.
+    /// Definition of usage counter name.
     /// </summary>
-    public partial class JobGetResponse : AzureOperationResponse
+    public partial class UsageCounterName
     {
-        private JobDetailRootJsonObject _jobDetail;
+        private string _localizedValue;
         
         /// <summary>
-        /// Optional. Gets or sets the job detail received from the HDInsight
-        /// cluster.
+        /// Optional. Gets or sets the localized usage counter name.
         /// </summary>
-        public JobDetailRootJsonObject JobDetail
+        public string LocalizedValue
         {
-            get { return this._jobDetail; }
-            set { this._jobDetail = value; }
+            get { return this._localizedValue; }
+            set { this._localizedValue = value; }
+        }
+        
+        private string _value;
+        
+        /// <summary>
+        /// Optional. Gets or sets the usage counter name.
+        /// </summary>
+        public string Value
+        {
+            get { return this._value; }
+            set { this._value = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the JobGetResponse class.
+        /// Initializes a new instance of the UsageCounterName class.
         /// </summary>
-        public JobGetResponse()
+        public UsageCounterName()
         {
         }
     }

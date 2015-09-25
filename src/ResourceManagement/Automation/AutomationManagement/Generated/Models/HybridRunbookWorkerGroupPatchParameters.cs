@@ -21,32 +21,31 @@
 
 using System;
 using System.Linq;
-using Microsoft.Azure;
-using Microsoft.Azure.Management.HDInsight.Job.Models;
+using Microsoft.Azure.Management.Automation.Models;
 
-namespace Microsoft.Azure.Management.HDInsight.Job.Models
+namespace Microsoft.Azure.Management.Automation.Models
 {
     /// <summary>
-    /// The Create Job operation response.
+    /// Parameters supplied to the patch operation.
     /// </summary>
-    public partial class JobSubmissionResponse : AzureOperationResponse
+    public partial class HybridRunbookWorkerGroupPatchParameters
     {
-        private JobSubmissionJsonResponse _jobSubmissionJsonResponse;
+        private CredentialNavigation _credential;
         
         /// <summary>
-        /// Optional. Gets or sets the job submission result object recieved
-        /// from the HDInsight cluster.
+        /// Optional. Sets the credential of a worker group.
         /// </summary>
-        public JobSubmissionJsonResponse JobSubmissionJsonResponse
+        public CredentialNavigation Credential
         {
-            get { return this._jobSubmissionJsonResponse; }
-            set { this._jobSubmissionJsonResponse = value; }
+            get { return this._credential; }
+            set { this._credential = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the JobSubmissionResponse class.
+        /// Initializes a new instance of the
+        /// HybridRunbookWorkerGroupPatchParameters class.
         /// </summary>
-        public JobSubmissionResponse()
+        public HybridRunbookWorkerGroupPatchParameters()
         {
         }
     }

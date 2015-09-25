@@ -21,18 +21,32 @@
 
 using System;
 using System.Linq;
+using Microsoft.Azure;
+using Microsoft.Azure.Management.Automation.Models;
 
-namespace Microsoft.Azure.Management.HDInsight.Job.Models
+namespace Microsoft.Azure.Management.Automation.Models
 {
     /// <summary>
-    /// Gets or sets the object containing the job ACLs.
+    /// The response model for the get hybrid runbook worker group operation.
     /// </summary>
-    public partial class JobACLs
+    public partial class HybridRunbookWorkerGroupGetResponse : AzureOperationResponse
     {
+        private HybridRunbookWorkerGroup _hybridRunbookWorkerGroup;
+        
         /// <summary>
-        /// Initializes a new instance of the JobACLs class.
+        /// Optional. Gets or sets a hybrid runbook worker group.
         /// </summary>
-        public JobACLs()
+        public HybridRunbookWorkerGroup HybridRunbookWorkerGroup
+        {
+            get { return this._hybridRunbookWorkerGroup; }
+            set { this._hybridRunbookWorkerGroup = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// HybridRunbookWorkerGroupGetResponse class.
+        /// </summary>
+        public HybridRunbookWorkerGroupGetResponse()
         {
         }
     }

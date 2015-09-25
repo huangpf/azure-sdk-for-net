@@ -22,12 +22,19 @@
 using System;
 using System.Linq;
 
-namespace Microsoft.Azure.Management.HDInsight.Job
+namespace Microsoft.Azure.Management.Automation.Models
 {
     /// <summary>
-    /// The HDInsight job client manages jobs against HDInsight clusters.
+    /// Activity level tracing options of the runbook.
     /// </summary>
-    public static partial class HDInsightJobManagementClientExtensions
+    public static partial class ActivityTraceOptions
     {
+        public const string None = "None";
+        
+        public const string ActivityStartEnd = "ActivityStartEnd";
+        
+        public const string ActivityInput = "ActivityInput";
+        
+        public const string ActivityOutput = "ActivityOutput";
     }
 }

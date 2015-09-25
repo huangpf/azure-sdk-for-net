@@ -20,40 +20,52 @@
 // code is regenerated.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Hyak.Common;
-using Microsoft.Azure.Management.HDInsight.Job;
+using Microsoft.Azure;
+using Microsoft.Azure.Management.Automation.Models;
 
-namespace Microsoft.Azure.Management.HDInsight.Job
+namespace Microsoft.Azure.Management.Automation.Models
 {
     /// <summary>
-    /// The HDInsight job client manages jobs against HDInsight clusters.
+    /// The response model for the get usage operation.
     /// </summary>
-    public partial interface IHDInsightJobManagementClient : IDisposable
+    public partial class UsageListResponse : AzureOperationResponse, IEnumerable<Usage>
     {
+        private IList<Usage> _usage;
+        
         /// <summary>
-        /// The cluster dns name against which the job management is to be
-        /// performed.
+        /// Optional. Gets or sets usage.
         /// </summary>
-        string ClusterDnsName
+        public IList<Usage> Usage
         {
-            get; set; 
+            get { return this._usage; }
+            set { this._usage = value; }
         }
         
         /// <summary>
-        /// Basic authentication credentials for job submission.
+        /// Initializes a new instance of the UsageListResponse class.
         /// </summary>
-        BasicAuthenticationCloudCredentials Credentials
+        public UsageListResponse()
         {
-            get; set; 
+            this.Usage = new LazyList<Usage>();
         }
         
         /// <summary>
-        /// Operations for managing jobs against HDInsight clusters.
+        /// Gets the sequence of Usage.
         /// </summary>
-        IJobOperations JobManagement
+        public IEnumerator<Usage> GetEnumerator()
         {
-            get; 
+            return this.Usage.GetEnumerator();
+        }
+        
+        /// <summary>
+        /// Gets the sequence of Usage.
+        /// </summary>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

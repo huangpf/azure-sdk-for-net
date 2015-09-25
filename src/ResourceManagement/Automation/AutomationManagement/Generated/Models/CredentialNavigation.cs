@@ -22,39 +22,28 @@
 using System;
 using System.Linq;
 
-namespace Microsoft.Azure.Management.HDInsight.Job.Models
+namespace Microsoft.Azure.Management.Automation.Models
 {
     /// <summary>
-    /// Gets or sets the object with the Job ID.
+    /// Definition of the credential.
     /// </summary>
-    public partial class JobID
+    public partial class CredentialNavigation
     {
-        private string _id;
+        private string _name;
         
         /// <summary>
-        /// Optional. Gets or sets the job number.
+        /// Optional. Gets or sets the name of the credential.
         /// </summary>
-        public string Id
+        public string Name
         {
-            get { return this._id; }
-            set { this._id = value; }
-        }
-        
-        private string _jtIdentifier;
-        
-        /// <summary>
-        /// Optional. Gets or sets the jobTracker identifier.
-        /// </summary>
-        public string JtIdentifier
-        {
-            get { return this._jtIdentifier; }
-            set { this._jtIdentifier = value; }
+            get { return this._name; }
+            set { this._name = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the JobID class.
+        /// Initializes a new instance of the CredentialNavigation class.
         /// </summary>
-        public JobID()
+        public CredentialNavigation()
         {
         }
     }
