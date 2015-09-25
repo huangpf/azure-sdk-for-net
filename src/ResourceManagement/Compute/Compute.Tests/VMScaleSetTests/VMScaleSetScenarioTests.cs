@@ -22,6 +22,7 @@ using System.Linq;
 using System.Net;
 using Xunit;
 using Hyak.Common;
+using System.Collections.Generic;
 
 namespace Compute.Tests
 {
@@ -32,7 +33,7 @@ namespace Compute.Tests
         /// Create RG
         /// Create Storage Account
         /// Create Network Resources
-        /// Create VMScaleSet
+        /// Create VMScaleSet with extension
         /// Get VMScaleSet Model View
         /// List VMScaleSets in a RG
         /// List Available Skus
@@ -53,6 +54,15 @@ namespace Compute.Tests
                 var rgName = TestUtilities.GenerateName(TestPrefix);
                 string storageAccountName = TestUtilities.GenerateName(TestPrefix);
                 VirtualMachineScaleSet inputVMScaleSet;
+
+                VirtualMachineScaleSetExtensionProfile extensionProfile = new VirtualMachineScaleSetExtensionProfile()
+                {
+                    Extensions = new List<VirtualMachineScaleSetExtension>()
+                    {
+                        GetTestVMSSVMExtension(),
+                    }
+                };
+
                 try
                 {
                     var storageAccountOutput = CreateStorageAccount(rgName, storageAccountName);
@@ -60,7 +70,7 @@ namespace Compute.Tests
                     var deleteVMScaleSetResponse = m_CrpClient.VirtualMachineScaleSets.Delete(rgName, "VMScaleSetDoesNotExist");
                     Assert.True(deleteVMScaleSetResponse.Status == OperationStatus.Succeeded);
 
-                    var vmScaleSet = CreateVMScaleSet_NoAsyncTracking(rgName, storageAccountOutput, imageRef, out inputVMScaleSet);
+                    var vmScaleSet = CreateVMScaleSet_NoAsyncTracking(rgName, storageAccountOutput, imageRef, out inputVMScaleSet, extensionProfile);
 
                     var getResponse = m_CrpClient.VirtualMachineScaleSets.Get(rgName, vmScaleSet.Name);
                     Assert.True(getResponse.StatusCode == HttpStatusCode.OK);

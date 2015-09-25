@@ -20,7 +20,6 @@
 // code is regenerated.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.Management.Compute.Models;
 
@@ -31,16 +30,15 @@ namespace Microsoft.Azure.Management.Compute.Models
     /// </summary>
     public partial class VirtualMachineScaleSetVMProfile
     {
-        private IList<VirtualMachineExtension> _extensions;
+        private VirtualMachineScaleSetExtensionProfile _extensionProfile;
         
         /// <summary>
-        /// Optional. Gets the virtual machine scale set child extension
-        /// resources.
+        /// Optional. Gets the virtual machine scale set extension profile.
         /// </summary>
-        public IList<VirtualMachineExtension> Extensions
+        public VirtualMachineScaleSetExtensionProfile ExtensionProfile
         {
-            get { return this._extensions; }
-            set { this._extensions = value; }
+            get { return this._extensionProfile; }
+            set { this._extensionProfile = value; }
         }
         
         private VirtualMachineScaleSetNetworkProfile _networkProfile;

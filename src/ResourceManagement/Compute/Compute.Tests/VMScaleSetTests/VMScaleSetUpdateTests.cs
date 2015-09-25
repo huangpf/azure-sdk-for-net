@@ -18,6 +18,7 @@ using Microsoft.Azure.Management.Compute;
 using Microsoft.Azure.Management.Compute.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Test;
+using System.Collections.Generic;
 using System.Net;
 using Xunit;
 
@@ -128,6 +129,15 @@ namespace Compute.Tests
                     ValidateVMScaleSet(inputVMScaleSet, getResponse.VirtualMachineScaleSet);
 
                     inputVMScaleSet.Sku.Name = VirtualMachineSizeTypes.StandardA1;
+                    VirtualMachineScaleSetExtensionProfile extensionProfile = new VirtualMachineScaleSetExtensionProfile()
+                    {
+                        Extensions = new List<VirtualMachineScaleSetExtension>()
+                            {
+                                GetTestVMSSVMExtension(),
+                            }
+                    };
+                    inputVMScaleSet.VirtualMachineProfile.ExtensionProfile = extensionProfile;
+
                     UpdateVMScaleSet(rgName, inputVMScaleSet);
 
                     getResponse = m_CrpClient.VirtualMachineScaleSets.Get(rgName, vmScaleSet.Name);

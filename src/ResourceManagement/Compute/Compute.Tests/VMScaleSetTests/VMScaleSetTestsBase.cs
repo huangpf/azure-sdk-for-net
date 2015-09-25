@@ -34,6 +34,25 @@ namespace Compute.Tests
 {
     public class VMScaleSetTestsBase : VMTestBase
     {
+        protected VirtualMachineScaleSetExtension GetTestVMSSVMExtension()
+        {
+            var vmExtension = new VirtualMachineScaleSetExtension
+            {
+                Name = "vmssext01",
+                Location = ComputeManagementTestUtilities.DefaultLocation,
+                Type = null,
+                Tags = null,
+                Id = null,
+                Publisher = "Microsoft.Compute",
+                ExtensionType = "VMAccessAgent",
+                TypeHandlerVersion = "2.0",
+                AutoUpgradeMinorVersion = true,
+                Settings = "{}",
+                ProtectedSettings = "{}"
+            };
+
+            return vmExtension;
+        }
         protected VirtualMachineScaleSet CreateDefaultVMScaleSetInput(string rgName, string storageAccountName, ImageReference imageRef, string subnetId)
         {
             // Generate Container name to hold disk VHds
@@ -82,6 +101,7 @@ namespace Compute.Tests
                             new VirtualMachineScaleSetNetworkConfiguration()
                             {
                                 Name = TestUtilities.GenerateName("vmsstestnetconfig"),
+                                Primary = true,
                                 IPConfigurations = new List<VirtualMachineScaleSetIPConfiguration>
                                 {
                                     new VirtualMachineScaleSetIPConfiguration()
@@ -91,12 +111,13 @@ namespace Compute.Tests
                                         {
                                             ReferenceUri = subnetId
                                         }
+                                        
                                     }
                                 }
                             }
                         }
                     },
-                    Extensions = new List<VirtualMachineExtension>(),
+                    ExtensionProfile = new VirtualMachineScaleSetExtensionProfile(),
                 }
             };
         }
@@ -106,13 +127,18 @@ namespace Compute.Tests
             StorageAccount storageAccount, 
             ImageReference imageRef,
             out VirtualMachineScaleSet inputVMScaleSet,
+            VirtualMachineScaleSetExtensionProfile extensionProfile = null,
             Action<VirtualMachineScaleSet> vmScaleSetCustomizer = null,
             bool createWithPublicIpAddress = false)
         {
             try
             {
-                var createOrUpdateResponse = CreateVMScaleSetAndGetOperationResponse(rgName, storageAccount, imageRef, out inputVMScaleSet,
-                    vmScaleSetCustomizer);
+                var createOrUpdateResponse = CreateVMScaleSetAndGetOperationResponse(rgName, 
+                                                                                     storageAccount, 
+                                                                                     imageRef, 
+                                                                                     out inputVMScaleSet, 
+                                                                                     extensionProfile,
+                                                                                     vmScaleSetCustomizer);
 
                 var operationUri = new Uri(createOrUpdateResponse.AzureAsyncOperation);
                 string operationId = operationUri.Segments.LastOrDefault();
@@ -137,12 +163,13 @@ namespace Compute.Tests
             StorageAccount storageAccount, 
             ImageReference imageRef,
             out VirtualMachineScaleSet inputVMScaleSet,
+            VirtualMachineScaleSetExtensionProfile extensionProfile = null,
             Action<VirtualMachineScaleSet> vmScaleSetCustomizer = null,
             bool createWithPublicIpAddress = false)
         {
             try
             {
-                var createOrUpdateResponse = CreateVMScaleSetAndGetOperationResponse(rgName, storageAccount, imageRef, out inputVMScaleSet,
+                var createOrUpdateResponse = CreateVMScaleSetAndGetOperationResponse(rgName, storageAccount, imageRef, out inputVMScaleSet, extensionProfile,
                     vmScaleSetCustomizer);
                 Assert.Equal(HttpStatusCode.Created, createOrUpdateResponse.StatusCode);
 
@@ -176,6 +203,7 @@ namespace Compute.Tests
             StorageAccount storageAccount,
             ImageReference imageRef,
             out VirtualMachineScaleSet inputVMScaleSet,
+            VirtualMachineScaleSetExtensionProfile extensionProfile = null,
             Action<VirtualMachineScaleSet> vmScaleSetCustomizer = null,
             bool createWithPublicIpAddress = false)
         {
@@ -201,6 +229,8 @@ namespace Compute.Tests
             {
                 vmScaleSetCustomizer(inputVMScaleSet);
             }
+
+            inputVMScaleSet.VirtualMachineProfile.ExtensionProfile = extensionProfile;
 
             var createOrUpdateResponse = m_CrpClient.VirtualMachineScaleSets.BeginCreatingOrUpdating(
                  rgName, inputVMScaleSet);
@@ -253,6 +283,16 @@ namespace Compute.Tests
                     Assert.True(secretOut.VaultCertificates.SequenceEqual(secret.VaultCertificates, VaultCertComparer));
 
                     // ReSharper enable PossibleNullReferenceException
+                }
+            }
+
+            if (vmScaleSet.VirtualMachineProfile.ExtensionProfile != null &&
+                vmScaleSet.VirtualMachineProfile.ExtensionProfile.Extensions.Any())
+            {
+                foreach (var vmExtension in vmScaleSet.VirtualMachineProfile.ExtensionProfile.Extensions)
+                {
+                    var vmExt = vmScaleSetOut.VirtualMachineProfile.ExtensionProfile.Extensions.FirstOrDefault(s => String.Compare(s.Name, vmExtension.Name, StringComparison.InvariantCultureIgnoreCase) == 0);
+                    Assert.NotNull(vmExt);
                 }
             }
         }

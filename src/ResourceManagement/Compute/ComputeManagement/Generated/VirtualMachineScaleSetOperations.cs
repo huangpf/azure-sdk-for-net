@@ -99,13 +99,16 @@ namespace Microsoft.Azure.Management.Compute
             }
             if (parameters.VirtualMachineProfile != null)
             {
-                if (parameters.VirtualMachineProfile.Extensions != null)
+                if (parameters.VirtualMachineProfile.ExtensionProfile != null)
                 {
-                    foreach (VirtualMachineExtension extensionsParameterItem in parameters.VirtualMachineProfile.Extensions)
+                    if (parameters.VirtualMachineProfile.ExtensionProfile.Extensions != null)
                     {
-                        if (extensionsParameterItem.Location == null)
+                        foreach (VirtualMachineScaleSetExtension extensionsParameterItem in parameters.VirtualMachineProfile.ExtensionProfile.Extensions)
                         {
-                            throw new ArgumentNullException("parameters.VirtualMachineProfile.Extensions.Location");
+                            if (extensionsParameterItem.Location == null)
+                            {
+                                throw new ArgumentNullException("parameters.VirtualMachineProfile.ExtensionProfile.Extensions.Location");
+                            }
                         }
                     }
                 }
@@ -614,175 +617,85 @@ namespace Microsoft.Azure.Management.Compute
                         }
                     }
                     
-                    if (parameters.VirtualMachineProfile.Extensions != null)
+                    if (parameters.VirtualMachineProfile.ExtensionProfile != null)
                     {
-                        JArray extensionsArray = new JArray();
-                        foreach (VirtualMachineExtension extensionsItem in parameters.VirtualMachineProfile.Extensions)
+                        JObject extensionProfileValue = new JObject();
+                        virtualMachineProfileValue["extensionProfile"] = extensionProfileValue;
+                        
+                        if (parameters.VirtualMachineProfile.ExtensionProfile.Extensions != null)
                         {
-                            JObject virtualMachineExtensionJsonValue = new JObject();
-                            extensionsArray.Add(virtualMachineExtensionJsonValue);
-                            
-                            JObject propertiesValue4 = new JObject();
-                            virtualMachineExtensionJsonValue["properties"] = propertiesValue4;
-                            
-                            if (extensionsItem.Publisher != null)
+                            JArray extensionsArray = new JArray();
+                            foreach (VirtualMachineScaleSetExtension extensionsItem in parameters.VirtualMachineProfile.ExtensionProfile.Extensions)
                             {
-                                propertiesValue4["publisher"] = extensionsItem.Publisher;
-                            }
-                            
-                            if (extensionsItem.ExtensionType != null)
-                            {
-                                propertiesValue4["type"] = extensionsItem.ExtensionType;
-                            }
-                            
-                            if (extensionsItem.TypeHandlerVersion != null)
-                            {
-                                propertiesValue4["typeHandlerVersion"] = extensionsItem.TypeHandlerVersion;
-                            }
-                            
-                            propertiesValue4["autoUpgradeMinorVersion"] = extensionsItem.AutoUpgradeMinorVersion;
-                            
-                            if (extensionsItem.Settings != null)
-                            {
-                                propertiesValue4["settings"] = JObject.Parse(extensionsItem.Settings);
-                            }
-                            
-                            if (extensionsItem.ProtectedSettings != null)
-                            {
-                                propertiesValue4["protectedSettings"] = JObject.Parse(extensionsItem.ProtectedSettings);
-                            }
-                            
-                            if (extensionsItem.ProvisioningState != null)
-                            {
-                                propertiesValue4["provisioningState"] = extensionsItem.ProvisioningState;
-                            }
-                            
-                            if (extensionsItem.InstanceView != null)
-                            {
-                                JObject instanceViewValue = new JObject();
-                                propertiesValue4["instanceView"] = instanceViewValue;
+                                JObject virtualMachineScaleSetExtensionJsonValue = new JObject();
+                                extensionsArray.Add(virtualMachineScaleSetExtensionJsonValue);
                                 
-                                if (extensionsItem.InstanceView.Name != null)
+                                JObject propertiesValue4 = new JObject();
+                                virtualMachineScaleSetExtensionJsonValue["properties"] = propertiesValue4;
+                                
+                                if (extensionsItem.Publisher != null)
                                 {
-                                    instanceViewValue["name"] = extensionsItem.InstanceView.Name;
+                                    propertiesValue4["publisher"] = extensionsItem.Publisher;
                                 }
                                 
-                                if (extensionsItem.InstanceView.ExtensionType != null)
+                                if (extensionsItem.ExtensionType != null)
                                 {
-                                    instanceViewValue["type"] = extensionsItem.InstanceView.ExtensionType;
+                                    propertiesValue4["type"] = extensionsItem.ExtensionType;
                                 }
                                 
-                                if (extensionsItem.InstanceView.TypeHandlerVersion != null)
+                                if (extensionsItem.TypeHandlerVersion != null)
                                 {
-                                    instanceViewValue["typeHandlerVersion"] = extensionsItem.InstanceView.TypeHandlerVersion;
+                                    propertiesValue4["typeHandlerVersion"] = extensionsItem.TypeHandlerVersion;
                                 }
                                 
-                                if (extensionsItem.InstanceView.SubStatuses != null)
+                                propertiesValue4["autoUpgradeMinorVersion"] = extensionsItem.AutoUpgradeMinorVersion;
+                                
+                                if (extensionsItem.Settings != null)
                                 {
-                                    if (extensionsItem.InstanceView.SubStatuses is ILazyCollection == false || ((ILazyCollection)extensionsItem.InstanceView.SubStatuses).IsInitialized)
+                                    propertiesValue4["settings"] = JObject.Parse(extensionsItem.Settings);
+                                }
+                                
+                                if (extensionsItem.ProtectedSettings != null)
+                                {
+                                    propertiesValue4["protectedSettings"] = JObject.Parse(extensionsItem.ProtectedSettings);
+                                }
+                                
+                                if (extensionsItem.ProvisioningState != null)
+                                {
+                                    propertiesValue4["provisioningState"] = extensionsItem.ProvisioningState;
+                                }
+                                
+                                if (extensionsItem.Id != null)
+                                {
+                                    virtualMachineScaleSetExtensionJsonValue["id"] = extensionsItem.Id;
+                                }
+                                
+                                if (extensionsItem.Name != null)
+                                {
+                                    virtualMachineScaleSetExtensionJsonValue["name"] = extensionsItem.Name;
+                                }
+                                
+                                if (extensionsItem.Type != null)
+                                {
+                                    virtualMachineScaleSetExtensionJsonValue["type"] = extensionsItem.Type;
+                                }
+                                
+                                virtualMachineScaleSetExtensionJsonValue["location"] = extensionsItem.Location;
+                                
+                                if (extensionsItem.Tags != null)
+                                {
+                                    JObject tagsDictionary = new JObject();
+                                    foreach (KeyValuePair<string, string> pair in extensionsItem.Tags)
                                     {
-                                        JArray substatusesArray = new JArray();
-                                        foreach (InstanceViewStatus substatusesItem in extensionsItem.InstanceView.SubStatuses)
-                                        {
-                                            JObject instanceViewStatusValue = new JObject();
-                                            substatusesArray.Add(instanceViewStatusValue);
-                                            
-                                            if (substatusesItem.Code != null)
-                                            {
-                                                instanceViewStatusValue["code"] = substatusesItem.Code;
-                                            }
-                                            
-                                            if (substatusesItem.Level != null)
-                                            {
-                                                instanceViewStatusValue["level"] = substatusesItem.Level;
-                                            }
-                                            
-                                            if (substatusesItem.DisplayStatus != null)
-                                            {
-                                                instanceViewStatusValue["displayStatus"] = substatusesItem.DisplayStatus;
-                                            }
-                                            
-                                            if (substatusesItem.Message != null)
-                                            {
-                                                instanceViewStatusValue["message"] = substatusesItem.Message;
-                                            }
-                                            
-                                            if (substatusesItem.Time != null)
-                                            {
-                                                instanceViewStatusValue["time"] = substatusesItem.Time.Value;
-                                            }
-                                        }
-                                        instanceViewValue["substatuses"] = substatusesArray;
+                                        string tagsKey = pair.Key;
+                                        string tagsValue = pair.Value;
+                                        tagsDictionary[tagsKey] = tagsValue;
                                     }
-                                }
-                                
-                                if (extensionsItem.InstanceView.Statuses != null)
-                                {
-                                    JArray statusesArray = new JArray();
-                                    foreach (InstanceViewStatus statusesItem in extensionsItem.InstanceView.Statuses)
-                                    {
-                                        JObject instanceViewStatusValue2 = new JObject();
-                                        statusesArray.Add(instanceViewStatusValue2);
-                                        
-                                        if (statusesItem.Code != null)
-                                        {
-                                            instanceViewStatusValue2["code"] = statusesItem.Code;
-                                        }
-                                        
-                                        if (statusesItem.Level != null)
-                                        {
-                                            instanceViewStatusValue2["level"] = statusesItem.Level;
-                                        }
-                                        
-                                        if (statusesItem.DisplayStatus != null)
-                                        {
-                                            instanceViewStatusValue2["displayStatus"] = statusesItem.DisplayStatus;
-                                        }
-                                        
-                                        if (statusesItem.Message != null)
-                                        {
-                                            instanceViewStatusValue2["message"] = statusesItem.Message;
-                                        }
-                                        
-                                        if (statusesItem.Time != null)
-                                        {
-                                            instanceViewStatusValue2["time"] = statusesItem.Time.Value;
-                                        }
-                                    }
-                                    instanceViewValue["statuses"] = statusesArray;
+                                    virtualMachineScaleSetExtensionJsonValue["tags"] = tagsDictionary;
                                 }
                             }
-                            
-                            if (extensionsItem.Id != null)
-                            {
-                                virtualMachineExtensionJsonValue["id"] = extensionsItem.Id;
-                            }
-                            
-                            if (extensionsItem.Name != null)
-                            {
-                                virtualMachineExtensionJsonValue["name"] = extensionsItem.Name;
-                            }
-                            
-                            if (extensionsItem.Type != null)
-                            {
-                                virtualMachineExtensionJsonValue["type"] = extensionsItem.Type;
-                            }
-                            
-                            virtualMachineExtensionJsonValue["location"] = extensionsItem.Location;
-                            
-                            if (extensionsItem.Tags != null)
-                            {
-                                JObject tagsDictionary = new JObject();
-                                foreach (KeyValuePair<string, string> pair in extensionsItem.Tags)
-                                {
-                                    string tagsKey = pair.Key;
-                                    string tagsValue = pair.Value;
-                                    tagsDictionary[tagsKey] = tagsValue;
-                                }
-                                virtualMachineExtensionJsonValue["tags"] = tagsDictionary;
-                            }
+                            extensionProfileValue["extensions"] = extensionsArray;
                         }
-                        virtualMachineProfileValue["extensions"] = extensionsArray;
                     }
                 }
                 
@@ -1332,222 +1245,111 @@ namespace Microsoft.Azure.Management.Compute
                                         }
                                     }
                                     
-                                    JToken extensionsArray2 = virtualMachineProfileValue2["extensions"];
-                                    if (extensionsArray2 != null && extensionsArray2.Type != JTokenType.Null)
+                                    JToken extensionProfileValue2 = virtualMachineProfileValue2["extensionProfile"];
+                                    if (extensionProfileValue2 != null && extensionProfileValue2.Type != JTokenType.Null)
                                     {
-                                        virtualMachineProfileInstance.Extensions = new List<VirtualMachineExtension>();
-                                        foreach (JToken extensionsValue in ((JArray)extensionsArray2))
+                                        VirtualMachineScaleSetExtensionProfile extensionProfileInstance = new VirtualMachineScaleSetExtensionProfile();
+                                        virtualMachineProfileInstance.ExtensionProfile = extensionProfileInstance;
+                                        
+                                        JToken extensionsArray2 = extensionProfileValue2["extensions"];
+                                        if (extensionsArray2 != null && extensionsArray2.Type != JTokenType.Null)
                                         {
-                                            VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
-                                            virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
-                                            
-                                            JToken propertiesValue8 = extensionsValue["properties"];
-                                            if (propertiesValue8 != null && propertiesValue8.Type != JTokenType.Null)
+                                            extensionProfileInstance.Extensions = new List<VirtualMachineScaleSetExtension>();
+                                            foreach (JToken extensionsValue in ((JArray)extensionsArray2))
                                             {
-                                                JToken publisherValue2 = propertiesValue8["publisher"];
-                                                if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
-                                                {
-                                                    string publisherInstance2 = ((string)publisherValue2);
-                                                    virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
-                                                }
+                                                VirtualMachineScaleSetExtension virtualMachineScaleSetExtensionJsonInstance = new VirtualMachineScaleSetExtension();
+                                                extensionProfileInstance.Extensions.Add(virtualMachineScaleSetExtensionJsonInstance);
                                                 
-                                                JToken typeValue = propertiesValue8["type"];
-                                                if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                                JToken propertiesValue8 = extensionsValue["properties"];
+                                                if (propertiesValue8 != null && propertiesValue8.Type != JTokenType.Null)
                                                 {
-                                                    string typeInstance = ((string)typeValue);
-                                                    virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
-                                                }
-                                                
-                                                JToken typeHandlerVersionValue = propertiesValue8["typeHandlerVersion"];
-                                                if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
-                                                {
-                                                    string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
-                                                    virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
-                                                }
-                                                
-                                                JToken autoUpgradeMinorVersionValue = propertiesValue8["autoUpgradeMinorVersion"];
-                                                if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
-                                                {
-                                                    bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
-                                                    virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
-                                                }
-                                                
-                                                JToken settingsValue = propertiesValue8["settings"];
-                                                if (settingsValue != null && settingsValue.Type != JTokenType.Null)
-                                                {
-                                                    string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                    virtualMachineExtensionJsonInstance.Settings = settingsInstance;
-                                                }
-                                                
-                                                JToken protectedSettingsValue = propertiesValue8["protectedSettings"];
-                                                if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
-                                                {
-                                                    string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                    virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
-                                                }
-                                                
-                                                JToken provisioningStateValue = propertiesValue8["provisioningState"];
-                                                if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
-                                                {
-                                                    string provisioningStateInstance = ((string)provisioningStateValue);
-                                                    virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
-                                                }
-                                                
-                                                JToken instanceViewValue2 = propertiesValue8["instanceView"];
-                                                if (instanceViewValue2 != null && instanceViewValue2.Type != JTokenType.Null)
-                                                {
-                                                    VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
-                                                    virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
-                                                    
-                                                    JToken nameValue5 = instanceViewValue2["name"];
-                                                    if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                    JToken publisherValue2 = propertiesValue8["publisher"];
+                                                    if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                     {
-                                                        string nameInstance5 = ((string)nameValue5);
-                                                        instanceViewInstance.Name = nameInstance5;
+                                                        string publisherInstance2 = ((string)publisherValue2);
+                                                        virtualMachineScaleSetExtensionJsonInstance.Publisher = publisherInstance2;
                                                     }
                                                     
-                                                    JToken typeValue2 = instanceViewValue2["type"];
-                                                    if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                    JToken typeValue = propertiesValue8["type"];
+                                                    if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                     {
-                                                        string typeInstance2 = ((string)typeValue2);
-                                                        instanceViewInstance.ExtensionType = typeInstance2;
+                                                        string typeInstance = ((string)typeValue);
+                                                        virtualMachineScaleSetExtensionJsonInstance.ExtensionType = typeInstance;
                                                     }
                                                     
-                                                    JToken typeHandlerVersionValue2 = instanceViewValue2["typeHandlerVersion"];
-                                                    if (typeHandlerVersionValue2 != null && typeHandlerVersionValue2.Type != JTokenType.Null)
+                                                    JToken typeHandlerVersionValue = propertiesValue8["typeHandlerVersion"];
+                                                    if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                     {
-                                                        string typeHandlerVersionInstance2 = ((string)typeHandlerVersionValue2);
-                                                        instanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance2;
+                                                        string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
+                                                        virtualMachineScaleSetExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                     }
                                                     
-                                                    JToken substatusesArray2 = instanceViewValue2["substatuses"];
-                                                    if (substatusesArray2 != null && substatusesArray2.Type != JTokenType.Null)
+                                                    JToken autoUpgradeMinorVersionValue = propertiesValue8["autoUpgradeMinorVersion"];
+                                                    if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                     {
-                                                        foreach (JToken substatusesValue in ((JArray)substatusesArray2))
-                                                        {
-                                                            InstanceViewStatus instanceViewStatusInstance = new InstanceViewStatus();
-                                                            instanceViewInstance.SubStatuses.Add(instanceViewStatusInstance);
-                                                            
-                                                            JToken codeValue = substatusesValue["code"];
-                                                            if (codeValue != null && codeValue.Type != JTokenType.Null)
-                                                            {
-                                                                string codeInstance = ((string)codeValue);
-                                                                instanceViewStatusInstance.Code = codeInstance;
-                                                            }
-                                                            
-                                                            JToken levelValue = substatusesValue["level"];
-                                                            if (levelValue != null && levelValue.Type != JTokenType.Null)
-                                                            {
-                                                                string levelInstance = ((string)levelValue);
-                                                                instanceViewStatusInstance.Level = levelInstance;
-                                                            }
-                                                            
-                                                            JToken displayStatusValue = substatusesValue["displayStatus"];
-                                                            if (displayStatusValue != null && displayStatusValue.Type != JTokenType.Null)
-                                                            {
-                                                                string displayStatusInstance = ((string)displayStatusValue);
-                                                                instanceViewStatusInstance.DisplayStatus = displayStatusInstance;
-                                                            }
-                                                            
-                                                            JToken messageValue = substatusesValue["message"];
-                                                            if (messageValue != null && messageValue.Type != JTokenType.Null)
-                                                            {
-                                                                string messageInstance = ((string)messageValue);
-                                                                instanceViewStatusInstance.Message = messageInstance;
-                                                            }
-                                                            
-                                                            JToken timeValue = substatusesValue["time"];
-                                                            if (timeValue != null && timeValue.Type != JTokenType.Null)
-                                                            {
-                                                                DateTimeOffset timeInstance = ((DateTimeOffset)timeValue);
-                                                                instanceViewStatusInstance.Time = timeInstance;
-                                                            }
-                                                        }
+                                                        bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
+                                                        virtualMachineScaleSetExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                     }
                                                     
-                                                    JToken statusesArray2 = instanceViewValue2["statuses"];
-                                                    if (statusesArray2 != null && statusesArray2.Type != JTokenType.Null)
+                                                    JToken settingsValue = propertiesValue8["settings"];
+                                                    if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                     {
-                                                        foreach (JToken statusesValue in ((JArray)statusesArray2))
-                                                        {
-                                                            InstanceViewStatus instanceViewStatusInstance2 = new InstanceViewStatus();
-                                                            instanceViewInstance.Statuses.Add(instanceViewStatusInstance2);
-                                                            
-                                                            JToken codeValue2 = statusesValue["code"];
-                                                            if (codeValue2 != null && codeValue2.Type != JTokenType.Null)
-                                                            {
-                                                                string codeInstance2 = ((string)codeValue2);
-                                                                instanceViewStatusInstance2.Code = codeInstance2;
-                                                            }
-                                                            
-                                                            JToken levelValue2 = statusesValue["level"];
-                                                            if (levelValue2 != null && levelValue2.Type != JTokenType.Null)
-                                                            {
-                                                                string levelInstance2 = ((string)levelValue2);
-                                                                instanceViewStatusInstance2.Level = levelInstance2;
-                                                            }
-                                                            
-                                                            JToken displayStatusValue2 = statusesValue["displayStatus"];
-                                                            if (displayStatusValue2 != null && displayStatusValue2.Type != JTokenType.Null)
-                                                            {
-                                                                string displayStatusInstance2 = ((string)displayStatusValue2);
-                                                                instanceViewStatusInstance2.DisplayStatus = displayStatusInstance2;
-                                                            }
-                                                            
-                                                            JToken messageValue2 = statusesValue["message"];
-                                                            if (messageValue2 != null && messageValue2.Type != JTokenType.Null)
-                                                            {
-                                                                string messageInstance2 = ((string)messageValue2);
-                                                                instanceViewStatusInstance2.Message = messageInstance2;
-                                                            }
-                                                            
-                                                            JToken timeValue2 = statusesValue["time"];
-                                                            if (timeValue2 != null && timeValue2.Type != JTokenType.Null)
-                                                            {
-                                                                DateTimeOffset timeInstance2 = ((DateTimeOffset)timeValue2);
-                                                                instanceViewStatusInstance2.Time = timeInstance2;
-                                                            }
-                                                        }
+                                                        string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                        virtualMachineScaleSetExtensionJsonInstance.Settings = settingsInstance;
+                                                    }
+                                                    
+                                                    JToken protectedSettingsValue = propertiesValue8["protectedSettings"];
+                                                    if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
+                                                    {
+                                                        string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                        virtualMachineScaleSetExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
+                                                    }
+                                                    
+                                                    JToken provisioningStateValue = propertiesValue8["provisioningState"];
+                                                    if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
+                                                    {
+                                                        string provisioningStateInstance = ((string)provisioningStateValue);
+                                                        virtualMachineScaleSetExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                     }
                                                 }
-                                            }
-                                            
-                                            JToken idValue4 = extensionsValue["id"];
-                                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                            {
-                                                string idInstance4 = ((string)idValue4);
-                                                virtualMachineExtensionJsonInstance.Id = idInstance4;
-                                            }
-                                            
-                                            JToken nameValue6 = extensionsValue["name"];
-                                            if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                            {
-                                                string nameInstance6 = ((string)nameValue6);
-                                                virtualMachineExtensionJsonInstance.Name = nameInstance6;
-                                            }
-                                            
-                                            JToken typeValue3 = extensionsValue["type"];
-                                            if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
-                                            {
-                                                string typeInstance3 = ((string)typeValue3);
-                                                virtualMachineExtensionJsonInstance.Type = typeInstance3;
-                                            }
-                                            
-                                            JToken locationValue = extensionsValue["location"];
-                                            if (locationValue != null && locationValue.Type != JTokenType.Null)
-                                            {
-                                                string locationInstance = ((string)locationValue);
-                                                virtualMachineExtensionJsonInstance.Location = locationInstance;
-                                            }
-                                            
-                                            JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
-                                            if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
-                                            {
-                                                foreach (JProperty property in tagsSequenceElement)
+                                                
+                                                JToken idValue4 = extensionsValue["id"];
+                                                if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                 {
-                                                    string tagsKey3 = ((string)property.Name);
-                                                    string tagsValue3 = ((string)property.Value);
-                                                    virtualMachineExtensionJsonInstance.Tags.Add(tagsKey3, tagsValue3);
+                                                    string idInstance4 = ((string)idValue4);
+                                                    virtualMachineScaleSetExtensionJsonInstance.Id = idInstance4;
+                                                }
+                                                
+                                                JToken nameValue5 = extensionsValue["name"];
+                                                if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                {
+                                                    string nameInstance5 = ((string)nameValue5);
+                                                    virtualMachineScaleSetExtensionJsonInstance.Name = nameInstance5;
+                                                }
+                                                
+                                                JToken typeValue2 = extensionsValue["type"];
+                                                if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                {
+                                                    string typeInstance2 = ((string)typeValue2);
+                                                    virtualMachineScaleSetExtensionJsonInstance.Type = typeInstance2;
+                                                }
+                                                
+                                                JToken locationValue = extensionsValue["location"];
+                                                if (locationValue != null && locationValue.Type != JTokenType.Null)
+                                                {
+                                                    string locationInstance = ((string)locationValue);
+                                                    virtualMachineScaleSetExtensionJsonInstance.Location = locationInstance;
+                                                }
+                                                
+                                                JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
+                                                if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JProperty property in tagsSequenceElement)
+                                                    {
+                                                        string tagsKey3 = ((string)property.Name);
+                                                        string tagsValue3 = ((string)property.Value);
+                                                        virtualMachineScaleSetExtensionJsonInstance.Tags.Add(tagsKey3, tagsValue3);
+                                                    }
                                                 }
                                             }
                                         }
@@ -1569,18 +1371,18 @@ namespace Microsoft.Azure.Management.Compute
                                 virtualMachineScaleSetInstance.Id = idInstance5;
                             }
                             
-                            JToken nameValue7 = responseDoc["name"];
-                            if (nameValue7 != null && nameValue7.Type != JTokenType.Null)
+                            JToken nameValue6 = responseDoc["name"];
+                            if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                             {
-                                string nameInstance7 = ((string)nameValue7);
-                                virtualMachineScaleSetInstance.Name = nameInstance7;
+                                string nameInstance6 = ((string)nameValue6);
+                                virtualMachineScaleSetInstance.Name = nameInstance6;
                             }
                             
-                            JToken typeValue4 = responseDoc["type"];
-                            if (typeValue4 != null && typeValue4.Type != JTokenType.Null)
+                            JToken typeValue3 = responseDoc["type"];
+                            if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
                             {
-                                string typeInstance4 = ((string)typeValue4);
-                                virtualMachineScaleSetInstance.Type = typeInstance4;
+                                string typeInstance3 = ((string)typeValue3);
+                                virtualMachineScaleSetInstance.Type = typeInstance3;
                             }
                             
                             JToken locationValue2 = responseDoc["location"];
@@ -3341,7 +3143,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -3400,7 +3202,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -3464,7 +3266,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -3527,7 +3329,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -3591,7 +3393,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -4205,222 +4007,111 @@ namespace Microsoft.Azure.Management.Compute
                                         }
                                     }
                                     
-                                    JToken extensionsArray = virtualMachineProfileValue["extensions"];
-                                    if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
+                                    JToken extensionProfileValue = virtualMachineProfileValue["extensionProfile"];
+                                    if (extensionProfileValue != null && extensionProfileValue.Type != JTokenType.Null)
                                     {
-                                        virtualMachineProfileInstance.Extensions = new List<VirtualMachineExtension>();
-                                        foreach (JToken extensionsValue in ((JArray)extensionsArray))
+                                        VirtualMachineScaleSetExtensionProfile extensionProfileInstance = new VirtualMachineScaleSetExtensionProfile();
+                                        virtualMachineProfileInstance.ExtensionProfile = extensionProfileInstance;
+                                        
+                                        JToken extensionsArray = extensionProfileValue["extensions"];
+                                        if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
                                         {
-                                            VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
-                                            virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
-                                            
-                                            JToken propertiesValue4 = extensionsValue["properties"];
-                                            if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
+                                            extensionProfileInstance.Extensions = new List<VirtualMachineScaleSetExtension>();
+                                            foreach (JToken extensionsValue in ((JArray)extensionsArray))
                                             {
-                                                JToken publisherValue2 = propertiesValue4["publisher"];
-                                                if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
-                                                {
-                                                    string publisherInstance2 = ((string)publisherValue2);
-                                                    virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
-                                                }
+                                                VirtualMachineScaleSetExtension virtualMachineScaleSetExtensionJsonInstance = new VirtualMachineScaleSetExtension();
+                                                extensionProfileInstance.Extensions.Add(virtualMachineScaleSetExtensionJsonInstance);
                                                 
-                                                JToken typeValue = propertiesValue4["type"];
-                                                if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                                JToken propertiesValue4 = extensionsValue["properties"];
+                                                if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
                                                 {
-                                                    string typeInstance = ((string)typeValue);
-                                                    virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
-                                                }
-                                                
-                                                JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
-                                                if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
-                                                {
-                                                    string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
-                                                    virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
-                                                }
-                                                
-                                                JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
-                                                if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
-                                                {
-                                                    bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
-                                                    virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
-                                                }
-                                                
-                                                JToken settingsValue = propertiesValue4["settings"];
-                                                if (settingsValue != null && settingsValue.Type != JTokenType.Null)
-                                                {
-                                                    string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                    virtualMachineExtensionJsonInstance.Settings = settingsInstance;
-                                                }
-                                                
-                                                JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
-                                                if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
-                                                {
-                                                    string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                    virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
-                                                }
-                                                
-                                                JToken provisioningStateValue = propertiesValue4["provisioningState"];
-                                                if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
-                                                {
-                                                    string provisioningStateInstance = ((string)provisioningStateValue);
-                                                    virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
-                                                }
-                                                
-                                                JToken instanceViewValue = propertiesValue4["instanceView"];
-                                                if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
-                                                {
-                                                    VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
-                                                    virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
-                                                    
-                                                    JToken nameValue5 = instanceViewValue["name"];
-                                                    if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                    JToken publisherValue2 = propertiesValue4["publisher"];
+                                                    if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                     {
-                                                        string nameInstance5 = ((string)nameValue5);
-                                                        instanceViewInstance.Name = nameInstance5;
+                                                        string publisherInstance2 = ((string)publisherValue2);
+                                                        virtualMachineScaleSetExtensionJsonInstance.Publisher = publisherInstance2;
                                                     }
                                                     
-                                                    JToken typeValue2 = instanceViewValue["type"];
-                                                    if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                    JToken typeValue = propertiesValue4["type"];
+                                                    if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                     {
-                                                        string typeInstance2 = ((string)typeValue2);
-                                                        instanceViewInstance.ExtensionType = typeInstance2;
+                                                        string typeInstance = ((string)typeValue);
+                                                        virtualMachineScaleSetExtensionJsonInstance.ExtensionType = typeInstance;
                                                     }
                                                     
-                                                    JToken typeHandlerVersionValue2 = instanceViewValue["typeHandlerVersion"];
-                                                    if (typeHandlerVersionValue2 != null && typeHandlerVersionValue2.Type != JTokenType.Null)
+                                                    JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
+                                                    if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                     {
-                                                        string typeHandlerVersionInstance2 = ((string)typeHandlerVersionValue2);
-                                                        instanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance2;
+                                                        string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
+                                                        virtualMachineScaleSetExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                     }
                                                     
-                                                    JToken substatusesArray = instanceViewValue["substatuses"];
-                                                    if (substatusesArray != null && substatusesArray.Type != JTokenType.Null)
+                                                    JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
+                                                    if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                     {
-                                                        foreach (JToken substatusesValue in ((JArray)substatusesArray))
-                                                        {
-                                                            InstanceViewStatus instanceViewStatusInstance = new InstanceViewStatus();
-                                                            instanceViewInstance.SubStatuses.Add(instanceViewStatusInstance);
-                                                            
-                                                            JToken codeValue = substatusesValue["code"];
-                                                            if (codeValue != null && codeValue.Type != JTokenType.Null)
-                                                            {
-                                                                string codeInstance = ((string)codeValue);
-                                                                instanceViewStatusInstance.Code = codeInstance;
-                                                            }
-                                                            
-                                                            JToken levelValue = substatusesValue["level"];
-                                                            if (levelValue != null && levelValue.Type != JTokenType.Null)
-                                                            {
-                                                                string levelInstance = ((string)levelValue);
-                                                                instanceViewStatusInstance.Level = levelInstance;
-                                                            }
-                                                            
-                                                            JToken displayStatusValue = substatusesValue["displayStatus"];
-                                                            if (displayStatusValue != null && displayStatusValue.Type != JTokenType.Null)
-                                                            {
-                                                                string displayStatusInstance = ((string)displayStatusValue);
-                                                                instanceViewStatusInstance.DisplayStatus = displayStatusInstance;
-                                                            }
-                                                            
-                                                            JToken messageValue = substatusesValue["message"];
-                                                            if (messageValue != null && messageValue.Type != JTokenType.Null)
-                                                            {
-                                                                string messageInstance = ((string)messageValue);
-                                                                instanceViewStatusInstance.Message = messageInstance;
-                                                            }
-                                                            
-                                                            JToken timeValue = substatusesValue["time"];
-                                                            if (timeValue != null && timeValue.Type != JTokenType.Null)
-                                                            {
-                                                                DateTimeOffset timeInstance = ((DateTimeOffset)timeValue);
-                                                                instanceViewStatusInstance.Time = timeInstance;
-                                                            }
-                                                        }
+                                                        bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
+                                                        virtualMachineScaleSetExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                     }
                                                     
-                                                    JToken statusesArray = instanceViewValue["statuses"];
-                                                    if (statusesArray != null && statusesArray.Type != JTokenType.Null)
+                                                    JToken settingsValue = propertiesValue4["settings"];
+                                                    if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                     {
-                                                        foreach (JToken statusesValue in ((JArray)statusesArray))
-                                                        {
-                                                            InstanceViewStatus instanceViewStatusInstance2 = new InstanceViewStatus();
-                                                            instanceViewInstance.Statuses.Add(instanceViewStatusInstance2);
-                                                            
-                                                            JToken codeValue2 = statusesValue["code"];
-                                                            if (codeValue2 != null && codeValue2.Type != JTokenType.Null)
-                                                            {
-                                                                string codeInstance2 = ((string)codeValue2);
-                                                                instanceViewStatusInstance2.Code = codeInstance2;
-                                                            }
-                                                            
-                                                            JToken levelValue2 = statusesValue["level"];
-                                                            if (levelValue2 != null && levelValue2.Type != JTokenType.Null)
-                                                            {
-                                                                string levelInstance2 = ((string)levelValue2);
-                                                                instanceViewStatusInstance2.Level = levelInstance2;
-                                                            }
-                                                            
-                                                            JToken displayStatusValue2 = statusesValue["displayStatus"];
-                                                            if (displayStatusValue2 != null && displayStatusValue2.Type != JTokenType.Null)
-                                                            {
-                                                                string displayStatusInstance2 = ((string)displayStatusValue2);
-                                                                instanceViewStatusInstance2.DisplayStatus = displayStatusInstance2;
-                                                            }
-                                                            
-                                                            JToken messageValue2 = statusesValue["message"];
-                                                            if (messageValue2 != null && messageValue2.Type != JTokenType.Null)
-                                                            {
-                                                                string messageInstance2 = ((string)messageValue2);
-                                                                instanceViewStatusInstance2.Message = messageInstance2;
-                                                            }
-                                                            
-                                                            JToken timeValue2 = statusesValue["time"];
-                                                            if (timeValue2 != null && timeValue2.Type != JTokenType.Null)
-                                                            {
-                                                                DateTimeOffset timeInstance2 = ((DateTimeOffset)timeValue2);
-                                                                instanceViewStatusInstance2.Time = timeInstance2;
-                                                            }
-                                                        }
+                                                        string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                        virtualMachineScaleSetExtensionJsonInstance.Settings = settingsInstance;
+                                                    }
+                                                    
+                                                    JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
+                                                    if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
+                                                    {
+                                                        string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                        virtualMachineScaleSetExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
+                                                    }
+                                                    
+                                                    JToken provisioningStateValue = propertiesValue4["provisioningState"];
+                                                    if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
+                                                    {
+                                                        string provisioningStateInstance = ((string)provisioningStateValue);
+                                                        virtualMachineScaleSetExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                     }
                                                 }
-                                            }
-                                            
-                                            JToken idValue4 = extensionsValue["id"];
-                                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                            {
-                                                string idInstance4 = ((string)idValue4);
-                                                virtualMachineExtensionJsonInstance.Id = idInstance4;
-                                            }
-                                            
-                                            JToken nameValue6 = extensionsValue["name"];
-                                            if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                            {
-                                                string nameInstance6 = ((string)nameValue6);
-                                                virtualMachineExtensionJsonInstance.Name = nameInstance6;
-                                            }
-                                            
-                                            JToken typeValue3 = extensionsValue["type"];
-                                            if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
-                                            {
-                                                string typeInstance3 = ((string)typeValue3);
-                                                virtualMachineExtensionJsonInstance.Type = typeInstance3;
-                                            }
-                                            
-                                            JToken locationValue = extensionsValue["location"];
-                                            if (locationValue != null && locationValue.Type != JTokenType.Null)
-                                            {
-                                                string locationInstance = ((string)locationValue);
-                                                virtualMachineExtensionJsonInstance.Location = locationInstance;
-                                            }
-                                            
-                                            JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
-                                            if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
-                                            {
-                                                foreach (JProperty property in tagsSequenceElement)
+                                                
+                                                JToken idValue4 = extensionsValue["id"];
+                                                if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                 {
-                                                    string tagsKey = ((string)property.Name);
-                                                    string tagsValue = ((string)property.Value);
-                                                    virtualMachineExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
+                                                    string idInstance4 = ((string)idValue4);
+                                                    virtualMachineScaleSetExtensionJsonInstance.Id = idInstance4;
+                                                }
+                                                
+                                                JToken nameValue5 = extensionsValue["name"];
+                                                if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                {
+                                                    string nameInstance5 = ((string)nameValue5);
+                                                    virtualMachineScaleSetExtensionJsonInstance.Name = nameInstance5;
+                                                }
+                                                
+                                                JToken typeValue2 = extensionsValue["type"];
+                                                if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                {
+                                                    string typeInstance2 = ((string)typeValue2);
+                                                    virtualMachineScaleSetExtensionJsonInstance.Type = typeInstance2;
+                                                }
+                                                
+                                                JToken locationValue = extensionsValue["location"];
+                                                if (locationValue != null && locationValue.Type != JTokenType.Null)
+                                                {
+                                                    string locationInstance = ((string)locationValue);
+                                                    virtualMachineScaleSetExtensionJsonInstance.Location = locationInstance;
+                                                }
+                                                
+                                                JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
+                                                if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JProperty property in tagsSequenceElement)
+                                                    {
+                                                        string tagsKey = ((string)property.Name);
+                                                        string tagsValue = ((string)property.Value);
+                                                        virtualMachineScaleSetExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
+                                                    }
                                                 }
                                             }
                                         }
@@ -4442,18 +4133,18 @@ namespace Microsoft.Azure.Management.Compute
                                 virtualMachineScaleSetInstance.Id = idInstance5;
                             }
                             
-                            JToken nameValue7 = responseDoc["name"];
-                            if (nameValue7 != null && nameValue7.Type != JTokenType.Null)
+                            JToken nameValue6 = responseDoc["name"];
+                            if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                             {
-                                string nameInstance7 = ((string)nameValue7);
-                                virtualMachineScaleSetInstance.Name = nameInstance7;
+                                string nameInstance6 = ((string)nameValue6);
+                                virtualMachineScaleSetInstance.Name = nameInstance6;
                             }
                             
-                            JToken typeValue4 = responseDoc["type"];
-                            if (typeValue4 != null && typeValue4.Type != JTokenType.Null)
+                            JToken typeValue3 = responseDoc["type"];
+                            if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
                             {
-                                string typeInstance4 = ((string)typeValue4);
-                                virtualMachineScaleSetInstance.Type = typeInstance4;
+                                string typeInstance3 = ((string)typeValue3);
+                                virtualMachineScaleSetInstance.Type = typeInstance3;
                             }
                             
                             JToken locationValue2 = responseDoc["location"];
@@ -5095,222 +4786,111 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                             
-                                            JToken extensionsArray = virtualMachineProfileValue["extensions"];
-                                            if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
+                                            JToken extensionProfileValue = virtualMachineProfileValue["extensionProfile"];
+                                            if (extensionProfileValue != null && extensionProfileValue.Type != JTokenType.Null)
                                             {
-                                                virtualMachineProfileInstance.Extensions = new List<VirtualMachineExtension>();
-                                                foreach (JToken extensionsValue in ((JArray)extensionsArray))
+                                                VirtualMachineScaleSetExtensionProfile extensionProfileInstance = new VirtualMachineScaleSetExtensionProfile();
+                                                virtualMachineProfileInstance.ExtensionProfile = extensionProfileInstance;
+                                                
+                                                JToken extensionsArray = extensionProfileValue["extensions"];
+                                                if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
                                                 {
-                                                    VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
-                                                    virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
-                                                    
-                                                    JToken propertiesValue4 = extensionsValue["properties"];
-                                                    if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
+                                                    extensionProfileInstance.Extensions = new List<VirtualMachineScaleSetExtension>();
+                                                    foreach (JToken extensionsValue in ((JArray)extensionsArray))
                                                     {
-                                                        JToken publisherValue2 = propertiesValue4["publisher"];
-                                                        if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
-                                                        {
-                                                            string publisherInstance2 = ((string)publisherValue2);
-                                                            virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
-                                                        }
+                                                        VirtualMachineScaleSetExtension virtualMachineScaleSetExtensionJsonInstance = new VirtualMachineScaleSetExtension();
+                                                        extensionProfileInstance.Extensions.Add(virtualMachineScaleSetExtensionJsonInstance);
                                                         
-                                                        JToken typeValue = propertiesValue4["type"];
-                                                        if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                                        JToken propertiesValue4 = extensionsValue["properties"];
+                                                        if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
                                                         {
-                                                            string typeInstance = ((string)typeValue);
-                                                            virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
-                                                        }
-                                                        
-                                                        JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
-                                                        if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
-                                                        {
-                                                            string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
-                                                            virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
-                                                        }
-                                                        
-                                                        JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
-                                                        if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
-                                                        {
-                                                            bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
-                                                            virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
-                                                        }
-                                                        
-                                                        JToken settingsValue = propertiesValue4["settings"];
-                                                        if (settingsValue != null && settingsValue.Type != JTokenType.Null)
-                                                        {
-                                                            string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                            virtualMachineExtensionJsonInstance.Settings = settingsInstance;
-                                                        }
-                                                        
-                                                        JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
-                                                        if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
-                                                        {
-                                                            string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                            virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
-                                                        }
-                                                        
-                                                        JToken provisioningStateValue = propertiesValue4["provisioningState"];
-                                                        if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
-                                                        {
-                                                            string provisioningStateInstance = ((string)provisioningStateValue);
-                                                            virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
-                                                        }
-                                                        
-                                                        JToken instanceViewValue = propertiesValue4["instanceView"];
-                                                        if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
-                                                        {
-                                                            VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
-                                                            virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
-                                                            
-                                                            JToken nameValue5 = instanceViewValue["name"];
-                                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                            JToken publisherValue2 = propertiesValue4["publisher"];
+                                                            if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                             {
-                                                                string nameInstance5 = ((string)nameValue5);
-                                                                instanceViewInstance.Name = nameInstance5;
+                                                                string publisherInstance2 = ((string)publisherValue2);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Publisher = publisherInstance2;
                                                             }
                                                             
-                                                            JToken typeValue2 = instanceViewValue["type"];
-                                                            if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                            JToken typeValue = propertiesValue4["type"];
+                                                            if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                             {
-                                                                string typeInstance2 = ((string)typeValue2);
-                                                                instanceViewInstance.ExtensionType = typeInstance2;
+                                                                string typeInstance = ((string)typeValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ExtensionType = typeInstance;
                                                             }
                                                             
-                                                            JToken typeHandlerVersionValue2 = instanceViewValue["typeHandlerVersion"];
-                                                            if (typeHandlerVersionValue2 != null && typeHandlerVersionValue2.Type != JTokenType.Null)
+                                                            JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
+                                                            if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                             {
-                                                                string typeHandlerVersionInstance2 = ((string)typeHandlerVersionValue2);
-                                                                instanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance2;
+                                                                string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                             }
                                                             
-                                                            JToken substatusesArray = instanceViewValue["substatuses"];
-                                                            if (substatusesArray != null && substatusesArray.Type != JTokenType.Null)
+                                                            JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
+                                                            if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                             {
-                                                                foreach (JToken substatusesValue in ((JArray)substatusesArray))
-                                                                {
-                                                                    InstanceViewStatus instanceViewStatusInstance = new InstanceViewStatus();
-                                                                    instanceViewInstance.SubStatuses.Add(instanceViewStatusInstance);
-                                                                    
-                                                                    JToken codeValue = substatusesValue["code"];
-                                                                    if (codeValue != null && codeValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string codeInstance = ((string)codeValue);
-                                                                        instanceViewStatusInstance.Code = codeInstance;
-                                                                    }
-                                                                    
-                                                                    JToken levelValue = substatusesValue["level"];
-                                                                    if (levelValue != null && levelValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string levelInstance = ((string)levelValue);
-                                                                        instanceViewStatusInstance.Level = levelInstance;
-                                                                    }
-                                                                    
-                                                                    JToken displayStatusValue = substatusesValue["displayStatus"];
-                                                                    if (displayStatusValue != null && displayStatusValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string displayStatusInstance = ((string)displayStatusValue);
-                                                                        instanceViewStatusInstance.DisplayStatus = displayStatusInstance;
-                                                                    }
-                                                                    
-                                                                    JToken messageValue = substatusesValue["message"];
-                                                                    if (messageValue != null && messageValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string messageInstance = ((string)messageValue);
-                                                                        instanceViewStatusInstance.Message = messageInstance;
-                                                                    }
-                                                                    
-                                                                    JToken timeValue = substatusesValue["time"];
-                                                                    if (timeValue != null && timeValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        DateTimeOffset timeInstance = ((DateTimeOffset)timeValue);
-                                                                        instanceViewStatusInstance.Time = timeInstance;
-                                                                    }
-                                                                }
+                                                                bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                             }
                                                             
-                                                            JToken statusesArray = instanceViewValue["statuses"];
-                                                            if (statusesArray != null && statusesArray.Type != JTokenType.Null)
+                                                            JToken settingsValue = propertiesValue4["settings"];
+                                                            if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                             {
-                                                                foreach (JToken statusesValue in ((JArray)statusesArray))
-                                                                {
-                                                                    InstanceViewStatus instanceViewStatusInstance2 = new InstanceViewStatus();
-                                                                    instanceViewInstance.Statuses.Add(instanceViewStatusInstance2);
-                                                                    
-                                                                    JToken codeValue2 = statusesValue["code"];
-                                                                    if (codeValue2 != null && codeValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string codeInstance2 = ((string)codeValue2);
-                                                                        instanceViewStatusInstance2.Code = codeInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken levelValue2 = statusesValue["level"];
-                                                                    if (levelValue2 != null && levelValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string levelInstance2 = ((string)levelValue2);
-                                                                        instanceViewStatusInstance2.Level = levelInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken displayStatusValue2 = statusesValue["displayStatus"];
-                                                                    if (displayStatusValue2 != null && displayStatusValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string displayStatusInstance2 = ((string)displayStatusValue2);
-                                                                        instanceViewStatusInstance2.DisplayStatus = displayStatusInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken messageValue2 = statusesValue["message"];
-                                                                    if (messageValue2 != null && messageValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string messageInstance2 = ((string)messageValue2);
-                                                                        instanceViewStatusInstance2.Message = messageInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken timeValue2 = statusesValue["time"];
-                                                                    if (timeValue2 != null && timeValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        DateTimeOffset timeInstance2 = ((DateTimeOffset)timeValue2);
-                                                                        instanceViewStatusInstance2.Time = timeInstance2;
-                                                                    }
-                                                                }
+                                                                string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Settings = settingsInstance;
+                                                            }
+                                                            
+                                                            JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
+                                                            if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
+                                                            {
+                                                                string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
+                                                            }
+                                                            
+                                                            JToken provisioningStateValue = propertiesValue4["provisioningState"];
+                                                            if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
+                                                            {
+                                                                string provisioningStateInstance = ((string)provisioningStateValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                             }
                                                         }
-                                                    }
-                                                    
-                                                    JToken idValue4 = extensionsValue["id"];
-                                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                                    {
-                                                        string idInstance4 = ((string)idValue4);
-                                                        virtualMachineExtensionJsonInstance.Id = idInstance4;
-                                                    }
-                                                    
-                                                    JToken nameValue6 = extensionsValue["name"];
-                                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                                    {
-                                                        string nameInstance6 = ((string)nameValue6);
-                                                        virtualMachineExtensionJsonInstance.Name = nameInstance6;
-                                                    }
-                                                    
-                                                    JToken typeValue3 = extensionsValue["type"];
-                                                    if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
-                                                    {
-                                                        string typeInstance3 = ((string)typeValue3);
-                                                        virtualMachineExtensionJsonInstance.Type = typeInstance3;
-                                                    }
-                                                    
-                                                    JToken locationValue = extensionsValue["location"];
-                                                    if (locationValue != null && locationValue.Type != JTokenType.Null)
-                                                    {
-                                                        string locationInstance = ((string)locationValue);
-                                                        virtualMachineExtensionJsonInstance.Location = locationInstance;
-                                                    }
-                                                    
-                                                    JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
-                                                    if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
-                                                    {
-                                                        foreach (JProperty property in tagsSequenceElement)
+                                                        
+                                                        JToken idValue4 = extensionsValue["id"];
+                                                        if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                         {
-                                                            string tagsKey = ((string)property.Name);
-                                                            string tagsValue = ((string)property.Value);
-                                                            virtualMachineExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
+                                                            string idInstance4 = ((string)idValue4);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Id = idInstance4;
+                                                        }
+                                                        
+                                                        JToken nameValue5 = extensionsValue["name"];
+                                                        if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                        {
+                                                            string nameInstance5 = ((string)nameValue5);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Name = nameInstance5;
+                                                        }
+                                                        
+                                                        JToken typeValue2 = extensionsValue["type"];
+                                                        if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                        {
+                                                            string typeInstance2 = ((string)typeValue2);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Type = typeInstance2;
+                                                        }
+                                                        
+                                                        JToken locationValue = extensionsValue["location"];
+                                                        if (locationValue != null && locationValue.Type != JTokenType.Null)
+                                                        {
+                                                            string locationInstance = ((string)locationValue);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Location = locationInstance;
+                                                        }
+                                                        
+                                                        JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
+                                                        if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
+                                                        {
+                                                            foreach (JProperty property in tagsSequenceElement)
+                                                            {
+                                                                string tagsKey = ((string)property.Name);
+                                                                string tagsValue = ((string)property.Value);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -5332,18 +4912,18 @@ namespace Microsoft.Azure.Management.Compute
                                         virtualMachineScaleSetJsonInstance.Id = idInstance5;
                                     }
                                     
-                                    JToken nameValue7 = valueValue["name"];
-                                    if (nameValue7 != null && nameValue7.Type != JTokenType.Null)
+                                    JToken nameValue6 = valueValue["name"];
+                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                     {
-                                        string nameInstance7 = ((string)nameValue7);
-                                        virtualMachineScaleSetJsonInstance.Name = nameInstance7;
+                                        string nameInstance6 = ((string)nameValue6);
+                                        virtualMachineScaleSetJsonInstance.Name = nameInstance6;
                                     }
                                     
-                                    JToken typeValue4 = valueValue["type"];
-                                    if (typeValue4 != null && typeValue4.Type != JTokenType.Null)
+                                    JToken typeValue3 = valueValue["type"];
+                                    if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
                                     {
-                                        string typeInstance4 = ((string)typeValue4);
-                                        virtualMachineScaleSetJsonInstance.Type = typeInstance4;
+                                        string typeInstance3 = ((string)typeValue3);
+                                        virtualMachineScaleSetJsonInstance.Type = typeInstance3;
                                     }
                                     
                                     JToken locationValue2 = valueValue["location"];
@@ -5990,222 +5570,111 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                             
-                                            JToken extensionsArray = virtualMachineProfileValue["extensions"];
-                                            if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
+                                            JToken extensionProfileValue = virtualMachineProfileValue["extensionProfile"];
+                                            if (extensionProfileValue != null && extensionProfileValue.Type != JTokenType.Null)
                                             {
-                                                virtualMachineProfileInstance.Extensions = new List<VirtualMachineExtension>();
-                                                foreach (JToken extensionsValue in ((JArray)extensionsArray))
+                                                VirtualMachineScaleSetExtensionProfile extensionProfileInstance = new VirtualMachineScaleSetExtensionProfile();
+                                                virtualMachineProfileInstance.ExtensionProfile = extensionProfileInstance;
+                                                
+                                                JToken extensionsArray = extensionProfileValue["extensions"];
+                                                if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
                                                 {
-                                                    VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
-                                                    virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
-                                                    
-                                                    JToken propertiesValue4 = extensionsValue["properties"];
-                                                    if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
+                                                    extensionProfileInstance.Extensions = new List<VirtualMachineScaleSetExtension>();
+                                                    foreach (JToken extensionsValue in ((JArray)extensionsArray))
                                                     {
-                                                        JToken publisherValue2 = propertiesValue4["publisher"];
-                                                        if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
-                                                        {
-                                                            string publisherInstance2 = ((string)publisherValue2);
-                                                            virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
-                                                        }
+                                                        VirtualMachineScaleSetExtension virtualMachineScaleSetExtensionJsonInstance = new VirtualMachineScaleSetExtension();
+                                                        extensionProfileInstance.Extensions.Add(virtualMachineScaleSetExtensionJsonInstance);
                                                         
-                                                        JToken typeValue = propertiesValue4["type"];
-                                                        if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                                        JToken propertiesValue4 = extensionsValue["properties"];
+                                                        if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
                                                         {
-                                                            string typeInstance = ((string)typeValue);
-                                                            virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
-                                                        }
-                                                        
-                                                        JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
-                                                        if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
-                                                        {
-                                                            string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
-                                                            virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
-                                                        }
-                                                        
-                                                        JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
-                                                        if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
-                                                        {
-                                                            bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
-                                                            virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
-                                                        }
-                                                        
-                                                        JToken settingsValue = propertiesValue4["settings"];
-                                                        if (settingsValue != null && settingsValue.Type != JTokenType.Null)
-                                                        {
-                                                            string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                            virtualMachineExtensionJsonInstance.Settings = settingsInstance;
-                                                        }
-                                                        
-                                                        JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
-                                                        if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
-                                                        {
-                                                            string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                            virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
-                                                        }
-                                                        
-                                                        JToken provisioningStateValue = propertiesValue4["provisioningState"];
-                                                        if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
-                                                        {
-                                                            string provisioningStateInstance = ((string)provisioningStateValue);
-                                                            virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
-                                                        }
-                                                        
-                                                        JToken instanceViewValue = propertiesValue4["instanceView"];
-                                                        if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
-                                                        {
-                                                            VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
-                                                            virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
-                                                            
-                                                            JToken nameValue5 = instanceViewValue["name"];
-                                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                            JToken publisherValue2 = propertiesValue4["publisher"];
+                                                            if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                             {
-                                                                string nameInstance5 = ((string)nameValue5);
-                                                                instanceViewInstance.Name = nameInstance5;
+                                                                string publisherInstance2 = ((string)publisherValue2);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Publisher = publisherInstance2;
                                                             }
                                                             
-                                                            JToken typeValue2 = instanceViewValue["type"];
-                                                            if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                            JToken typeValue = propertiesValue4["type"];
+                                                            if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                             {
-                                                                string typeInstance2 = ((string)typeValue2);
-                                                                instanceViewInstance.ExtensionType = typeInstance2;
+                                                                string typeInstance = ((string)typeValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ExtensionType = typeInstance;
                                                             }
                                                             
-                                                            JToken typeHandlerVersionValue2 = instanceViewValue["typeHandlerVersion"];
-                                                            if (typeHandlerVersionValue2 != null && typeHandlerVersionValue2.Type != JTokenType.Null)
+                                                            JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
+                                                            if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                             {
-                                                                string typeHandlerVersionInstance2 = ((string)typeHandlerVersionValue2);
-                                                                instanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance2;
+                                                                string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                             }
                                                             
-                                                            JToken substatusesArray = instanceViewValue["substatuses"];
-                                                            if (substatusesArray != null && substatusesArray.Type != JTokenType.Null)
+                                                            JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
+                                                            if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                             {
-                                                                foreach (JToken substatusesValue in ((JArray)substatusesArray))
-                                                                {
-                                                                    InstanceViewStatus instanceViewStatusInstance = new InstanceViewStatus();
-                                                                    instanceViewInstance.SubStatuses.Add(instanceViewStatusInstance);
-                                                                    
-                                                                    JToken codeValue = substatusesValue["code"];
-                                                                    if (codeValue != null && codeValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string codeInstance = ((string)codeValue);
-                                                                        instanceViewStatusInstance.Code = codeInstance;
-                                                                    }
-                                                                    
-                                                                    JToken levelValue = substatusesValue["level"];
-                                                                    if (levelValue != null && levelValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string levelInstance = ((string)levelValue);
-                                                                        instanceViewStatusInstance.Level = levelInstance;
-                                                                    }
-                                                                    
-                                                                    JToken displayStatusValue = substatusesValue["displayStatus"];
-                                                                    if (displayStatusValue != null && displayStatusValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string displayStatusInstance = ((string)displayStatusValue);
-                                                                        instanceViewStatusInstance.DisplayStatus = displayStatusInstance;
-                                                                    }
-                                                                    
-                                                                    JToken messageValue = substatusesValue["message"];
-                                                                    if (messageValue != null && messageValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string messageInstance = ((string)messageValue);
-                                                                        instanceViewStatusInstance.Message = messageInstance;
-                                                                    }
-                                                                    
-                                                                    JToken timeValue = substatusesValue["time"];
-                                                                    if (timeValue != null && timeValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        DateTimeOffset timeInstance = ((DateTimeOffset)timeValue);
-                                                                        instanceViewStatusInstance.Time = timeInstance;
-                                                                    }
-                                                                }
+                                                                bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                             }
                                                             
-                                                            JToken statusesArray = instanceViewValue["statuses"];
-                                                            if (statusesArray != null && statusesArray.Type != JTokenType.Null)
+                                                            JToken settingsValue = propertiesValue4["settings"];
+                                                            if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                             {
-                                                                foreach (JToken statusesValue in ((JArray)statusesArray))
-                                                                {
-                                                                    InstanceViewStatus instanceViewStatusInstance2 = new InstanceViewStatus();
-                                                                    instanceViewInstance.Statuses.Add(instanceViewStatusInstance2);
-                                                                    
-                                                                    JToken codeValue2 = statusesValue["code"];
-                                                                    if (codeValue2 != null && codeValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string codeInstance2 = ((string)codeValue2);
-                                                                        instanceViewStatusInstance2.Code = codeInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken levelValue2 = statusesValue["level"];
-                                                                    if (levelValue2 != null && levelValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string levelInstance2 = ((string)levelValue2);
-                                                                        instanceViewStatusInstance2.Level = levelInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken displayStatusValue2 = statusesValue["displayStatus"];
-                                                                    if (displayStatusValue2 != null && displayStatusValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string displayStatusInstance2 = ((string)displayStatusValue2);
-                                                                        instanceViewStatusInstance2.DisplayStatus = displayStatusInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken messageValue2 = statusesValue["message"];
-                                                                    if (messageValue2 != null && messageValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string messageInstance2 = ((string)messageValue2);
-                                                                        instanceViewStatusInstance2.Message = messageInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken timeValue2 = statusesValue["time"];
-                                                                    if (timeValue2 != null && timeValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        DateTimeOffset timeInstance2 = ((DateTimeOffset)timeValue2);
-                                                                        instanceViewStatusInstance2.Time = timeInstance2;
-                                                                    }
-                                                                }
+                                                                string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Settings = settingsInstance;
+                                                            }
+                                                            
+                                                            JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
+                                                            if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
+                                                            {
+                                                                string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
+                                                            }
+                                                            
+                                                            JToken provisioningStateValue = propertiesValue4["provisioningState"];
+                                                            if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
+                                                            {
+                                                                string provisioningStateInstance = ((string)provisioningStateValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                             }
                                                         }
-                                                    }
-                                                    
-                                                    JToken idValue4 = extensionsValue["id"];
-                                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                                    {
-                                                        string idInstance4 = ((string)idValue4);
-                                                        virtualMachineExtensionJsonInstance.Id = idInstance4;
-                                                    }
-                                                    
-                                                    JToken nameValue6 = extensionsValue["name"];
-                                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                                    {
-                                                        string nameInstance6 = ((string)nameValue6);
-                                                        virtualMachineExtensionJsonInstance.Name = nameInstance6;
-                                                    }
-                                                    
-                                                    JToken typeValue3 = extensionsValue["type"];
-                                                    if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
-                                                    {
-                                                        string typeInstance3 = ((string)typeValue3);
-                                                        virtualMachineExtensionJsonInstance.Type = typeInstance3;
-                                                    }
-                                                    
-                                                    JToken locationValue = extensionsValue["location"];
-                                                    if (locationValue != null && locationValue.Type != JTokenType.Null)
-                                                    {
-                                                        string locationInstance = ((string)locationValue);
-                                                        virtualMachineExtensionJsonInstance.Location = locationInstance;
-                                                    }
-                                                    
-                                                    JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
-                                                    if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
-                                                    {
-                                                        foreach (JProperty property in tagsSequenceElement)
+                                                        
+                                                        JToken idValue4 = extensionsValue["id"];
+                                                        if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                         {
-                                                            string tagsKey = ((string)property.Name);
-                                                            string tagsValue = ((string)property.Value);
-                                                            virtualMachineExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
+                                                            string idInstance4 = ((string)idValue4);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Id = idInstance4;
+                                                        }
+                                                        
+                                                        JToken nameValue5 = extensionsValue["name"];
+                                                        if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                        {
+                                                            string nameInstance5 = ((string)nameValue5);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Name = nameInstance5;
+                                                        }
+                                                        
+                                                        JToken typeValue2 = extensionsValue["type"];
+                                                        if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                        {
+                                                            string typeInstance2 = ((string)typeValue2);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Type = typeInstance2;
+                                                        }
+                                                        
+                                                        JToken locationValue = extensionsValue["location"];
+                                                        if (locationValue != null && locationValue.Type != JTokenType.Null)
+                                                        {
+                                                            string locationInstance = ((string)locationValue);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Location = locationInstance;
+                                                        }
+                                                        
+                                                        JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
+                                                        if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
+                                                        {
+                                                            foreach (JProperty property in tagsSequenceElement)
+                                                            {
+                                                                string tagsKey = ((string)property.Name);
+                                                                string tagsValue = ((string)property.Value);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -6227,18 +5696,18 @@ namespace Microsoft.Azure.Management.Compute
                                         virtualMachineScaleSetJsonInstance.Id = idInstance5;
                                     }
                                     
-                                    JToken nameValue7 = valueValue["name"];
-                                    if (nameValue7 != null && nameValue7.Type != JTokenType.Null)
+                                    JToken nameValue6 = valueValue["name"];
+                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                     {
-                                        string nameInstance7 = ((string)nameValue7);
-                                        virtualMachineScaleSetJsonInstance.Name = nameInstance7;
+                                        string nameInstance6 = ((string)nameValue6);
+                                        virtualMachineScaleSetJsonInstance.Name = nameInstance6;
                                     }
                                     
-                                    JToken typeValue4 = valueValue["type"];
-                                    if (typeValue4 != null && typeValue4.Type != JTokenType.Null)
+                                    JToken typeValue3 = valueValue["type"];
+                                    if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
                                     {
-                                        string typeInstance4 = ((string)typeValue4);
-                                        virtualMachineScaleSetJsonInstance.Type = typeInstance4;
+                                        string typeInstance3 = ((string)typeValue3);
+                                        virtualMachineScaleSetJsonInstance.Type = typeInstance3;
                                     }
                                     
                                     JToken locationValue2 = valueValue["location"];
@@ -6865,222 +6334,111 @@ namespace Microsoft.Azure.Management.Compute
                                                 }
                                             }
                                             
-                                            JToken extensionsArray = virtualMachineProfileValue["extensions"];
-                                            if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
+                                            JToken extensionProfileValue = virtualMachineProfileValue["extensionProfile"];
+                                            if (extensionProfileValue != null && extensionProfileValue.Type != JTokenType.Null)
                                             {
-                                                virtualMachineProfileInstance.Extensions = new List<VirtualMachineExtension>();
-                                                foreach (JToken extensionsValue in ((JArray)extensionsArray))
+                                                VirtualMachineScaleSetExtensionProfile extensionProfileInstance = new VirtualMachineScaleSetExtensionProfile();
+                                                virtualMachineProfileInstance.ExtensionProfile = extensionProfileInstance;
+                                                
+                                                JToken extensionsArray = extensionProfileValue["extensions"];
+                                                if (extensionsArray != null && extensionsArray.Type != JTokenType.Null)
                                                 {
-                                                    VirtualMachineExtension virtualMachineExtensionJsonInstance = new VirtualMachineExtension();
-                                                    virtualMachineProfileInstance.Extensions.Add(virtualMachineExtensionJsonInstance);
-                                                    
-                                                    JToken propertiesValue4 = extensionsValue["properties"];
-                                                    if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
+                                                    extensionProfileInstance.Extensions = new List<VirtualMachineScaleSetExtension>();
+                                                    foreach (JToken extensionsValue in ((JArray)extensionsArray))
                                                     {
-                                                        JToken publisherValue2 = propertiesValue4["publisher"];
-                                                        if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
-                                                        {
-                                                            string publisherInstance2 = ((string)publisherValue2);
-                                                            virtualMachineExtensionJsonInstance.Publisher = publisherInstance2;
-                                                        }
+                                                        VirtualMachineScaleSetExtension virtualMachineScaleSetExtensionJsonInstance = new VirtualMachineScaleSetExtension();
+                                                        extensionProfileInstance.Extensions.Add(virtualMachineScaleSetExtensionJsonInstance);
                                                         
-                                                        JToken typeValue = propertiesValue4["type"];
-                                                        if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                                        JToken propertiesValue4 = extensionsValue["properties"];
+                                                        if (propertiesValue4 != null && propertiesValue4.Type != JTokenType.Null)
                                                         {
-                                                            string typeInstance = ((string)typeValue);
-                                                            virtualMachineExtensionJsonInstance.ExtensionType = typeInstance;
-                                                        }
-                                                        
-                                                        JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
-                                                        if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
-                                                        {
-                                                            string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
-                                                            virtualMachineExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
-                                                        }
-                                                        
-                                                        JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
-                                                        if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
-                                                        {
-                                                            bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
-                                                            virtualMachineExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
-                                                        }
-                                                        
-                                                        JToken settingsValue = propertiesValue4["settings"];
-                                                        if (settingsValue != null && settingsValue.Type != JTokenType.Null)
-                                                        {
-                                                            string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                            virtualMachineExtensionJsonInstance.Settings = settingsInstance;
-                                                        }
-                                                        
-                                                        JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
-                                                        if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
-                                                        {
-                                                            string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
-                                                            virtualMachineExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
-                                                        }
-                                                        
-                                                        JToken provisioningStateValue = propertiesValue4["provisioningState"];
-                                                        if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
-                                                        {
-                                                            string provisioningStateInstance = ((string)provisioningStateValue);
-                                                            virtualMachineExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
-                                                        }
-                                                        
-                                                        JToken instanceViewValue = propertiesValue4["instanceView"];
-                                                        if (instanceViewValue != null && instanceViewValue.Type != JTokenType.Null)
-                                                        {
-                                                            VirtualMachineExtensionInstanceView instanceViewInstance = new VirtualMachineExtensionInstanceView();
-                                                            virtualMachineExtensionJsonInstance.InstanceView = instanceViewInstance;
-                                                            
-                                                            JToken nameValue5 = instanceViewValue["name"];
-                                                            if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                            JToken publisherValue2 = propertiesValue4["publisher"];
+                                                            if (publisherValue2 != null && publisherValue2.Type != JTokenType.Null)
                                                             {
-                                                                string nameInstance5 = ((string)nameValue5);
-                                                                instanceViewInstance.Name = nameInstance5;
+                                                                string publisherInstance2 = ((string)publisherValue2);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Publisher = publisherInstance2;
                                                             }
                                                             
-                                                            JToken typeValue2 = instanceViewValue["type"];
-                                                            if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                            JToken typeValue = propertiesValue4["type"];
+                                                            if (typeValue != null && typeValue.Type != JTokenType.Null)
                                                             {
-                                                                string typeInstance2 = ((string)typeValue2);
-                                                                instanceViewInstance.ExtensionType = typeInstance2;
+                                                                string typeInstance = ((string)typeValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ExtensionType = typeInstance;
                                                             }
                                                             
-                                                            JToken typeHandlerVersionValue2 = instanceViewValue["typeHandlerVersion"];
-                                                            if (typeHandlerVersionValue2 != null && typeHandlerVersionValue2.Type != JTokenType.Null)
+                                                            JToken typeHandlerVersionValue = propertiesValue4["typeHandlerVersion"];
+                                                            if (typeHandlerVersionValue != null && typeHandlerVersionValue.Type != JTokenType.Null)
                                                             {
-                                                                string typeHandlerVersionInstance2 = ((string)typeHandlerVersionValue2);
-                                                                instanceViewInstance.TypeHandlerVersion = typeHandlerVersionInstance2;
+                                                                string typeHandlerVersionInstance = ((string)typeHandlerVersionValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.TypeHandlerVersion = typeHandlerVersionInstance;
                                                             }
                                                             
-                                                            JToken substatusesArray = instanceViewValue["substatuses"];
-                                                            if (substatusesArray != null && substatusesArray.Type != JTokenType.Null)
+                                                            JToken autoUpgradeMinorVersionValue = propertiesValue4["autoUpgradeMinorVersion"];
+                                                            if (autoUpgradeMinorVersionValue != null && autoUpgradeMinorVersionValue.Type != JTokenType.Null)
                                                             {
-                                                                foreach (JToken substatusesValue in ((JArray)substatusesArray))
-                                                                {
-                                                                    InstanceViewStatus instanceViewStatusInstance = new InstanceViewStatus();
-                                                                    instanceViewInstance.SubStatuses.Add(instanceViewStatusInstance);
-                                                                    
-                                                                    JToken codeValue = substatusesValue["code"];
-                                                                    if (codeValue != null && codeValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string codeInstance = ((string)codeValue);
-                                                                        instanceViewStatusInstance.Code = codeInstance;
-                                                                    }
-                                                                    
-                                                                    JToken levelValue = substatusesValue["level"];
-                                                                    if (levelValue != null && levelValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string levelInstance = ((string)levelValue);
-                                                                        instanceViewStatusInstance.Level = levelInstance;
-                                                                    }
-                                                                    
-                                                                    JToken displayStatusValue = substatusesValue["displayStatus"];
-                                                                    if (displayStatusValue != null && displayStatusValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string displayStatusInstance = ((string)displayStatusValue);
-                                                                        instanceViewStatusInstance.DisplayStatus = displayStatusInstance;
-                                                                    }
-                                                                    
-                                                                    JToken messageValue = substatusesValue["message"];
-                                                                    if (messageValue != null && messageValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        string messageInstance = ((string)messageValue);
-                                                                        instanceViewStatusInstance.Message = messageInstance;
-                                                                    }
-                                                                    
-                                                                    JToken timeValue = substatusesValue["time"];
-                                                                    if (timeValue != null && timeValue.Type != JTokenType.Null)
-                                                                    {
-                                                                        DateTimeOffset timeInstance = ((DateTimeOffset)timeValue);
-                                                                        instanceViewStatusInstance.Time = timeInstance;
-                                                                    }
-                                                                }
+                                                                bool autoUpgradeMinorVersionInstance = ((bool)autoUpgradeMinorVersionValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.AutoUpgradeMinorVersion = autoUpgradeMinorVersionInstance;
                                                             }
                                                             
-                                                            JToken statusesArray = instanceViewValue["statuses"];
-                                                            if (statusesArray != null && statusesArray.Type != JTokenType.Null)
+                                                            JToken settingsValue = propertiesValue4["settings"];
+                                                            if (settingsValue != null && settingsValue.Type != JTokenType.Null)
                                                             {
-                                                                foreach (JToken statusesValue in ((JArray)statusesArray))
-                                                                {
-                                                                    InstanceViewStatus instanceViewStatusInstance2 = new InstanceViewStatus();
-                                                                    instanceViewInstance.Statuses.Add(instanceViewStatusInstance2);
-                                                                    
-                                                                    JToken codeValue2 = statusesValue["code"];
-                                                                    if (codeValue2 != null && codeValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string codeInstance2 = ((string)codeValue2);
-                                                                        instanceViewStatusInstance2.Code = codeInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken levelValue2 = statusesValue["level"];
-                                                                    if (levelValue2 != null && levelValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string levelInstance2 = ((string)levelValue2);
-                                                                        instanceViewStatusInstance2.Level = levelInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken displayStatusValue2 = statusesValue["displayStatus"];
-                                                                    if (displayStatusValue2 != null && displayStatusValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string displayStatusInstance2 = ((string)displayStatusValue2);
-                                                                        instanceViewStatusInstance2.DisplayStatus = displayStatusInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken messageValue2 = statusesValue["message"];
-                                                                    if (messageValue2 != null && messageValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        string messageInstance2 = ((string)messageValue2);
-                                                                        instanceViewStatusInstance2.Message = messageInstance2;
-                                                                    }
-                                                                    
-                                                                    JToken timeValue2 = statusesValue["time"];
-                                                                    if (timeValue2 != null && timeValue2.Type != JTokenType.Null)
-                                                                    {
-                                                                        DateTimeOffset timeInstance2 = ((DateTimeOffset)timeValue2);
-                                                                        instanceViewStatusInstance2.Time = timeInstance2;
-                                                                    }
-                                                                }
+                                                                string settingsInstance = settingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Settings = settingsInstance;
+                                                            }
+                                                            
+                                                            JToken protectedSettingsValue = propertiesValue4["protectedSettings"];
+                                                            if (protectedSettingsValue != null && protectedSettingsValue.Type != JTokenType.Null)
+                                                            {
+                                                                string protectedSettingsInstance = protectedSettingsValue.ToString(Newtonsoft.Json.Formatting.Indented);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ProtectedSettings = protectedSettingsInstance;
+                                                            }
+                                                            
+                                                            JToken provisioningStateValue = propertiesValue4["provisioningState"];
+                                                            if (provisioningStateValue != null && provisioningStateValue.Type != JTokenType.Null)
+                                                            {
+                                                                string provisioningStateInstance = ((string)provisioningStateValue);
+                                                                virtualMachineScaleSetExtensionJsonInstance.ProvisioningState = provisioningStateInstance;
                                                             }
                                                         }
-                                                    }
-                                                    
-                                                    JToken idValue4 = extensionsValue["id"];
-                                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
-                                                    {
-                                                        string idInstance4 = ((string)idValue4);
-                                                        virtualMachineExtensionJsonInstance.Id = idInstance4;
-                                                    }
-                                                    
-                                                    JToken nameValue6 = extensionsValue["name"];
-                                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
-                                                    {
-                                                        string nameInstance6 = ((string)nameValue6);
-                                                        virtualMachineExtensionJsonInstance.Name = nameInstance6;
-                                                    }
-                                                    
-                                                    JToken typeValue3 = extensionsValue["type"];
-                                                    if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
-                                                    {
-                                                        string typeInstance3 = ((string)typeValue3);
-                                                        virtualMachineExtensionJsonInstance.Type = typeInstance3;
-                                                    }
-                                                    
-                                                    JToken locationValue = extensionsValue["location"];
-                                                    if (locationValue != null && locationValue.Type != JTokenType.Null)
-                                                    {
-                                                        string locationInstance = ((string)locationValue);
-                                                        virtualMachineExtensionJsonInstance.Location = locationInstance;
-                                                    }
-                                                    
-                                                    JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
-                                                    if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
-                                                    {
-                                                        foreach (JProperty property in tagsSequenceElement)
+                                                        
+                                                        JToken idValue4 = extensionsValue["id"];
+                                                        if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                         {
-                                                            string tagsKey = ((string)property.Name);
-                                                            string tagsValue = ((string)property.Value);
-                                                            virtualMachineExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
+                                                            string idInstance4 = ((string)idValue4);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Id = idInstance4;
+                                                        }
+                                                        
+                                                        JToken nameValue5 = extensionsValue["name"];
+                                                        if (nameValue5 != null && nameValue5.Type != JTokenType.Null)
+                                                        {
+                                                            string nameInstance5 = ((string)nameValue5);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Name = nameInstance5;
+                                                        }
+                                                        
+                                                        JToken typeValue2 = extensionsValue["type"];
+                                                        if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                                                        {
+                                                            string typeInstance2 = ((string)typeValue2);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Type = typeInstance2;
+                                                        }
+                                                        
+                                                        JToken locationValue = extensionsValue["location"];
+                                                        if (locationValue != null && locationValue.Type != JTokenType.Null)
+                                                        {
+                                                            string locationInstance = ((string)locationValue);
+                                                            virtualMachineScaleSetExtensionJsonInstance.Location = locationInstance;
+                                                        }
+                                                        
+                                                        JToken tagsSequenceElement = ((JToken)extensionsValue["tags"]);
+                                                        if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
+                                                        {
+                                                            foreach (JProperty property in tagsSequenceElement)
+                                                            {
+                                                                string tagsKey = ((string)property.Name);
+                                                                string tagsValue = ((string)property.Value);
+                                                                virtualMachineScaleSetExtensionJsonInstance.Tags.Add(tagsKey, tagsValue);
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -7102,18 +6460,18 @@ namespace Microsoft.Azure.Management.Compute
                                         virtualMachineScaleSetJsonInstance.Id = idInstance5;
                                     }
                                     
-                                    JToken nameValue7 = valueValue["name"];
-                                    if (nameValue7 != null && nameValue7.Type != JTokenType.Null)
+                                    JToken nameValue6 = valueValue["name"];
+                                    if (nameValue6 != null && nameValue6.Type != JTokenType.Null)
                                     {
-                                        string nameInstance7 = ((string)nameValue7);
-                                        virtualMachineScaleSetJsonInstance.Name = nameInstance7;
+                                        string nameInstance6 = ((string)nameValue6);
+                                        virtualMachineScaleSetJsonInstance.Name = nameInstance6;
                                     }
                                     
-                                    JToken typeValue4 = valueValue["type"];
-                                    if (typeValue4 != null && typeValue4.Type != JTokenType.Null)
+                                    JToken typeValue3 = valueValue["type"];
+                                    if (typeValue3 != null && typeValue3.Type != JTokenType.Null)
                                     {
-                                        string typeInstance4 = ((string)typeValue4);
-                                        virtualMachineScaleSetJsonInstance.Type = typeInstance4;
+                                        string typeInstance3 = ((string)typeValue3);
+                                        virtualMachineScaleSetJsonInstance.Type = typeInstance3;
                                     }
                                     
                                     JToken locationValue2 = valueValue["location"];
@@ -7452,7 +6810,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7516,7 +6874,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7575,7 +6933,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7639,7 +6997,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7698,7 +7056,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7762,7 +7120,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
