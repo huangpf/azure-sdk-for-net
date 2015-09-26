@@ -33,21 +33,32 @@ namespace Microsoft.Azure.Management.Compute.Models
     /// </summary>
     public partial class VirtualMachineScaleSetIPConfiguration
     {
-        private IList<VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool> _loadBalancerBackendAddressPools;
+        private IList<IPConfigurationLoadBalancerAddressPool> _loadBalancerBackendAddressPools;
         
         /// <summary>
-        /// Optional. Gets or set the load balancer backend address pools.
+        /// Optional. Gets or sets the load balancer backend address pools.
         /// </summary>
-        public IList<VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool> LoadBalancerBackendAddressPools
+        public IList<IPConfigurationLoadBalancerAddressPool> LoadBalancerBackendAddressPools
         {
             get { return this._loadBalancerBackendAddressPools; }
             set { this._loadBalancerBackendAddressPools = value; }
         }
         
+        private IList<IPConfigurationLoadBalancerInboundNATPool> _loadBalancerInboundNatPools;
+        
+        /// <summary>
+        /// Optional. Gets or sets the load balancer inbound NAT pools.
+        /// </summary>
+        public IList<IPConfigurationLoadBalancerInboundNATPool> LoadBalancerInboundNatPools
+        {
+            get { return this._loadBalancerInboundNatPools; }
+            set { this._loadBalancerInboundNatPools = value; }
+        }
+        
         private string _name;
         
         /// <summary>
-        /// Required. Gets or set the IP configuration name.
+        /// Required. Gets or sets the IP configuration name.
         /// </summary>
         public string Name
         {
@@ -58,7 +69,7 @@ namespace Microsoft.Azure.Management.Compute.Models
         private ApiEntityReference _subnet;
         
         /// <summary>
-        /// Required. Gets or set the subnet.
+        /// Required. Gets or sets the subnet.
         /// </summary>
         public ApiEntityReference Subnet
         {
@@ -72,7 +83,8 @@ namespace Microsoft.Azure.Management.Compute.Models
         /// </summary>
         public VirtualMachineScaleSetIPConfiguration()
         {
-            this.LoadBalancerBackendAddressPools = new LazyList<VirtualMachineScaleSetIPConfigurationLoadBalancerAddressPool>();
+            this.LoadBalancerBackendAddressPools = new LazyList<IPConfigurationLoadBalancerAddressPool>();
+            this.LoadBalancerInboundNatPools = new LazyList<IPConfigurationLoadBalancerInboundNATPool>();
         }
         
         /// <summary>

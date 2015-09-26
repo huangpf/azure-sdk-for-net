@@ -582,6 +582,60 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// The operation to manually upgrade virtual machines in a virtual
+        /// machine scale set.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.Compute.IVirtualMachineScaleSetOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <returns>
+        /// The compute long running operation response.
+        /// </returns>
+        public static ComputeOperationResponse BeginUpdatingInstances(this IVirtualMachineScaleSetOperations operations, string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IVirtualMachineScaleSetOperations)s).BeginUpdatingInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// The operation to manually upgrade virtual machines in a virtual
+        /// machine scale set.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.Compute.IVirtualMachineScaleSetOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <returns>
+        /// The compute long running operation response.
+        /// </returns>
+        public static Task<ComputeOperationResponse> BeginUpdatingInstancesAsync(this IVirtualMachineScaleSetOperations operations, string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs)
+        {
+            return operations.BeginUpdatingInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs, CancellationToken.None);
+        }
+        
+        /// <summary>
         /// The operation to create or update a virtual machine scale set.
         /// </summary>
         /// <param name='operations'>
@@ -876,6 +930,52 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
+        /// The operation to get a virtual machine scale set instance view.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.Compute.IVirtualMachineScaleSetOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <returns>
+        /// The get VirtualMachineScaleSet instance view operation response.
+        /// </returns>
+        public static VirtualMachineScaleSetGetInstanceViewResponse GetInstanceView(this IVirtualMachineScaleSetOperations operations, string resourceGroupName, string vmScaleSetName)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IVirtualMachineScaleSetOperations)s).GetInstanceViewAsync(resourceGroupName, vmScaleSetName);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// The operation to get a virtual machine scale set instance view.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.Compute.IVirtualMachineScaleSetOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <returns>
+        /// The get VirtualMachineScaleSet instance view operation response.
+        /// </returns>
+        public static Task<VirtualMachineScaleSetGetInstanceViewResponse> GetInstanceViewAsync(this IVirtualMachineScaleSetOperations operations, string resourceGroupName, string vmScaleSetName)
+        {
+            return operations.GetInstanceViewAsync(resourceGroupName, vmScaleSetName, CancellationToken.None);
+        }
+        
+        /// <summary>
         /// The operation to list virtual machine scale sets under a resource
         /// group.
         /// </summary>
@@ -933,7 +1033,7 @@ namespace Microsoft.Azure.Management.Compute
         /// <returns>
         /// The List Virtual Machine operation response.
         /// </returns>
-        public static VirtualMachineScaleSetListResponse ListAll(this IVirtualMachineScaleSetOperations operations, ListParameters parameters)
+        public static VirtualMachineScaleSetListWithLinkResponse ListAll(this IVirtualMachineScaleSetOperations operations, ListParameters parameters)
         {
             return Task.Factory.StartNew((object s) => 
             {
@@ -958,7 +1058,7 @@ namespace Microsoft.Azure.Management.Compute
         /// <returns>
         /// The List Virtual Machine operation response.
         /// </returns>
-        public static Task<VirtualMachineScaleSetListResponse> ListAllAsync(this IVirtualMachineScaleSetOperations operations, ListParameters parameters)
+        public static Task<VirtualMachineScaleSetListWithLinkResponse> ListAllAsync(this IVirtualMachineScaleSetOperations operations, ListParameters parameters)
         {
             return operations.ListAllAsync(parameters, CancellationToken.None);
         }
@@ -979,7 +1079,7 @@ namespace Microsoft.Azure.Management.Compute
         /// <returns>
         /// The List Virtual Machine operation response.
         /// </returns>
-        public static VirtualMachineScaleSetListResponse ListNext(this IVirtualMachineScaleSetOperations operations, string nextLink)
+        public static VirtualMachineScaleSetListWithLinkResponse ListNext(this IVirtualMachineScaleSetOperations operations, string nextLink)
         {
             return Task.Factory.StartNew((object s) => 
             {
@@ -1004,7 +1104,7 @@ namespace Microsoft.Azure.Management.Compute
         /// <returns>
         /// The List Virtual Machine operation response.
         /// </returns>
-        public static Task<VirtualMachineScaleSetListResponse> ListNextAsync(this IVirtualMachineScaleSetOperations operations, string nextLink)
+        public static Task<VirtualMachineScaleSetListWithLinkResponse> ListNextAsync(this IVirtualMachineScaleSetOperations operations, string nextLink)
         {
             return operations.ListNextAsync(nextLink, CancellationToken.None);
         }
@@ -1104,7 +1204,7 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
-        /// The operation to power off (stop) virtual machines from a virtual
+        /// The operation to power off (stop) virtual machines in a virtual
         /// machine scale set.
         /// </summary>
         /// <param name='operations'>
@@ -1133,7 +1233,7 @@ namespace Microsoft.Azure.Management.Compute
         }
         
         /// <summary>
-        /// The operation to power off (stop) virtual machines from a virtual
+        /// The operation to power off (stop) virtual machines in a virtual
         /// machine scale set.
         /// </summary>
         /// <param name='operations'>
@@ -1355,6 +1455,60 @@ namespace Microsoft.Azure.Management.Compute
         public static Task<ComputeLongRunningOperationResponse> StartInstancesAsync(this IVirtualMachineScaleSetOperations operations, string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs)
         {
             return operations.StartInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The operation to manually upgrade virtual machines in a virtual
+        /// machine scale set.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.Compute.IVirtualMachineScaleSetOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <returns>
+        /// The Compute service response for long-running operations.
+        /// </returns>
+        public static ComputeLongRunningOperationResponse UpdateInstances(this IVirtualMachineScaleSetOperations operations, string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IVirtualMachineScaleSetOperations)s).UpdateInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// The operation to manually upgrade virtual machines in a virtual
+        /// machine scale set.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.Compute.IVirtualMachineScaleSetOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group.
+        /// </param>
+        /// <param name='vmScaleSetName'>
+        /// Required. The name of the virtual machine scale set.
+        /// </param>
+        /// <param name='vmInstanceIDs'>
+        /// Required. The list of virtual machine scale set instance IDs.
+        /// </param>
+        /// <returns>
+        /// The Compute service response for long-running operations.
+        /// </returns>
+        public static Task<ComputeLongRunningOperationResponse> UpdateInstancesAsync(this IVirtualMachineScaleSetOperations operations, string resourceGroupName, string vmScaleSetName, VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs)
+        {
+            return operations.UpdateInstancesAsync(resourceGroupName, vmScaleSetName, vmInstanceIDs, CancellationToken.None);
         }
     }
 }

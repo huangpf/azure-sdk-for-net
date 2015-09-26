@@ -31,8 +31,21 @@ namespace Microsoft.Azure.Management.Compute.Models
     /// <summary>
     /// The List Virtual Machine operation response.
     /// </summary>
-    public partial class VirtualMachineScaleSetListResponse : AzureOperationResponse, IEnumerable<VirtualMachineScaleSet>
+    public partial class VirtualMachineScaleSetListWithLinkResponse : AzureOperationResponse
     {
+        private string _nextLink;
+        
+        /// <summary>
+        /// Optional. Gets or sets the uri to fetch the next page of Virtual
+        /// Machine Scale Sets. Call ListNext() with this to fetch the next
+        /// page of Virtual Machine Scale Sets.
+        /// </summary>
+        public string NextLink
+        {
+            get { return this._nextLink; }
+            set { this._nextLink = value; }
+        }
+        
         private IList<VirtualMachineScaleSet> _virtualMachineScaleSets;
         
         /// <summary>
@@ -46,27 +59,11 @@ namespace Microsoft.Azure.Management.Compute.Models
         
         /// <summary>
         /// Initializes a new instance of the
-        /// VirtualMachineScaleSetListResponse class.
+        /// VirtualMachineScaleSetListWithLinkResponse class.
         /// </summary>
-        public VirtualMachineScaleSetListResponse()
+        public VirtualMachineScaleSetListWithLinkResponse()
         {
             this.VirtualMachineScaleSets = new LazyList<VirtualMachineScaleSet>();
-        }
-        
-        /// <summary>
-        /// Gets the sequence of VirtualMachineScaleSets.
-        /// </summary>
-        public IEnumerator<VirtualMachineScaleSet> GetEnumerator()
-        {
-            return this.VirtualMachineScaleSets.GetEnumerator();
-        }
-        
-        /// <summary>
-        /// Gets the sequence of VirtualMachineScaleSets.
-        /// </summary>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
         }
     }
 }

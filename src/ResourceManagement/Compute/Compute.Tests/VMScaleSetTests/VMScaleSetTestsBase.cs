@@ -245,6 +245,18 @@ namespace Compute.Tests
             return createOrUpdateResponse;
         }
 
+
+        protected void ValidateVMScaleSetInstanceView(VirtualMachineScaleSet vmScaleSet,
+            VirtualMachineScaleSetInstanceView vmScaleSetInstanceView)
+        {
+            Assert.NotNull(vmScaleSetInstanceView.Statuses);
+            Assert.NotNull(vmScaleSetInstanceView.VirtualMachine);
+            Assert.NotNull(vmScaleSetInstanceView.VirtualMachine.StatusesSummary);
+            int instancesCount = vmScaleSetInstanceView.VirtualMachine.StatusesSummary.Sum(statusSummary => statusSummary.Count);
+            Assert.True(instancesCount == vmScaleSet.Sku.Capacity);
+            
+        }
+
         protected void ValidateVMScaleSet(VirtualMachineScaleSet vmScaleSet, VirtualMachineScaleSet vmScaleSetOut)
         {
             Assert.True(!string.IsNullOrEmpty(vmScaleSetOut.ProvisioningState));

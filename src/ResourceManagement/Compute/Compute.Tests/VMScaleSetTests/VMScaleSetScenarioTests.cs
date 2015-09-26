@@ -35,6 +35,7 @@ namespace Compute.Tests
         /// Create Network Resources
         /// Create VMScaleSet with extension
         /// Get VMScaleSet Model View
+        /// Get VMScaleSet Instance View
         /// List VMScaleSets in a RG
         /// List Available Skus
         /// Delete VMScaleSet
@@ -76,13 +77,18 @@ namespace Compute.Tests
                     Assert.True(getResponse.StatusCode == HttpStatusCode.OK);
                     ValidateVMScaleSet(inputVMScaleSet, getResponse.VirtualMachineScaleSet);
 
+                    var getInstanceViewResponse = m_CrpClient.VirtualMachineScaleSets.GetInstanceView(rgName, vmScaleSet.Name);
+                    Assert.True(getInstanceViewResponse.StatusCode == HttpStatusCode.OK);
+                    Assert.NotNull(getInstanceViewResponse.VirtualMachineScaleSetInstanceView);
+                    ValidateVMScaleSetInstanceView(inputVMScaleSet, getInstanceViewResponse.VirtualMachineScaleSetInstanceView);
+                    
                     var listResponse = m_CrpClient.VirtualMachineScaleSets.List(rgName);
                     Assert.True(listResponse.StatusCode == HttpStatusCode.OK);
                     ValidateVMScaleSet(inputVMScaleSet, listResponse.VirtualMachineScaleSets.FirstOrDefault(x => x.Name == inputVMScaleSet.Name));
 
                     var listSkusResponse = m_CrpClient.VirtualMachineScaleSets.ListSkus(rgName, inputVMScaleSet.Name);
                     Assert.True(listSkusResponse.StatusCode == HttpStatusCode.OK);
-                    Assert.False(listSkusResponse.VirtualMachineScaleSetAvailableSkus == null);
+                    Assert.NotNull(listSkusResponse.VirtualMachineScaleSetAvailableSkus);
                     Assert.False(listSkusResponse.VirtualMachineScaleSetAvailableSkus.Count == 0);
 
                     var deleteResponse = m_CrpClient.VirtualMachineScaleSets.Delete(rgName, inputVMScaleSet.Name);

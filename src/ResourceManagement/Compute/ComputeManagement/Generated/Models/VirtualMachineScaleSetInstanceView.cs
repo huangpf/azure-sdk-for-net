@@ -23,50 +23,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hyak.Common;
-using Microsoft.Azure;
 using Microsoft.Azure.Management.Compute.Models;
 
 namespace Microsoft.Azure.Management.Compute.Models
 {
     /// <summary>
-    /// The List Virtual Machine operation response.
+    /// The instance view of a virtual machine scale set.
     /// </summary>
-    public partial class VirtualMachineScaleSetListResponse : AzureOperationResponse, IEnumerable<VirtualMachineScaleSet>
+    public partial class VirtualMachineScaleSetInstanceView : ResourceInstanceView
     {
-        private IList<VirtualMachineScaleSet> _virtualMachineScaleSets;
+        private IList<VirtualMachineScaleSetVMExtensionsSummary> _extensions;
         
         /// <summary>
-        /// Optional. Gets or sets the list of virtual machine scale sets.
+        /// Optional. Gets or sets the extensions information.
         /// </summary>
-        public IList<VirtualMachineScaleSet> VirtualMachineScaleSets
+        public IList<VirtualMachineScaleSetVMExtensionsSummary> Extensions
         {
-            get { return this._virtualMachineScaleSets; }
-            set { this._virtualMachineScaleSets = value; }
+            get { return this._extensions; }
+            set { this._extensions = value; }
+        }
+        
+        private VirtualMachineScaleSetInstanceViewStatusesSummary _virtualMachine;
+        
+        /// <summary>
+        /// Optional. Gets the instance view status summary for the virtual
+        /// machine scale set.
+        /// </summary>
+        public VirtualMachineScaleSetInstanceViewStatusesSummary VirtualMachine
+        {
+            get { return this._virtualMachine; }
+            set { this._virtualMachine = value; }
         }
         
         /// <summary>
         /// Initializes a new instance of the
-        /// VirtualMachineScaleSetListResponse class.
+        /// VirtualMachineScaleSetInstanceView class.
         /// </summary>
-        public VirtualMachineScaleSetListResponse()
+        public VirtualMachineScaleSetInstanceView()
         {
-            this.VirtualMachineScaleSets = new LazyList<VirtualMachineScaleSet>();
-        }
-        
-        /// <summary>
-        /// Gets the sequence of VirtualMachineScaleSets.
-        /// </summary>
-        public IEnumerator<VirtualMachineScaleSet> GetEnumerator()
-        {
-            return this.VirtualMachineScaleSets.GetEnumerator();
-        }
-        
-        /// <summary>
-        /// Gets the sequence of VirtualMachineScaleSets.
-        /// </summary>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
+            this.Extensions = new LazyList<VirtualMachineScaleSetVMExtensionsSummary>();
         }
     }
 }

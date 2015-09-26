@@ -13,6 +13,7 @@
 // limitations under the License.
 //
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Azure;
 using Microsoft.Azure.Management.Compute;
@@ -32,7 +33,6 @@ namespace Compute.Tests
         /// Create Storage Account
         /// Create Network Resources
         /// Create VMScaleSet
-        /// GET VMScaleSet Model View
         /// Start VMScaleSet
         /// Stop VMScaleSet
         /// Restart VMScaleSet
@@ -75,7 +75,7 @@ namespace Compute.Tests
                     Assert.Equal(HttpStatusCode.Accepted, stopOperationResponse.StatusCode);
                     lroResponse = m_CrpClient.VirtualMachineScaleSets.PowerOff(rgName, vmScaleSet.Name);
                     Assert.Equal(ComputeOperationStatus.Succeeded, lroResponse.Status);
-
+                    
                     var deallocateOperationResponse = m_CrpClient.VirtualMachineScaleSets.BeginDeallocating(rgName, vmScaleSet.Name);
                     Assert.Equal(HttpStatusCode.Accepted, deallocateOperationResponse.StatusCode);
                     lroResponse = m_CrpClient.VirtualMachineScaleSets.Deallocate(rgName, vmScaleSet.Name);
@@ -97,7 +97,7 @@ namespace Compute.Tests
                 Assert.True(passed);
             }
         }
-
+        
         /// <summary>
         /// Covers following Operations:
         /// Create RG
@@ -106,6 +106,7 @@ namespace Compute.Tests
         /// Create VMScaleSet
         /// Start VMScaleSet Instances
         /// Stop VMScaleSet Instance
+        /// ManualUpgrade VMScaleSet Instance
         /// Restart VMScaleSet Instance
         /// Deallocate VMScaleSet Instance
         /// Delete VMScaleSet Instance
@@ -131,7 +132,13 @@ namespace Compute.Tests
                 {
                     var storageAccountOutput = CreateStorageAccount(rgName, storageAccountName);
 
-                    VirtualMachineScaleSet vmScaleSet = CreateVMScaleSet_NoAsyncTracking(rgName, storageAccountOutput, imageRef, out inputVMScaleSet);
+                    VirtualMachineScaleSet vmScaleSet = CreateVMScaleSet_NoAsyncTracking(
+                        rgName: rgName, 
+                        storageAccount: storageAccountOutput, 
+                        imageRef: imageRef, 
+                        inputVMScaleSet: out inputVMScaleSet, 
+                        vmScaleSetCustomizer: 
+                            (virtualMachineScaleSet) => virtualMachineScaleSet.UpgradePolicy = new UpgradePolicy { Mode = UpgradeMode.Manual });
 
                     VirtualMachineScaleSetVMInstanceIDs virtualMachineScaleSetInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs()
                     {
@@ -147,6 +154,11 @@ namespace Compute.Tests
                     var stopOperationResponse = m_CrpClient.VirtualMachineScaleSets.BeginPoweringOffInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
                     Assert.Equal(HttpStatusCode.Accepted, stopOperationResponse.StatusCode);
                     lroResponse = m_CrpClient.VirtualMachineScaleSets.PowerOffInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(ComputeOperationStatus.Succeeded, lroResponse.Status);
+
+                    var manualUpgradeResponse = m_CrpClient.VirtualMachineScaleSets.BeginUpdatingInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
+                    Assert.Equal(HttpStatusCode.Accepted, manualUpgradeResponse.StatusCode);
+                    lroResponse = m_CrpClient.VirtualMachineScaleSets.UpdateInstances(rgName, vmScaleSet.Name, virtualMachineScaleSetInstanceIDs);
                     Assert.Equal(ComputeOperationStatus.Succeeded, lroResponse.Status);
 
                     virtualMachineScaleSetInstanceIDs.InstanceIDs = new List<string>() { "1" };
@@ -167,10 +179,7 @@ namespace Compute.Tests
                 }
                 finally
                 {
-                    // Cleanup the created resources. But don't wait since it takes too long, and it's not the purpose
-                    // of the test to cover deletion. CSM does persistent retrying over all RG resources.
-                    var deleteRgResponse = m_ResourcesClient.ResourceGroups.BeginDeleting(rgName);
-                    Assert.True(deleteRgResponse.StatusCode == HttpStatusCode.Accepted, "BeginDeleting status was not Accepted.");
+                    m_ResourcesClient.ResourceGroups.DeleteIfExists(rgName);
                 }
 
                 Assert.True(passed);
