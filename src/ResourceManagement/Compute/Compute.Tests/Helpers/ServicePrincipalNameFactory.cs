@@ -33,15 +33,15 @@ namespace Compute.Tests
 
         protected override TestEnvironment GetTestEnvironmentFromContext()
         {
-            return this.GetCustomTestEnvironment(CsmSpnAuthEnvVariableName);
+            return GetCustomTestEnvironment(CsmSpnAuthEnvVariableName);
         }
 
-        protected TestEnvironment GetCustomTestEnvironment(string envVariableName)
+        private static TestEnvironment GetCustomTestEnvironment(string envVariableName)
         {
             string connectionString = Environment.GetEnvironmentVariable(envVariableName);
             IDictionary<string, string> parsedConnection = TestUtilities.ParseConnectionString(connectionString);
             TestEnvironment testEnv = new TestEnvironment(parsedConnection, ExecutionMode.CSM);
-            string token = null;
+            string token;
 
             if (HttpMockServer.Mode == HttpRecorderMode.Playback)
             {
@@ -78,7 +78,7 @@ namespace Compute.Tests
 
                 if (testEnv.SubscriptionId == null)
                 {
-                    throw new Exception("Subscription Id was not provided in environment variable. " + "Please set " +
+                    throw new InvalidOperationException("Subscription Id was not provided in environment variable. " + "Please set " +
                                         "the envt. variable - TEST_CSM_ORGID_AUTHENTICATION=SubscriptionId=<subscription-id>");
                 }
 
