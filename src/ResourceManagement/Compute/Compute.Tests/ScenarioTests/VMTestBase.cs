@@ -338,7 +338,7 @@ namespace Compute.Tests
                 AvailabilitySet = new SubResource() { Id = asetId },
                 HardwareProfile = new HardwareProfile
                 {
-                    VmSize = VirtualMachineSizeTypes.StandardA0
+                    VmSize = "Standard_A0"
                 },
                 StorageProfile = new StorageProfile
                 {

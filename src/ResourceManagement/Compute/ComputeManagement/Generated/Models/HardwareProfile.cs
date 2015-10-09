@@ -36,7 +36,7 @@ namespace Microsoft.Azure.Management.Compute.Models
         /// 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5'.
         /// </summary>
         [JsonProperty(PropertyName = "vmSize")]
-        public VirtualMachineSizeTypes? VmSize { get; set; }
+        public string VmSize { get; set; }
 
     }
 }

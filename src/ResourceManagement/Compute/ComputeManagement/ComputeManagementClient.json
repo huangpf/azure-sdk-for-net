@@ -1938,8 +1938,7 @@
             "Standard_GS3",
             "Standard_GS4",
             "Standard_GS5"
-          ],
-          "x-ms-enum": "VirtualMachineSizeTypes"
+          ]
         }
       },
       "description": "Describes a hardware profile."

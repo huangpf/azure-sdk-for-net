@@ -51,7 +51,7 @@ namespace Compute.Tests
                         var vhdContainer = "https://" + storageAccountName + ".blob.core.windows.net/" + containerName;
                         var vhduri = vhdContainer + string.Format("/{0}.vhd", ComputeManagementTestUtilities.GenerateName(TestPrefix));
 
-                        vm.HardwareProfile.VmSize = VirtualMachineSizeTypes.StandardA4;
+                        vm.HardwareProfile.VmSize = "Standard_A4";
                         vm.StorageProfile.DataDisks = new List<DataDisk>();
                         foreach (int index in new int[] {1, 2})
                         {
