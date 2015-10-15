@@ -47,7 +47,7 @@ namespace Compute.Tests
         protected string m_location;
         ImageReference m_windowsImageReference, m_linuxImageReference;
 
-        protected void EnsureClientsInitialized(bool useSPN = false)
+        protected void EnsureClientsInitialized()
         {
             if (!m_initialized)
             {
@@ -56,20 +56,10 @@ namespace Compute.Tests
                     if (!m_initialized)
                     {
                         var handler = new RecordedDelegatingHandler { StatusCodeToReturn = HttpStatusCode.OK };
-                        if (useSPN)
-                        {
-                            m_ResourcesClient = ComputeManagementTestUtilities.GetResourceManagementClientWithSpn(handler);
-                            m_CrpClient = ComputeManagementTestUtilities.GetComputeManagementClientWithSpn(handler);
-                            m_SrpClient = ComputeManagementTestUtilities.GetStorageManagementClientSpn(handler);
-                            m_NrpClient = ComputeManagementTestUtilities.GetNetworkResourceProviderClientSpn(handler);
-                        }
-                        else
-                        {
-                            m_ResourcesClient = ComputeManagementTestUtilities.GetResourceManagementClient(handler);
-                            m_CrpClient = ComputeManagementTestUtilities.GetComputeManagementClient(handler);
-                            m_SrpClient = ComputeManagementTestUtilities.GetStorageManagementClient(handler);
-                            m_NrpClient = ComputeManagementTestUtilities.GetNetworkResourceProviderClient(handler);
-                        }
+                        m_ResourcesClient = ComputeManagementTestUtilities.GetResourceManagementClient(handler);
+                        m_CrpClient = ComputeManagementTestUtilities.GetComputeManagementClient(handler);
+                        m_SrpClient = ComputeManagementTestUtilities.GetStorageManagementClient(handler);
+                        m_NrpClient = ComputeManagementTestUtilities.GetNetworkResourceProviderClient(handler);
                         m_subId = m_CrpClient.Credentials.SubscriptionId;
                         m_location = ComputeManagementTestUtilities.DefaultLocation;
                     }
