@@ -3471,7 +3471,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -3531,7 +3531,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -3592,7 +3592,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -3655,7 +3655,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -10922,7 +10922,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -10981,7 +10981,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -11040,7 +11040,7 @@ namespace Microsoft.Azure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Compute.Models.ComputeOperationStatus.InProgress) == false)
+            while (result.Status == ComputeOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
