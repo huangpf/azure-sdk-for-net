@@ -117,6 +117,39 @@ namespace Compute.Tests
             };
         }
 
+        protected DiskEncryptionSettings GetEncryptionSettings(bool addKek = false)
+        {
+            string testVaultId =
+                @"/subscriptions/21466899-20b2-463c-8c30-b8fb28a43248/resourceGroups/RgTest1/providers/Microsoft.KeyVault/vaults/TestVault123";
+            string encryptionKeyFakeUri = @"https://testvault123.vault.azure.net/secrets/Test1/514ceb769c984379a7e0230bdd703272";
+            
+            DiskEncryptionSettings diskEncryptionSettings = new DiskEncryptionSettings
+            {
+                DiskEncryptionKey = new KeyVaultSecretReference
+                {
+                    SecretUrl = encryptionKeyFakeUri,
+                    SourceVault = new SourceVaultReference
+                    {
+                        ReferenceUri = testVaultId
+                    }
+                }
+            };
+
+            if (addKek)
+            {
+                string nonExistentKekUri = @"https://testvault123.vault.azure.net/keys/TestKey/514ceb769c984379a7e0230bdd703272";
+                diskEncryptionSettings.KeyEncryptionKey = new KeyVaultKeyReference
+                {
+                    KeyUrl = nonExistentKekUri,
+                    SourceVault = new SourceVaultReference
+                    {
+                        ReferenceUri = testVaultId
+                    }
+                };
+            }
+            return diskEncryptionSettings;
+        }
+
         protected StorageAccount CreateStorageAccount(string rgName, string storageAccountName)
         {
             try
@@ -437,6 +470,22 @@ namespace Compute.Tests
 
                 Assert.True(vmOut.StorageProfile.OSDisk.DiskSizeGB
                     == vm.StorageProfile.OSDisk.DiskSizeGB);
+
+                if (vm.StorageProfile.OSDisk.EncryptionSettings != null)
+                {
+                    var encryptionSettings = vm.StorageProfile.OSDisk.EncryptionSettings;
+                    Assert.NotNull(vmOut.StorageProfile.OSDisk.EncryptionSettings);
+                    var actualEncryptionSettings = vmOut.StorageProfile.OSDisk.EncryptionSettings;
+                    Assert.Equal(encryptionSettings.DiskEncryptionKey.SourceVault.ReferenceUri, actualEncryptionSettings.DiskEncryptionKey.SourceVault.ReferenceUri);
+                    Assert.Equal(encryptionSettings.DiskEncryptionKey.SecretUrl, actualEncryptionSettings.DiskEncryptionKey.SecretUrl);
+
+                    if (encryptionSettings.KeyEncryptionKey != null)
+                    {
+                        Assert.NotNull(encryptionSettings.KeyEncryptionKey);
+                        Assert.Equal(encryptionSettings.KeyEncryptionKey.SourceVault.ReferenceUri, actualEncryptionSettings.KeyEncryptionKey.SourceVault.ReferenceUri);
+                        Assert.Equal(encryptionSettings.KeyEncryptionKey.KeyUrl, actualEncryptionSettings.KeyEncryptionKey.KeyUrl);
+                    }
+                }
             }
 
             if (vm.StorageProfile.DataDisks != null &&
@@ -484,6 +533,12 @@ namespace Compute.Tests
 
                     // ReSharper enable PossibleNullReferenceException
                 }
+            }
+
+            if (vm.DiagnosticsProfile != null)
+            {
+                Assert.Equal(vm.DiagnosticsProfile.BootDiagnostics.Enabled, vmOut.DiagnosticsProfile.BootDiagnostics.Enabled);
+                Assert.Equal(vm.DiagnosticsProfile.BootDiagnostics.StorageUri, vmOut.DiagnosticsProfile.BootDiagnostics.StorageUri);
             }
 
             Assert.NotNull(vmOut.AvailabilitySetReference);

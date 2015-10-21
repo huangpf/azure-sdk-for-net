@@ -56,6 +56,9 @@
     <None Include="SessionRecords\Compute.Tests.VMDiagnosticsTests\TestVMBootDiagnostics.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SessionRecords\Compute.Tests.VMDiskEncryptionTests\TestVMDiskEncryption.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SessionRecords\Compute.Tests.VMDiskSizeTests\TestVMDiskSizeScenario.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -144,4 +147,5 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
 </Project>
