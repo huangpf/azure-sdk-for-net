@@ -31,9 +31,12 @@
     <Compile Include="Customizations\Models\LinkedServices\AzureDataLakeAnalyticsLinkedService.cs" />
     <Compile Include="Customizations\Models\LinkedServices\AzureDataLakeStoreLinkedService.cs" />
     <Compile Include="Customizations\Models\LinkedServices\AzureSqlDataWarehouseLinkedService.cs" />
+    <Compile Include="Customizations\Models\LinkedServices\AzureStorageSasLinkedService.cs" />
     <Compile Include="Customizations\Models\LinkedServices\HDInsightSchemaGenerationProperties.cs" />
     <Compile Include="Customizations\Models\LinkedServices\InputPartitionOptions.cs" />
     <Compile Include="Customizations\Models\LinkedServices\OAuthLinkedServiceBase.cs" />
+    <Compile Include="Customizations\Models\LinkedServices\HdfsLinkedService.cs" />
+    <Compile Include="Customizations\Models\LinkedServices\OnPremisesOdbcLinkedService.cs" />
     <Compile Include="Customizations\Models\LinkedServices\SchemaGenerationTypes.cs" />
     <Compile Include="Customizations\Models\Datasets\AzureSqlDataWarehouseTableDataset.cs" />
     <Compile Include="Customizations\Models\Registration\BaseAdfSchemaProperty.cs" />
@@ -170,7 +173,7 @@
     <Compile Include="Customizations\Models\Datasets\Partitions\Partition.cs" />
     <Compile Include="Customizations\Models\Datasets\Partitions\PartitionColumn.cs" />
     <Compile Include="Customizations\Models\Datasets\Partitions\PartitionValue.cs" />
-    <Compile Include="Customizations\Models\Datasets\RelationalTableLocation.cs" />
+    <Compile Include="Customizations\Models\Datasets\RelationalTableDataset.cs" />
     <Compile Include="Customizations\Models\Datasets\StorageFormats\AvroFormat.cs" />
     <Compile Include="Customizations\Models\Datasets\StorageFormats\StorageFormat.cs" />
     <Compile Include="Customizations\Models\Datasets\StorageFormats\TextFormat.cs" />
