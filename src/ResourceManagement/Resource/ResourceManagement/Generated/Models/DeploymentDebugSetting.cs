@@ -22,52 +22,44 @@
 using System;
 using System.Linq;
 
-namespace Microsoft.Azure.Management.DataFactories.Common.Models
+namespace Microsoft.Azure.Management.Resources.Models
 {
     /// <summary>
-    /// Pipeline runtime information.
+    /// The deployment debug setting.
     /// </summary>
-    public partial class PipelineRuntimeInfo
+    public partial class DeploymentDebugSetting
     {
-        private DateTime _deploymentTime;
+        private string _deploymentDebugDetailLevel;
         
         /// <summary>
-        /// Required. The deployment time of the pipeline.
+        /// Required. Deployment debug detail level. Any combination of None,
+        /// RequestContent and ResponseContent
         /// </summary>
-        public DateTime DeploymentTime
+        public string DeploymentDebugDetailLevel
         {
-            get { return this._deploymentTime; }
-            set { this._deploymentTime = value; }
-        }
-        
-        private string _pipelineState;
-        
-        /// <summary>
-        /// Optional. Indicates the current state of the pipeline. Must be one
-        /// of <see
-        /// cref="Microsoft.Azure.Management.DataFactories.Models.PipelineState"/>.
-        /// </summary>
-        public string PipelineState
-        {
-            get { return this._pipelineState; }
-            set { this._pipelineState = value; }
+            get { return this._deploymentDebugDetailLevel; }
+            set { this._deploymentDebugDetailLevel = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the PipelineRuntimeInfo class.
+        /// Initializes a new instance of the DeploymentDebugSetting class.
         /// </summary>
-        public PipelineRuntimeInfo()
+        public DeploymentDebugSetting()
         {
         }
         
         /// <summary>
-        /// Initializes a new instance of the PipelineRuntimeInfo class with
+        /// Initializes a new instance of the DeploymentDebugSetting class with
         /// required arguments.
         /// </summary>
-        public PipelineRuntimeInfo(DateTime deploymentTime)
+        public DeploymentDebugSetting(string deploymentDebugDetailLevel)
             : this()
         {
-            this.DeploymentTime = deploymentTime;
+            if (deploymentDebugDetailLevel == null)
+            {
+                throw new ArgumentNullException("deploymentDebugDetailLevel");
+            }
+            this.DeploymentDebugDetailLevel = deploymentDebugDetailLevel;
         }
     }
 }
