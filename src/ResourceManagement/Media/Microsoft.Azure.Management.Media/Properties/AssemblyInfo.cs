@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) Microsoft.  All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,17 +15,15 @@
 
 using System.Reflection;
 using System.Resources;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Microsoft Azure Graph RBAC Library")]
-[assembly: AssemblyDescription("Provides Microsoft Azure Graph RBAC access.")]
+[assembly: AssemblyTitle("Microsoft Azure Media Management Library")]
+[assembly: AssemblyDescription("Provides management functionality for Microsoft Azure Media.")]
 
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.1.0.0")]
-
+[assembly: AssemblyVersion("0.1.0")]
+[assembly: AssemblyFileVersion("0.1.0")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Microsoft Azure .NET SDK")]
+[assembly: AssemblyProduct("Azure .NET SDK")]
 [assembly: AssemblyCopyright("Copyright (c) Microsoft Corporation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
