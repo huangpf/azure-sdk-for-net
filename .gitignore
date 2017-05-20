@@ -14,6 +14,11 @@ binaries/
 [Dd]ebug*/
 [Rr]elease/
 build/
+restoredPackages/
+PolicheckOutput/
+tools/net46/
+tools/Microsoft.WindowsAzure.Build.Tasks/packages/
+PublishedNugets/
 src/NuGet.Config
 tools/7-zip/
 

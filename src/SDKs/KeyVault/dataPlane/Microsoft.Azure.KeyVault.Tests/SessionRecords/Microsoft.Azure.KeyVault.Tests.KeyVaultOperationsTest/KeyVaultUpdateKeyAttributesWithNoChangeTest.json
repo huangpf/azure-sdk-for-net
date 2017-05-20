@@ -1,0 +1,214 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "/keys/UpdateKeyAttributesWithNoChangeTest/create?api-version=2016-10-01",
+      "EncodedRequestUri": "L2tleXMvVXBkYXRlS2V5QXR0cmlidXRlc1dpdGhOb0NoYW5nZVRlc3QvY3JlYXRlP2FwaS12ZXJzaW9uPTIwMTYtMTAtMDE=",
+      "RequestMethod": "POST",
+      "RequestBody": "{\r\n  \"kty\": \"RSA\",\r\n  \"key_size\": 2048,\r\n  \"key_ops\": [\r\n    \"encrypt\",\r\n    \"decrypt\",\r\n    \"sign\",\r\n    \"verify\",\r\n    \"wrapKey\",\r\n    \"unwrapKey\"\r\n  ],\r\n  \"attributes\": {\r\n    \"enabled\": false,\r\n    \"nbf\": 1262332800,\r\n    \"exp\": 1893484800\r\n  }\r\n}",
+      "RequestHeaders": {
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Content-Length": [
+          "251"
+        ],
+        "x-ms-client-request-id": [
+          "3a55e552-010c-4241-bc6d-eb2332692ce1"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24709.01",
+          "Microsoft.Azure.KeyVault.KeyVaultClient/2.0.6"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"key\": {\r\n    \"kid\": \"https://karlaugsoftdeletesdk.vault-int.azure-int.net/keys/UpdateKeyAttributesWithNoChangeTest/395e0ffd71384bd685cec4c566c1c69c\",\r\n    \"kty\": \"RSA\",\r\n    \"key_ops\": [\r\n      \"encrypt\",\r\n      \"decrypt\",\r\n      \"sign\",\r\n      \"verify\",\r\n      \"wrapKey\",\r\n      \"unwrapKey\"\r\n    ],\r\n    \"n\": \"5efg_DnU77o3Qwrz3cRZArr3uWLghIpdm22oRVVwD6lOvU92c3SgKlq2vt0ZjJQw82Lg_wBYY57F8wP2tK7EdyN3BoFiqcMw4Wu3L7LFghsMh-4NCCyr9tDVQ6wYiaL383dPlcxZb-m8Qdk5qvb_1NudUsfcas8vgwwbaDrQO1nDM_VoAezvwN_JluPmcRBHr3IiKjQb7AgqmyqQM-e_yIjEf-lp1aaKCZBtYscINL1hwtr8hD44HBj1TGQui8Tom7glnxWXL4Emio72zsg43bmHyVuK3zfHcZ5DSYvEQ5djWsMrQ4yo0mdIhUaoOqWnN0Gkyql9EnuczfEnpo5VTw\",\r\n    \"e\": \"AQAB\"\r\n  },\r\n  \"attributes\": {\r\n    \"enabled\": false,\r\n    \"nbf\": 1262332800,\r\n    \"exp\": 1893484800,\r\n    \"created\": 1482189536,\r\n    \"updated\": 1482189536\r\n  }\r\n}",
+      "ResponseHeaders": {
+        "Content-Length": [
+          "693"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Mon, 19 Dec 2016 23:18:56 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.5"
+        ],
+        "x-ms-keyvault-region": [
+          "South Central US"
+        ],
+        "x-ms-request-id": [
+          "d6c10e4e-932c-4566-ab6d-7d55dc03d9d9"
+        ],
+        "x-ms-keyvault-service-version": [
+          "1.0.0.1066"
+        ],
+        "X-AspNet-Version": [
+          "4.0.30319"
+        ],
+        "X-Powered-By": [
+          "ASP.NET"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000;includeSubDomains"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/keys/UpdateKeyAttributesWithNoChangeTest/?api-version=2016-10-01",
+      "EncodedRequestUri": "L2tleXMvVXBkYXRlS2V5QXR0cmlidXRlc1dpdGhOb0NoYW5nZVRlc3QvP2FwaS12ZXJzaW9uPTIwMTYtMTAtMDE=",
+      "RequestMethod": "PATCH",
+      "RequestBody": "{\r\n  \"attributes\": {\r\n    \"enabled\": false,\r\n    \"nbf\": 1262332800,\r\n    \"exp\": 1893484800\r\n  }\r\n}",
+      "RequestHeaders": {
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Content-Length": [
+          "98"
+        ],
+        "x-ms-client-request-id": [
+          "ae415498-d065-4bf6-9077-1e39b2e39d28"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24709.01",
+          "Microsoft.Azure.KeyVault.KeyVaultClient/2.0.6"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"key\": {\r\n    \"kid\": \"https://karlaugsoftdeletesdk.vault-int.azure-int.net/keys/UpdateKeyAttributesWithNoChangeTest/395e0ffd71384bd685cec4c566c1c69c\",\r\n    \"kty\": \"RSA\",\r\n    \"key_ops\": [\r\n      \"encrypt\",\r\n      \"decrypt\",\r\n      \"sign\",\r\n      \"verify\",\r\n      \"wrapKey\",\r\n      \"unwrapKey\"\r\n    ],\r\n    \"n\": \"5efg_DnU77o3Qwrz3cRZArr3uWLghIpdm22oRVVwD6lOvU92c3SgKlq2vt0ZjJQw82Lg_wBYY57F8wP2tK7EdyN3BoFiqcMw4Wu3L7LFghsMh-4NCCyr9tDVQ6wYiaL383dPlcxZb-m8Qdk5qvb_1NudUsfcas8vgwwbaDrQO1nDM_VoAezvwN_JluPmcRBHr3IiKjQb7AgqmyqQM-e_yIjEf-lp1aaKCZBtYscINL1hwtr8hD44HBj1TGQui8Tom7glnxWXL4Emio72zsg43bmHyVuK3zfHcZ5DSYvEQ5djWsMrQ4yo0mdIhUaoOqWnN0Gkyql9EnuczfEnpo5VTw\",\r\n    \"e\": \"AQAB\"\r\n  },\r\n  \"attributes\": {\r\n    \"enabled\": false,\r\n    \"nbf\": 1262332800,\r\n    \"exp\": 1893484800,\r\n    \"created\": 1482189536,\r\n    \"updated\": 1482189536\r\n  }\r\n}",
+      "ResponseHeaders": {
+        "Content-Length": [
+          "693"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Mon, 19 Dec 2016 23:18:56 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.5"
+        ],
+        "x-ms-keyvault-region": [
+          "South Central US"
+        ],
+        "x-ms-request-id": [
+          "af81cf32-45c7-4eec-bf49-df8e2b0ecc3c"
+        ],
+        "x-ms-keyvault-service-version": [
+          "1.0.0.1066"
+        ],
+        "X-AspNet-Version": [
+          "4.0.30319"
+        ],
+        "X-Powered-By": [
+          "ASP.NET"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000;includeSubDomains"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/keys/UpdateKeyAttributesWithNoChangeTest?api-version=2016-10-01",
+      "EncodedRequestUri": "L2tleXMvVXBkYXRlS2V5QXR0cmlidXRlc1dpdGhOb0NoYW5nZVRlc3Q/YXBpLXZlcnNpb249MjAxNi0xMC0wMQ==",
+      "RequestMethod": "DELETE",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "a49015f4-a9b6-49cc-97e3-26190c519bd7"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24709.01",
+          "Microsoft.Azure.KeyVault.KeyVaultClient/2.0.6"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"recoveryId\": \"https://karlaugsoftdeletesdk.vault-int.azure-int.net/deletedkeys/UpdateKeyAttributesWithNoChangeTest\",\r\n  \"deletedDate\": 1482189536,\r\n  \"scheduledPurgeDate\": 1489965536,\r\n  \"key\": {\r\n    \"kid\": \"https://karlaugsoftdeletesdk.vault-int.azure-int.net/keys/UpdateKeyAttributesWithNoChangeTest/395e0ffd71384bd685cec4c566c1c69c\",\r\n    \"kty\": \"RSA\",\r\n    \"key_ops\": [\r\n      \"encrypt\",\r\n      \"decrypt\",\r\n      \"sign\",\r\n      \"verify\",\r\n      \"wrapKey\",\r\n      \"unwrapKey\"\r\n    ],\r\n    \"n\": \"5efg_DnU77o3Qwrz3cRZArr3uWLghIpdm22oRVVwD6lOvU92c3SgKlq2vt0ZjJQw82Lg_wBYY57F8wP2tK7EdyN3BoFiqcMw4Wu3L7LFghsMh-4NCCyr9tDVQ6wYiaL383dPlcxZb-m8Qdk5qvb_1NudUsfcas8vgwwbaDrQO1nDM_VoAezvwN_JluPmcRBHr3IiKjQb7AgqmyqQM-e_yIjEf-lp1aaKCZBtYscINL1hwtr8hD44HBj1TGQui8Tom7glnxWXL4Emio72zsg43bmHyVuK3zfHcZ5DSYvEQ5djWsMrQ4yo0mdIhUaoOqWnN0Gkyql9EnuczfEnpo5VTw\",\r\n    \"e\": \"AQAB\"\r\n  },\r\n  \"attributes\": {\r\n    \"enabled\": false,\r\n    \"nbf\": 1262332800,\r\n    \"exp\": 1893484800,\r\n    \"created\": 1482189536,\r\n    \"updated\": 1482189536\r\n  }\r\n}",
+      "ResponseHeaders": {
+        "Content-Length": [
+          "866"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Mon, 19 Dec 2016 23:18:56 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.5"
+        ],
+        "x-ms-keyvault-region": [
+          "South Central US"
+        ],
+        "x-ms-request-id": [
+          "d3193274-e821-46aa-893a-b652d88d9e8d"
+        ],
+        "x-ms-keyvault-service-version": [
+          "1.0.0.1066"
+        ],
+        "X-AspNet-Version": [
+          "4.0.30319"
+        ],
+        "X-Powered-By": [
+          "ASP.NET"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000;includeSubDomains"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ]
+      },
+      "StatusCode": 200
+    }
+  ],
+  "Names": {},
+  "Variables": {
+    "VaultAddress": "https://karlaugsoftdeletesdk.vault-int.azure-int.net",
+    "KeyName": "sdktestkey",
+    "KeyVersion": "f2a7e60b8dd0477d943b3a9fb2a63f0b"
+  }
+}

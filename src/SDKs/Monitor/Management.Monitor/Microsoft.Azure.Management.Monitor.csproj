@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('AzSdk.reference.props'))" />
+  <PropertyGroup>
+    <Description>Microsoft Azure Monitor Library</Description>
+    <VersionPrefix>0.16.0-preview</VersionPrefix>
+    <AssemblyName>Microsoft.Azure.Management.Monitor</AssemblyName>
+
+    <PackageId>Microsoft.Azure.Management.Monitor</PackageId>
+    <PackageTags>Management.Monitor;Management.Monitoring;metrics;alerts;autoscale;activityLogs;events;operations;logs</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
+    <RootNamespace>Microsoft.Azure.Management.Monitor</RootNamespace>
+  </PropertyGroup>
+</Project>

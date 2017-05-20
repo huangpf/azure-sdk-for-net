@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!--<Import Project="$([MSBuild]::GetPathOfFileAbove('test.props'))" />-->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('CR.test.reference.props'))" />
+  <PropertyGroup>
+    <Description>TestFramework.Tests Class Library</Description>
+    <AssemblyName>TestFramework.Tests</AssemblyName>
+    <PackageId>TestFramework.Tests</PackageId>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp1.1</TargetFrameworks>
+    <TestProjectType>true</TestProjectType>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- 
+    <ProjectReference Include="..\..\ClientRuntime\ClientRuntime\Microsoft.Rest.ClientRuntime.csproj" />
+    <ProjectReference Include="..\Microsoft.Azure.Test.HttpRecorder\Microsoft.Azure.Test.HttpRecorder.csproj" />
+    <ProjectReference Include="..\..\ClientRuntime.Azure\ClientRuntime.Azure\Microsoft.Rest.ClientRuntime.Azure.csproj" />
+    <ProjectReference Include="..\..\ClientRuntime.Azure.Authentication\Microsoft.Rest.ClientRuntime.Azure.Authentication.csproj" />   
+    <ProjectReference Include="..\Microsoft.Azure.Test.HttpRecorder\Microsoft.Azure.Test.HttpRecorder.csproj" />
+    -->
+     
+    <ProjectReference Include="..\ClientRuntime.Azure.TestFramework\Microsoft.Rest.ClientRuntime.Azure.TestFramework.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>    
+    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.2.12,3.0.0)" />
+    <PackageReference Include="Microsoft.Azure.Test.HttpRecorder" Version="[1.8.0,2.0.0)" />
+    <!--
+      <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.TestFramework" Version="[1.6.0,2.0.0)" />
+      <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure" Version="[3.3.6,4.0.0)" />
+    -->
+    
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="SessionRecords\**\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>    
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+</Project>

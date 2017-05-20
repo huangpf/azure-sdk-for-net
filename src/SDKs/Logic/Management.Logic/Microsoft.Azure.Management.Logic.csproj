@@ -1,0 +1,14 @@
+﻿<Project ToolsVersion="15.0" Sdk="Microsoft.NET.Sdk">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('AzSdk.reference.props'))" />
+  <PropertyGroup>
+    <Description>Microsoft Azure LogicApps Management Library</Description>
+    <VersionPrefix>3.1.0</VersionPrefix>
+    <PackageId>Microsoft.Azure.Management.Logic</PackageId>
+    <PackageTags>Microsoft Azure LogicApps management;LogicApps;LogicApps management;REST HTTP client;windowsazureofficial;netcore451511</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
+  </PropertyGroup>
+
+</Project>

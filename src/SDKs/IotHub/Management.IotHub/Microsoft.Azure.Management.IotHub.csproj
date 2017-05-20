@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('AzSdk.reference.props'))" />
+  <PropertyGroup>
+    <PackageId>Microsoft.Azure.Management.IotHub</PackageId>
+    <Description>Provides management capabilities for Microsoft Azure IotHub.</Description>
+    <AssemblyTitle>Microsoft Azure IotHub Management</AssemblyTitle>
+    <AssemblyName>Microsoft.Azure.Management.IotHub</AssemblyName>
+    <VersionPrefix>1.1.1</VersionPrefix>
+    <PackageTags>Microsoft Azure IotHub;IotHub management;IotHub;REST HTTP client;azureofficial;windowsazureofficial;netcore451511</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
+  </PropertyGroup>
+</Project>
